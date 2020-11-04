@@ -5,4 +5,27 @@ ssh root@167.99.245.158
 SMHI Lule-flygplats vindAPI:
 https://opendata-download-metobs.smhi.se/api/version/latest/parameter/4/station/162860.json
 
+SMHI Lule-flygplats API DATA:
+https://opendata-download-metobs.smhi.se/api/version/latest/parameter/4/station/162860/period/latest-hour/data.json
+
+-----------------------------
+MONGODB::
+---Start---
+sudo systemctl start mongod
+
+---Verify started---
+sudo systemctl status mongod
+
+---Stop---
+sudo systemctl stop mongod
+
+---Restart---
+sudo systemctl restart mongod
+
+---Mongo shell---
+mongo
+
+
+-------------------------------
+
 
