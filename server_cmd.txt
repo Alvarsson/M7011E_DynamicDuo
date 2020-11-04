@@ -1,0 +1,8 @@
+Access the server with ssh key:
+ssh root@167.99.245.158
+
+
+SMHI Lule-flygplats vindAPI:
+https://opendata-download-metobs.smhi.se/api/version/latest/parameter/4/station/162860.json
+
+
