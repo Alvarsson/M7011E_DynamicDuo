@@ -7,6 +7,7 @@ class Prosumer {
         this.total_pwr_cons;
         this.battery_charge_rate;
         this.battery_level;
+        this.battery_max = 200;
     }
 
     set_wind_power(wind_speed) {
@@ -20,7 +21,6 @@ class Prosumer {
     calc_total_cons() {
         this.total_pwr_cons = this.base_consumption - this.get_wind_power();
     }
-
     get_total_consumption() {
         return this.total_pwr_cons;
     }
@@ -31,7 +31,17 @@ class Prosumer {
         return this.battery_level;
     }
     charge_discharge_battery(charge_discharge) {
-        this.battery_level += charge_discharge;
+        if ((this.battery_level + charge_discharge) > this.battery_max) {
+            this.battery_level = this.battery_max;
+        } else {
+            this.battery_level += charge_discharge;
+        }
     }
+    auto_control(flag_manual) {
+
+    }
+
+
+
 
 }
