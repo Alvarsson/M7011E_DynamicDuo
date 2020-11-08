@@ -62,8 +62,6 @@ function day_average(days) { // create list with day average wind speed.
   console.log(day_list)
   return day_list;
 }
-day_average(100);
-
 
 function hour_variation(average) { //return array with every hour wind speed of a day.
     //calls for norm.dist value around the day average and sets each hours windspeed
