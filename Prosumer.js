@@ -51,6 +51,7 @@ class Prosumer {
     charge_discharge_battery(charge_discharge) {
         if ((this.battery_level + charge_discharge) > this.battery_max) {
             this.battery_level = this.battery_max;
+
         } else {
             this.battery_level += charge_discharge;
         }
@@ -88,11 +89,8 @@ class Prosumer {
     distribution_calculator() { // to calc pwr dist when we dont feel like it.
 
     }
-    set_manual_distribution(house, battery, market) {
-        //TODO: just call set distr with values
-    }
     // if we want it
-    auto_control() {
+    /* auto_control() {
         // this need to look at market price, pwr production, battery level, pwr consumption
         // Lets just do some cases and call that "automated".
         var market_price; // get market price somehow
@@ -117,7 +115,7 @@ class Prosumer {
                 this.set_pwr_distribution(pwr_percentage, 0, );
             }
         }
-    }
+    } */
 
 
 
