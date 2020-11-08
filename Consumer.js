@@ -1,0 +1,5 @@
+class Consumer {
+    constructor(temp) {
+        
+    }
+}
