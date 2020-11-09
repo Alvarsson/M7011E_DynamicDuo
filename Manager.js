@@ -29,11 +29,6 @@ class Manager {
         return (multiplier*demand+service_price)/10;// 10 is the amount of consumers+prosumers.
     }
 
-    
-
-
-
-
 }
 
 

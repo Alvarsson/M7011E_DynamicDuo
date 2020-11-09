@@ -1,7 +1,8 @@
 class Prosumer {
     //currently basic constructor
     
-    constructor(base_consumption, wind_speed) {
+    constructor(id,base_consumption, wind_speed) {
+        this.id = id;
         this.base_consumption = 20;
         this.pwr_production = this.set_wind_power(wind_speed);
         this.total_pwr_cons;
@@ -12,6 +13,11 @@ class Prosumer {
         this.temperature_consumption;
         this.override;
         this.market_pwr;
+    }
+
+//----- ID -----
+    get_prosumer_id() {
+        return this.id;
     }
 
 //----- WIND POWER -----
@@ -31,7 +37,7 @@ class Prosumer {
     get_total_consumption() {
         return this.total_pwr_cons;
     }
-    calc_consumption_with_pwr() { // consumption after removeinng wind power
+    calc_consumption_with_pwr() { // consumption after removeing wind power
         return (this.total_pwr_cons - this.get_pwr_to_house);
     }
     set_temp_consumption(temperature) {
