@@ -2,10 +2,10 @@
   "name": "simulator",
   "version": "0.0.0",
   "description": "simulator",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/Alvarsson/M7011E_DynamicDuo#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
