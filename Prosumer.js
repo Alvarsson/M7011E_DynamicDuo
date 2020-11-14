@@ -1,7 +1,6 @@
 class Prosumer {
-    //currently basic constructor
     
-    constructor(id,base_consumption, wind_speed) {
+    constructor(id, wind_speed) {
         this.id = id;
         this.base_consumption = 20;
         this.pwr_production = this.set_wind_power(wind_speed);
@@ -13,6 +12,7 @@ class Prosumer {
         this.temperature_consumption;
         this.override;
         this.market_pwr;
+        this.pwr_from_battery;
     }
 
 //----- ID -----
@@ -32,15 +32,12 @@ class Prosumer {
 //----- CALCULATE POWER ------
     // base consumption - house allocated self-produced pwr.
     calc_total_consumption() {
-        this.total_pwr_cons = this.base_consumption + this.temperature_consumption; 
+        this.total_pwr_cons = this.base_consumption + this.temperature_consumption - this.pwr_to_house; 
     }
     get_total_consumption() {
         return this.total_pwr_cons;
     }
-    calc_consumption_with_pwr() { // consumption after removeing wind power
-        return (this.total_pwr_cons - this.get_pwr_to_house);
-    }
-    set_temp_consumption(temperature) {
+    set_temp_prosumption(temperature) {
         this.temperature_consumption = Math.abs(20 - temperature);
     }
     get_temp_consumption() {
@@ -48,8 +45,8 @@ class Prosumer {
     }
 
 //------ BATTERY POWER -----
-    set_pwr_to_battery(percentage) {
-        this.battery_charge_rate = percentage;
+    set_pwr_to_battery(battery_dist) {
+        this.battery_charge_rate = this.pwr_production * battery_dist;
     }
     get_battery_level() {
         return this.battery_level;
@@ -62,32 +59,39 @@ class Prosumer {
             this.battery_level += charge_discharge;
         }
     }
-    set_pwr_from_battery() {
-        //TODO: set power from battery to house.
+    set_pwr_from_battery(pwr_dist) {
+        this.pwr_from_battery = this.battey_level * pwr_dist;
+    }
+    get_pwr_from_battery() {
+        return this.pwr_from_battery
     }
 
 //------ HOUSE POWER -----
     get_pwr_to_house() {
         return this.pwr_to_house;
     }
-    set_pwr_to_house(percentage) {
-        this.pwr_to_house = this.get_wind_power * percentage;
+    set_pwr_to_house(wind_pwr_dist) {
+        this.pwr_to_house = this.pwr_production * wind_pwr_dist;;
     }
 
 
 //------ POWER DISTRIBUTION ------
-    set_pwr_distribution(house, battery, grid) { // assuming we send in number such as 10%, 50% etc.
-        if ((house+battery+grid) == 100) { // TODO: just check that combined is not over 100%
+    // function to set distribution of power to house, to battery and to market.
+    pwr_to_house_distribution(house, battery, market) { // assuming we send in number such as 10%, 50% etc.
+        if ((house+battery+market) == 100) { // TODO: just check that combined is not over 100%
             this.set_pwr_to_house(house/100);
             this.set_pwr_to_battery(battery/100);
-            this.set_pwr_to_market(grid/100);
+            this.set_pwr_to_market(market/100);
         } else {
             console.log("Can't do more that 100% of that."); // SEND SOME ERROR
         }
     }
- 
-    set_pwr_to_market(percentage) {
-        this.market_pwr = this.pwr_production * (percentage/100);
+    pwr_from_house_distribution(battery, market) {
+
+    }
+ //------- MARKET POWER --------
+    set_pwr_to_market(market_dist) {
+        this.market_pwr = this.pwr_production * market_dist;
     }
     get_pwr_to_market() {
         return this.market_pwr;
@@ -95,35 +99,5 @@ class Prosumer {
     distribution_calculator() { // to calc pwr dist when we dont feel like it.
 
     }
-    // if we want it
-    /* auto_control() {
-        // this need to look at market price, pwr production, battery level, pwr consumption
-        // Lets just do some cases and call that "automated".
-        var market_price; // get market price somehow
-        var pwr_prod = this.get_wind_power();
-        var battery_level = this.get_battery_level();
-        var consumption = this.get_total_consumption();
-        // if maket price high, pwr production high, battery level high and power consumption low, Sell to market
-        //TODO: Change numbers to real once we set them
-        if (!this.override) {
-            if (market_price > 5 && pwr_prod > 15 && battery_level > 150 && consumption < 30) {
-                this.set_pwr_distribution(20,0,80); // set to 
-                this.set_pwr_from_battery
-            }
-            // pwr produc exceeds consumption.
-            else if (pwr_prod > consumption && battery_level < this.battery_max) {
-                var pwr_percentage = (pwr_prod-consumption)/pwr_prod;
-
-                this.set_pwr_distribution(pwr_percentage, 20, 80);
-            }
-            else if(pwr_prod > consumption && battery_level == this.battery_max) {
-                var pwr_percentage = (pwr_prod-consumption)/pwr_prod;
-                this.set_pwr_distribution(pwr_percentage, 0, );
-            }
-        }
-    } */
-
-
-
-
 }
+export {calc_total_consumption, set_temp_prosumption, set_pwr_to_house, set_wind_power};
