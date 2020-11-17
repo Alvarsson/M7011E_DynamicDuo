@@ -2,6 +2,15 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
 
+####################################3
+#        project specific 
+#################################
+
+#this file is for peace of mind. 
+#All typedefs are merged and will be updated and saved into this file
+joined.graphqls
+
+
 ### Node ###
 # Logs
 logs
