@@ -4,8 +4,8 @@ var { graphqlHTTP } = require('express-graphql');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 
-const typeDefs = require('./graphql/typeDefs');
-const resolvers = require('./graphql/resolvers');
+const typeDefs = require('src/graphql/typeDefs.js');
+const resolvers = require('src/graphql/resolvers.js');
 
 const app = express()
 app.use(cors())

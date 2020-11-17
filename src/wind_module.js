@@ -1,43 +1,6 @@
 // Do we want to perform cheap computation a lot of times, 
 // or less cheap computation with some memory cost very few times?? 
 
-
-/* function normal_dist_day() {
-    spareRandom = null;
-    var value, u, v, s, mul;
-    if(spareRandom !== null) {
-          value = spareRandom;
-          spareRandom = null;
-      }	else {
-      do {
-        u = Math.random()*2-1;
-              v = Math.random()*2-1;
-  
-              s = u*u+v*v;
-      } while(s === 0 || s >= 1);
-      mul = Math.sqrt(-2 * Math.log(s) / s);
-          value = u * mul;
-          spareRandom = v * mul;
-    }
-    console.log(value);
-    return value;
-  }
-  normal_dist_day(); */
-    
-/*   function normal_dist_year(values) { // Produces array with values norm-distr.
-    var dist_values = [];
-    var wind_speed = 0;
-    for (var j = 0; j < values; j++) {
-      for (var i = 5; i> 0; i--) {
-        wind_speed += Math.floor(Math.random()*20);
-      }
-      dist_values.push(wind_speed/10);
-      wind_speed = 0;
-    }
-    return dist_values;
-    //console.log(dist_values);
-  } */
-
   //Probably the best since we want to skew the times we get extreme weather.
 function randn_gd(min,max,skew) { // skew = 1 is no skew. skew > 1 is skew at right side, skew < 1 is skew left.
     let u = 0, v = 0;
