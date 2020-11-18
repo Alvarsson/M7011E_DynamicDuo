@@ -10,6 +10,7 @@
 
 # Running the backend (locally)
  - Clone the Repo
+ - navigate to the gateway folder and start it with the following.
  - `npm install` To get the required packages on your local machine.
  - run the program with `npm start` 
  - navigate to http://localhost:8080/graphql
