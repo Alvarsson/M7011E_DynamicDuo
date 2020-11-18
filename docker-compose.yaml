@@ -1,0 +1,40 @@
+version: "3"
+
+
+
+
+
+
+####################### DEV version 1
+
+
+
+
+
+services:
+  
+  gateway:
+    # Tell docker what file to build the server from
+    build: ./gateway
+    command: nodemon server.js
+    volumes:
+      - ./gateway:/app
+    ports:
+      - "8080:8080"
+    
+    links:
+      - db
+    # Restart action
+    restart: always
+
+  db:
+    image: mongo
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - /data/db:/data/db
+
+
+volumes:
+  node_modules:
