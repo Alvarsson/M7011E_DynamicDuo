@@ -1,15 +1,24 @@
 # M7011E_DynamicDuo
-Trello dags
 
 
-# Running the backend
+# Running the backend (Docker-compose)
+ - Clone the Repo
+ - `docker-compose up --build` to build the containers defined in the docker-compose.yaml file.
+ - `docker-compose up` works if you arent changing any of the Dockerfiles
+ - navigate to http://localhost:8080/graphql
+
+
+# Running the backend (locally)
  - Clone the Repo
  - `npm install` To get the required packages on your local machine.
  - run the program with `npm start` 
- - navigate to http://localhost:3000/graphql
+ - navigate to http://localhost:8080/graphql
 
 # Using and abusing the GraphQL API
-- If you have navigated to http://localhost:3000/graphql, you might see something similar to this.
+
+- Once you have the project up and running either with docker or just locally, you are ready start using the project.
+
+- If you have navigated to http://localhost:8080/graphql, you might see something similar to this.
   
   ![Picture](https://raw.githubusercontent.com/graphql/graphiql/main/packages/graphiql/resources/graphiql.jpg)
 
