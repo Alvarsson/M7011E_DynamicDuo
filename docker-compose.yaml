@@ -1,19 +1,17 @@
 version: "3"
 
 
-
+##### om en person i framtiden skulle vilja göra containerna mindre kan man byta till alpine 
+##### verisonen av alla images. Och använda multi stage build.
 
 
 
 ####################### DEV version 1
-
-
-
-
-
 services:
   
   gateway:
+    container_name: gateway
+
     # Tell docker what file to build the server from
     build: ./gateway
     command: nodemon server.js
@@ -21,6 +19,8 @@ services:
       - ./gateway:/app
     ports:
       - "8080:8080"
+    networks:
+      - back-tier
     
     links:
       - db
@@ -28,13 +28,28 @@ services:
     restart: always
 
   db:
+    container_name: database
+
     image: mongo
     ports:
       - 27017:27017
     restart: always
     volumes:
       - /data/db:/data/db
+    networks:
+      - back-tier
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports: 
+      - 6379:6379
+    networks:
+      - back-tier
 
 
 volumes:
   node_modules:
+
+networks:
+  back-tier:

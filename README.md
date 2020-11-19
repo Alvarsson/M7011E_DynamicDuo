@@ -38,6 +38,7 @@
     body
   }
 }
+<<<<<<< HEAD
 `
 # Downloading Docker
 
@@ -59,3 +60,6 @@ https://docs.docker.com/compose/install/
 ## For Linux
 https://docs.docker.com/compose/install/
 >>>>>>> 89fb625... added installation details
+=======
+`
+>>>>>>> df1ec91... restructered code to fit into our architecture design. edited some docker-compose
