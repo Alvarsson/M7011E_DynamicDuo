@@ -38,15 +38,7 @@
     body
   }
 }
-<<<<<<< HEAD
 `
-# Downloading Docker
-
-## For MacOS
-https://docs.docker.com/docker-for-mac/install/
-We are using docker-compose to run multiple services with one command. Docker desktop for mac has this "feature" built in. So just download the Docker desktop.
-
-<<<<<<< HEAD
 # Downloading Docker
 
 ## For MacOS
@@ -55,11 +47,3 @@ We are using docker-compose to run multiple services with one command. Docker de
 
 ## For Linux
 https://docs.docker.com/compose/install/
-
-=======
-## For Linux
-https://docs.docker.com/compose/install/
->>>>>>> 89fb625... added installation details
-=======
-`
->>>>>>> df1ec91... restructered code to fit into our architecture design. edited some docker-compose
