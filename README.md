@@ -5,7 +5,7 @@
 
 
 # Running the backend (Docker-compose)
- - Clone the Repo
+ - Clone the Repo and `cd` into it. Make sure you are in the same folder as the docker-compose.yaml 
  - `docker-compose up --build` to build the containers defined in the docker-compose.yaml file.
  - `docker-compose up` works if you arent changing any of the Dockerfiles
  - navigate to http://localhost:8080/graphql
