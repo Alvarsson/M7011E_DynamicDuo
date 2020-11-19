@@ -28,9 +28,8 @@ class Manager {
         var multiplier = 2.25;
         return (multiplier*demand+service_price)/10;// 10 is the amount of consumers+prosumers.
     }
-
 }
-
+module.exports = Manager;
 
 
 

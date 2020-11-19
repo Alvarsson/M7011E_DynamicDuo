@@ -17,6 +17,4 @@ class Consumer {
         this.temp_consumption = Math.abs(20 - temp);
     }
 }
-export {set_temp_consumption,
-        set_consumer_demand,
-        };
+module.exports = Consumer;

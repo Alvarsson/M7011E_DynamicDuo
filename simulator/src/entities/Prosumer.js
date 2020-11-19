@@ -230,7 +230,7 @@ class Prosumer {
         return this.buy_from_market;
     }
 }
-//var pros = new Prosumer(0);
+module.exports = Prosumer;
 
 
 /* module.exports = {get_prosumer_id,
