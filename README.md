@@ -27,18 +27,22 @@
   ![Picture](https://raw.githubusercontent.com/graphql/graphiql/main/packages/graphiql/resources/graphiql.jpg)
 
 - You can use the schema to the right and you can also click around to look at the different types. 
-- Or copy and paste this into the left-most window and query the API for some mock data: 
-- `{
-  weatherData {
-    temp
-    windspeed
-  }
-  prosumer(id:2){
-    id
-    body
-  }
+- Or copy and paste this into the left-most window and query the API for some user defined data: 
+
+```
+# Set a value
+mutation {
+  set(key: "aStateInAmericas", value: "texas")
 }
-`
+```
+
+```
+{
+#get that value
+  get(key: "aStateInAmericas")
+}
+```
+
 # Downloading Docker
 
 ## For MacOS
