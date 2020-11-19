@@ -35,7 +35,7 @@ services:
       - 27017:27017
     restart: always
     volumes:
-      - /data/db:/data/db
+      - mongodb_clientstore:/data/db
     networks:
       - back-tier
 
@@ -48,8 +48,10 @@ services:
       - back-tier
 
 
-volumes:
-  node_modules:
 
 networks:
   back-tier:
+
+volumes:
+  node_modules:
+  mongodb_clientstore:
