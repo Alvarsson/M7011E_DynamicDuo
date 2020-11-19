@@ -1,4 +1,4 @@
-weatherData = { temp: 2, windspeed: 4 };
+weatherData = { temp: 32, windspeed: 4 };
 
 prosumers = [
   { id: 1, body: "WAt" },

@@ -2,10 +2,10 @@
   "name": "simulator",
   "version": "0.0.0",
   "description": "simulator",
-  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "dev": "nodemon -L server.js"
   },
   "repository": {
     "type": "git",

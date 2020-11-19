@@ -12,6 +12,6 @@ const typeDefs = mergeTypeDefs(typesArray);
 
 const printedTypeDefs = print(typeDefs);
 fs.writeFileSync('joined.graphqls', printedTypeDefs);
-console.log("updated schema");
+console.log("Updated the schema and saved as joined.graphqls!");
 
 module.exports = typeDefs;
