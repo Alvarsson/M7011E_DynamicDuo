@@ -27,7 +27,7 @@ class Prosumer {
         this.return_state = [];
 
         this.tick_count_turbine = 0;
-        this.turbine_status = true;
+        this.turbine_status = false;
     }
 
 // TODO: Write object inital pwr dist.

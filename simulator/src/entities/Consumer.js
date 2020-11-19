@@ -5,7 +5,7 @@ class Consumer {
         this.total_consumption = this.set_consumer_demand();
     }
     get_consumer_demand() {
-        return (this.base_consumption + this.temp_consumption);
+        return this.total_consumption;
     }
     set_consumer_demand() {
         this.total_consumption = this.base_consumption + this.temp_consumption;

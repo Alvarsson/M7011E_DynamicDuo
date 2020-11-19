@@ -43,11 +43,18 @@ class Simulator {
     }
     iterate_consumer(list) {
         for (i = 0; i < list.length; i++) {
-            
+            list[i].set_consumer_demand()
+
         }
     }
     iterate_prosumer(list) {
-
+        for (i = 0; i < list.length; i++) {
+            list[i].set_wind_power(4);
+            list[i].calc_total_consumption();
+            list[i].
+            list[i].
+            
+        }
     }
     // Steps of starting process.
     // 1- Create the wind_model and push into DB. Maybe take the sim.time as argument in the constructor?
