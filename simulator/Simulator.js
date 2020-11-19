@@ -9,7 +9,7 @@ const WindModule = require('simulator/src/wind_module.js');
 */
 
 class Simulator {
-    /* 
+    /** 
     sim_time: Days, ex 60 gives values for 60 days with 24 hour values for each day.
     int_pros: Amount of prosumers in sim, ex 8 will gen 8 prosumer objects.
     int_cons: Amout of consumers in sim, ex 8 will gen 8 consumer objects.
@@ -27,7 +27,7 @@ class Simulator {
         setInterval(update(), 10000);
     }
     update() { // Collection of all functions that should 
-        
+        // 
     }
     create_prosumers(num) {
         for (i = 0; i < num; i++) {
@@ -40,6 +40,14 @@ class Simulator {
             var consumer = new Consumer(); 
             this.consumer_list.push(consumer);
         }
+    }
+    iterate_consumer(list) {
+        for (i = 0; i < list.length; i++) {
+            
+        }
+    }
+    iterate_prosumer(list) {
+
     }
     // Steps of starting process.
     // 1- Create the wind_model and push into DB. Maybe take the sim.time as argument in the constructor?

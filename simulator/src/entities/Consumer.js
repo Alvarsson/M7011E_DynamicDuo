@@ -1,7 +1,7 @@
 class Consumer {
     constructor() {
         this.base_consumption = 20;
-        this.temp_consumption;
+        this.temp_consumption = 0;
         this.total_consumption = this.set_consumer_demand();
     }
     get_consumer_demand() {

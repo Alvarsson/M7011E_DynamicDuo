@@ -5,7 +5,7 @@ class Prosumer {
         this.base_consumption = 20;
         this.pwr_production;
         this.total_pwr_cons;
-        this.temperature_consumption;
+        this.temperature_consumption = 0;
 
         this.wind_pwr_to_house;
 
