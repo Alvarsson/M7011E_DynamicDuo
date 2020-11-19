@@ -1,6 +1,9 @@
 # M7011E_DynamicDuo
 
 
+
+
+
 # Running the backend (Docker-compose)
  - Clone the Repo
  - `docker-compose up --build` to build the containers defined in the docker-compose.yaml file.
@@ -36,7 +39,13 @@
   }
 }
 `
+# Downloading Docker
 
+## For MacOS
+https://docs.docker.com/docker-for-mac/install/
+We are using docker-compose to run multiple services with one command. Docker desktop for mac has this "feature" built in. So just download the Docker desktop.
+
+<<<<<<< HEAD
 # Downloading Docker
 
 ## For MacOS
@@ -46,3 +55,7 @@ We are using docker-compose to run multiple services with one command. Docker de
 ## For Linux
 https://docs.docker.com/compose/install/
 
+=======
+## For Linux
+https://docs.docker.com/compose/install/
+>>>>>>> 89fb625... added installation details
