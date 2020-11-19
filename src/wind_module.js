@@ -37,8 +37,19 @@ function hour_variation(average) { //return array with every hour wind speed of 
     return wind_per_hour;
 }
 
+function get_GD_for_time(sim_time) {
+    var day_ave_list = day_average(sim_time);
+    var all_wind_data = new Array();
+    for (i= 0; i < day_ave_list.length; i++) {
+        var day_wind = hour_variation(i);
+        all_wind_data.push(day_wind);
+    }
+    return all_wind_data;
+}
+
   // return change speed hour to hour. The change is per 10 minutes.
 function weather_change(current_hour, next_hour) {
   var change = next_hour/current_hour
   return change/6;
 }
+export{get_GD_for_time, weather_change};

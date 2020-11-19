@@ -1,7 +1,7 @@
 class Consumer {
-    constructor(temperature) {
+    constructor() {
         this.base_consumption = 20;
-        this.temp_consumption = this.set_temp_consumption(temperature);
+        this.temp_consumption;
         this.total_consumption = this.set_consumer_demand();
     }
     get_consumer_demand() {
@@ -17,4 +17,6 @@ class Consumer {
         this.temp_consumption = Math.abs(20 - temp);
     }
 }
-export {set_temp_consumption, set_consumer_demand};
+export {set_temp_consumption,
+        set_consumer_demand,
+        };

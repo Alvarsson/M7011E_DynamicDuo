@@ -20,11 +20,14 @@ class Prosumer {
         this.sell_to_market; // SELL amount/tick
         this.buy_from_market; // BUY amount/tick
 
+        this.turbine_status;
     }
 
-//TODO: Do we only need one variable for market dist, battery dist, house dist or is it better to use two?
+//TODO: REDO the distribution functions. As Buy and Sell functions
 // - Im gonna start with two and we can change that later if so.
 
+// TODO: Write warning function for low battery.
+// TODO: Write functionality for broken wind turbine.
 
 //----- ID -----
     get_prosumer_id() {
@@ -145,4 +148,33 @@ class Prosumer {
         return this.buy_from_market;
     }
 }
-export {};
+//var pros = new Prosumer(0);
+
+
+/* module.exports = {get_prosumer_id,
+        get_base_consumption,
+        set_wind_power,
+        get_wind_power,
+        calc_total_consumption,
+        get_total_consumption,
+        set_temp_prosumption,
+        get_temp_consumption,
+        set_store_to_battery,
+        get_pwr_to_battery,
+        set_battery_level,
+        get_battery_level,
+        get_battery_max,
+        charge_discharge_battery,
+        set_drain_from_battery,
+        get_pwr_from_battery,
+        get_wind_pwr_to_house,
+        set_wind_pwr_to_house,
+        get_total_pwr_to_house,
+        set_total_pwr_to_house,
+        pwr_dist_over,
+        pwr_dist_under,
+        set_sell_to_market,
+        get_pwr_to_market,
+        set_buy_from_market,
+        get_pwr_from_market
+        }; */
