@@ -63,7 +63,7 @@
 ### Collection: PreCalcWindSpeed
 ```json
 {
-    "tick": "manager1",
+    "tick": 15.2,
     "windSpeed: 13
 }
 ```
