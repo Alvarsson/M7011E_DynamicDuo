@@ -32,7 +32,7 @@ class Simulation {
     // Collection of all functions that should
     testModel.create();
   }
-
+  // hej
   /* GENERATEANDWRITEWEATHERDATA() {
     // Collection of all functions that should
     testModel.fillWeatherDataOnce([10,9,8,7,8,8,8,8,8,8,8,10]);
