@@ -11,46 +11,31 @@ class WindModule {
       num = Math.pow(num,skew); // skew it
       num *= max - min; // stretch
       num += min; // offset
-      //console.log(num);
       return num;
   }
-    
-  day_average(days) { // create list with day average wind speed.
-    var day_list = [];
-    for(var i = 0; i < days; i++) {
-        day_list.push(this.randn_gd(0,20,2));
+
+  get_variation(prev_wind) {
+      var min = prev_wind - 1;
+      var max = prev_wind + 1;
+      var next_val = this.randn_gd(min, max, 1);
+      return next_val;
+  }
+  tick_variation(days) {
+    var wind_per_tick = [];
+    var days_to_ticks = (((days * 24) * 60) * 6); // 10 sec tick
+    if (wind_per_tick.length == 0) {
+        wind_per_tick.push(this.get_variation(4));
     }
-    return day_list;
+    for (var i = 1; i < days_to_ticks; i++) {
+        wind_per_tick.push(Math.round( this.get_variation(wind_per_tick[i-1]) * 1e2) / 1e2);
+    }
+    return wind_per_tick;
   }
 
-  hour_variation(average) { //return array with every hour wind speed of a day.
-      //calls for norm.dist value around the day average and sets each hours windspeed
-      var wind_per_hour = [average];
-      var i;
-      for (var i = 1; i < 24; i++) {
-          var min = average - 3;
-          var max = average + 3;
-          wind_per_hour.push(this.randn_gd(min, max, 1));
-      }
-      return wind_per_hour;
-  }
+  
 
-  get_GD_for_time(sim_time) {
-      var day_ave_list = this.day_average(sim_time);
-      var all_wind_data = new Array();
-      var i;
-      for (i= 0; i < day_ave_list.length; i++) {
-          var day_wind = this.hour_variation(i);
-          all_wind_data.push(day_wind);
-      }
-      return all_wind_data;
-  }
 
-    // return change speed hour to hour. The change is per 10 minutes.
-  weather_change(current_hour, next_hour) {
-      var change = next_hour/current_hour
-      return change/6;
-  }
+  
 }
 
 module.exports = WindModule;

@@ -29,7 +29,7 @@ const simulator = new Simulation(
 
 
 // START OF MAIN LOOP KAN JU INTE SE UT SÅHÄR GAHA
-simulator.GENERATEANDWRITEWEATHERDATA();
+simulator.generate_wind_data();
 
 setInterval(simulator.update, 10000); //man kanske kan göra en callback till sig själv och uppdatera ÄNNU OFTARE!!!!
 

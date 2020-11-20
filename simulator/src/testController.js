@@ -29,14 +29,12 @@ exports.fillWeatherDataOnce = (data) => {
   // Create a Tutorial
   var i = 1;
   var windspeeds = [];
-  console.log(data);
 
   for (windspeed in data) {
-    console.log(windspeed);
 
     windspeeds.push({
       tick: i++,
-      data: data[windspeed], //HAAHAHAAH
+      data: data[windspeed], //HAAHAHAAH :(
     }); //kanske kan göra det här när vi genererar datan istället
   }
   console.log(windspeeds);

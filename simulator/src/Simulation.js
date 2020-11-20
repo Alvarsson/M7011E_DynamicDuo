@@ -16,8 +16,8 @@ class Simulation {
     int_cons: Amout of consumers in sim, ex 8 will gen 8 consumer objects.
     */
   constructor(sim_time, int_pros, int_cons) {
-    const wm = new WindModule();
-    this.wind_data = wm.get_GD_for_time(sim_time); // NEEDS TO BE PUSHED TO DB
+    this.wm = new WindModule();
+    //this.wind_data = wm.get_GD_for_time(sim_time); // NEEDS TO BE PUSHED TO DB
 
     //console.log(this.wind_data);
     // this.prosumer_list = new Array();
@@ -33,11 +33,14 @@ class Simulation {
     testModel.create();
   }
 
-  GENERATEANDWRITEWEATHERDATA() {
+  /* GENERATEANDWRITEWEATHERDATA() {
     // Collection of all functions that should
     testModel.fillWeatherDataOnce([10,9,8,7,8,8,8,8,8,8,8,10]);
+  } */
+  generate_wind_data() {
+    testModel.fillWeatherDataOnce(this.wm.tick_variation(2));
+    
   }
-
   create_prosumers(num) {
     for (i = 0; i < num; i++) {
       var prosumer = new Prosumer(i);
