@@ -31,10 +31,6 @@ class WindModule {
     }
     return wind_per_tick;
   }
-
-  
-
-
   
 }
 
