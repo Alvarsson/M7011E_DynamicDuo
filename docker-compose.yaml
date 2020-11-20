@@ -1,14 +1,10 @@
 version: "3"
 
-
-##### om en person i framtiden skulle vilja göra containerna mindre kan man byta till alpine 
+##### om en person i framtiden skulle vilja göra containerna mindre kan man byta till alpine
 ##### verisonen av alla images. Och använda multi stage build.
-
-
 
 ####################### DEV version 1
 services:
-  
   gateway:
     container_name: gateway
 
@@ -24,16 +20,14 @@ services:
 
     # env_file: secrets/local.secrets
     environment:
-      NODE_ENV: development
-      MONGO_HOSTNAME: db
-      MONGO_DATABASE: test
-    
-    links:
-      - db
+      NODE_ENV: ${NODE_ENV}
+      MONGO_HOSTNAME: ${MONGO_HOSTNAME}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+
     # Restart action
     restart: always
 
-  db:
+  mongo-db:
     container_name: database
 
     image: mongo
@@ -48,7 +42,7 @@ services:
   redis:
     image: redis:alpine
     container_name: redis
-    ports: 
+    ports:
       - 6379:6379
     networks:
       - back-tier
@@ -61,20 +55,14 @@ services:
     command: nodemon simulator.js
     volumes:
       - ./simulator:/app
-    
+
     networks:
       - back-tier
 
-    # env_file: secrets/local.secrets
     environment:
-      NODE_ENV: development
-      MONGO_HOSTNAME: db #duplicated is no good
-      MONGO_DATABASE: test #duplicated
-    
-    links:
-      - db
-    
-
+      NODE_ENV: ${NODE_ENV}
+      MONGO_HOSTNAME: ${MONGO_HOSTNAME}
+      MONGO_DATABASE: ${MONGO_DATABASE}
 
 networks:
   back-tier:
