@@ -18,28 +18,29 @@ class WindModule {
   day_average(days) { // create list with day average wind speed.
     var day_list = [];
     for(var i = 0; i < days; i++) {
-        day_list.push(randn_gd(0,20,2));
+        day_list.push(this.randn_gd(0,20,2));
     }
-    console.log(day_list)
     return day_list;
   }
 
   hour_variation(average) { //return array with every hour wind speed of a day.
       //calls for norm.dist value around the day average and sets each hours windspeed
       var wind_per_hour = [average];
+      var i;
       for (var i = 1; i < 24; i++) {
           var min = average - 3;
           var max = average + 3;
-          wind_per_hour.push(randn_gd(min, max, 1));
+          wind_per_hour.push(this.randn_gd(min, max, 1));
       }
       return wind_per_hour;
   }
 
   get_GD_for_time(sim_time) {
-      var day_ave_list = day_average(sim_time);
+      var day_ave_list = this.day_average(sim_time);
       var all_wind_data = new Array();
+      var i;
       for (i= 0; i < day_ave_list.length; i++) {
-          var day_wind = hour_variation(i);
+          var day_wind = this.hour_variation(i);
           all_wind_data.push(day_wind);
       }
       return all_wind_data;
@@ -51,4 +52,5 @@ class WindModule {
       return change/6;
   }
 }
+
 module.exports = WindModule;

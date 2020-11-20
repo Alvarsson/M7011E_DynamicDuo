@@ -21,6 +21,12 @@ services:
       - "8080:8080"
     networks:
       - back-tier
+
+    # env_file: secrets/local.secrets
+    environment:
+      NODE_ENV: development
+      MONGO_HOSTNAME: db
+      MONGO_DATABASE: test
     
     links:
       - db
@@ -47,6 +53,27 @@ services:
     networks:
       - back-tier
 
+  simulator:
+    container_name: simulator
+
+    # Tell docker what file to build the server from
+    build: ./simulator
+    command: nodemon simulator.js
+    volumes:
+      - ./simulator:/app
+    
+    networks:
+      - back-tier
+
+    # env_file: secrets/local.secrets
+    environment:
+      NODE_ENV: development
+      MONGO_HOSTNAME: db #duplicated is no good
+      MONGO_DATABASE: test #duplicated
+    
+    links:
+      - db
+    
 
 
 networks:
