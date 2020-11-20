@@ -3,7 +3,7 @@ const Consumer = require("./entities/Consumer.js");
 const Manager = require("./entities/Manager.js");
 const WindModule = require("./wind_module");
 
-const testModel = require("./testController")
+const testModel = require("./testController");
 
 /* Thoughts 
     - Do we really need to instansiate the consumers. They are as static as they come for objects.
@@ -18,7 +18,7 @@ class Simulation {
   constructor(sim_time, int_pros, int_cons) {
     const wm = new WindModule();
     this.wind_data = wm.get_GD_for_time(sim_time); // NEEDS TO BE PUSHED TO DB
-    
+
     //console.log(this.wind_data);
     // this.prosumer_list = new Array();
     // this.consumer_list = new Array();
@@ -28,9 +28,14 @@ class Simulation {
     // TODO: what does the simulator need to start
   }
 
-   update() {
+  update() {
     // Collection of all functions that should
     testModel.create();
+  }
+
+  GENERATEANDWRITEWEATHERDATA() {
+    // Collection of all functions that should
+    testModel.fillWeatherDataOnce([10,9,8,7,8,8,8,8,8,8,8,10]);
   }
 
   create_prosumers(num) {

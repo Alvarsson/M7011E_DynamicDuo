@@ -28,6 +28,8 @@ const simulator = new Simulation(
 );
 
 
-console.log("Starting?");
+// START OF MAIN LOOP KAN JU INTE SE UT SÅHÄR GAHA
+simulator.GENERATEANDWRITEWEATHERDATA();
 
-setInterval(simulator.update, 2000);
+setInterval(simulator.update, 10000); //man kanske kan göra en callback till sig själv och uppdatera ÄNNU OFTARE!!!!
+
