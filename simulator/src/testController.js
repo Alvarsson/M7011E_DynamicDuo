@@ -1,6 +1,7 @@
 const db = require("../src/models");
 const TestModel = db.testmodel;
 const WeatherSpeedsModel = db.weatherSpeeds;
+const ProsumerSettings = db.prosumerSettings;
 
 // Create and Save a new Tutorial
 exports.create = () => {
@@ -58,6 +59,11 @@ exports.fillWeatherDataOnce = (data) => {
     });
   });
 
+  exports.createProsumer = () => {
+    // TODO: this should include the entire creation of all prosumer data. 
+    // Maybe not the object itselves but atleast the starting dist and
+    // prosumer log is included in this I suppose?
+  }
 
   
 };

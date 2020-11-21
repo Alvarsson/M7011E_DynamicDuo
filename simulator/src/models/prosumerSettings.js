@@ -1,4 +1,4 @@
-const { link } = require("fs")
+//const { link } = require("fs")
 
 module.exports = (mongoose) => {
     var prosumerSettingSchema = mongoose.Schema({
@@ -19,4 +19,19 @@ module.exports = (mongoose) => {
     });
     const prosumerSetting = mongoose.model("prosumerSetting", prosumerSettingSchema);
     return prosumerSetting;
+}
+
+module.exports = (mongoose) => {
+    var prosumerLogSchema = mongoose.Schema({
+        id: Number,
+        consumption: Number,
+        production: Number,
+        tick: Number,
+        batteryLevel: Number,
+        broken: Boolean,
+        weather: {
+            windSpeed: {type: Number, required: true},
+            temperature: Number
+        }
+    })
 }
