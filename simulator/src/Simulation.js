@@ -33,10 +33,6 @@ class Simulation {
     testModel.create();
   }
   // hej
-  /* GENERATEANDWRITEWEATHERDATA() {
-    // Collection of all functions that should
-    testModel.fillWeatherDataOnce([10,9,8,7,8,8,8,8,8,8,8,10]);
-  } */
   generate_wind_data() {
     testModel.fillWeatherDataOnce(this.wm.tick_variation(2));
     
