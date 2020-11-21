@@ -33,5 +33,7 @@ module.exports = (mongoose) => {
             windSpeed: {type: Number, required: true},
             temperature: Number
         }
-    })
+    });
+    const prosumerLog = mongsoose.model("prosumerLog", prosumerLogSchema);
+    return prosumerLog;
 }
