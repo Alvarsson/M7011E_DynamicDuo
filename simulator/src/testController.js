@@ -15,7 +15,7 @@ exports.create = () => {
   testmodel
     .save(testmodel)
     .then((data) => {
-      console.log("added bull---- data");
+      console.log("added bullFUCKINGSLUTSHIT data");
     })
     .catch((err) => {
       res.status(500).send({

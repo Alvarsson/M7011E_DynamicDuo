@@ -2,7 +2,7 @@
 
 module.exports = (mongoose) => {
     var prosumerSettingSchema = mongoose.Schema({
-        id: Number,
+        id: String,
         imgUrl: String,
         distribution: {
             sell: {type: Number, required: true},
@@ -23,7 +23,7 @@ module.exports = (mongoose) => {
 
 module.exports = (mongoose) => {
     var prosumerLogSchema = mongoose.Schema({
-        id: Number,
+        id: String,
         consumption: Number,
         production: Number,
         tick: Number,
