@@ -1,4 +1,5 @@
-FROM node:14-alpine
+FROM node:14-alpine 
+#download image and make it our own
 
 # Create app directory
 #WORKDIR /app
@@ -8,10 +9,13 @@ FROM node:14-alpine
 # where available (npm@5+)
 # COPY package*.json /app/
 
+#Current work directory in the container.
 WORKDIR /app
 
+#Download nodemon, updates when change happens
 RUN npm install -g nodemon
 
+# Copy all local .json files into the container.
 COPY package*.json ./
 
 RUN npm ci \

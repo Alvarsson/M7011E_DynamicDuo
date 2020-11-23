@@ -4,12 +4,14 @@
   "description": "",
   "main": "simulator.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha 'src/test/*.test.js'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "mocha": "^8.2.1",
     "mongoose": "^5.10.15"
   },
   "devDependencies": {
