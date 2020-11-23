@@ -7,11 +7,22 @@ type Query {
 }
 type Prosumer {
     id: ID!
-    # The tweet text. No more than 140 characters!
-    body: String
-    # When the tweet was published
-    
+    imgUrl: String
+    distribution : Distribution
+    batteryWarningThreshold: Number
+    loginCredentials: LoginCredentials
 }
+type LoginCredentials {
+    password: String
+    online: Number
+}
+type Distribution {
+    sell: Number
+    store: Number
+    buy: Number
+    drain: Number
+}
+
 type Weather {
     temp: Int
     # The tweet text. No more than 140 characters!

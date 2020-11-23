@@ -6,6 +6,8 @@ To add a new SSH key for access to server:
 Access the server with ssh key:
 ssh root@167.99.245.158
 
+Docker connect to database:
+ docker exec -it database mongo   
 
 SMHI Lule-flygplats vindAPI:
 https://opendata-download-metobs.smhi.se/api/version/latest/parameter/4/station/162860.json
