@@ -1,6 +1,7 @@
 # M7011E_DynamicDuo
 
-
+# Test the rest-API once docker-compose is running
+Paste this into your terminal: `curl http://localhost:3000/tasks`. The response should be "Hej" or something.
 
 
 

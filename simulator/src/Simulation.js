@@ -30,7 +30,8 @@ class Simulation {
 
   update() {
     // Collection of all functions that should
-    testModel.create();
+    //testModel.create();
+    console.log("tick at 100 seconds")
   }
   // hej
   generate_wind_data() {

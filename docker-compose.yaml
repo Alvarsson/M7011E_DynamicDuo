@@ -5,27 +5,26 @@ version: "3"
 
 ####################### DEV version 1
 services:
-  gateway:
-    container_name: gateway
+  
+  # gateway:
+  #   env_file: .env
+  #   container_name: gateway
 
-    # Tell docker what file to build the server from
-    build: ./gateway
-    command: nodemon server.js
-    volumes:
-      - ./gateway:/app
-    ports:
-      - "8080:8080"
-    networks:
-      - back-tier
+  #   # Tell docker what file to build the server from
+  #   build: ./gateway
+  #   command: nodemon server.js
+  #   volumes:
+  #     - ./gateway:/app
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - back-tier
 
-    # env_file: secrets/local.secrets
-    environment:
-      NODE_ENV: ${NODE_ENV}
-      MONGO_HOSTNAME: ${MONGO_HOSTNAME}
-      MONGO_DATABASE: ${MONGO_DATABASE}
+  #   # env_file: secrets/local.secrets
+    
 
-    # Restart action
-    restart: always
+  #   # Restart action
+  #   restart: always
 
   mongo-db:
     container_name: database
@@ -39,15 +38,33 @@ services:
     networks:
       - back-tier
 
-  redis:
-    image: redis:alpine
-    container_name: redis
+  # redis:
+  #   image: redis:alpine
+  #   container_name: redis
+  #   ports:
+  #     - 6379:6379
+  #   networks:
+  #     - back-tier
+
+
+  rest:
+    env_file: .env
+    container_name: rest
+
+    # Tell docker what file to build the server from
+    build: ./rest
+    command: nodemon server.js
+    volumes:
+      - ./rest:/app
     ports:
-      - 6379:6379
+       - "3000:3000"
+
     networks:
       - back-tier
 
+
   simulator:
+    env_file: .env
     container_name: simulator
 
     # Tell docker what file to build the server from
@@ -59,10 +76,7 @@ services:
     networks:
       - back-tier
 
-    environment:
-      NODE_ENV: ${NODE_ENV}
-      MONGO_HOSTNAME: ${MONGO_HOSTNAME}
-      MONGO_DATABASE: ${MONGO_DATABASE}
+    
 
 networks:
   back-tier:
