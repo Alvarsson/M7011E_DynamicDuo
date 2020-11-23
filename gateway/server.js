@@ -19,6 +19,9 @@ const schema = makeExecutableSchema({
   resolvers,
 });
 
+const mongoose = require("mongoose");
+mongoose.connect(`mongodb://mongo-db/dd-db`, {useNewUrlParser: true, useUnifiedTopology: true});
+console.log(`mongodb://mongo-db/dd-db`);
 app.use(
   "/graphql",
   graphqlHTTP({

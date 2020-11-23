@@ -1,32 +1,23 @@
 
 
 type Query {
-    prosumer(id:ID!):Prosumer
+    get_prosumer(id:ID!):Prosumer
     weatherData: Weather
     
 }
+type Mutation {
+    set_prosumer(id:ID!): Boolean!
+    set_temp(tick: Int, data: Float): Weather
+}
 type Prosumer {
     id: ID!
-    imgUrl: String
-    distribution : Distribution
-    batteryWarningThreshold: Number
-    loginCredentials: LoginCredentials
-}
-type LoginCredentials {
-    password: String
-    online: Number
-}
-type Distribution {
-    sell: Number
-    store: Number
-    buy: Number
-    drain: Number
+    consumption: Float
 }
 
 type Weather {
-    temp: Int
+    tick: Int
     # The tweet text. No more than 140 characters!
-    windspeed: Int
+    data: Float
     # When the tweet was published
     
 }

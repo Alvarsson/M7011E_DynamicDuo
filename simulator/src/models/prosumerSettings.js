@@ -37,3 +37,31 @@ module.exports = (mongoose) => {
     const prosumerLog = mongoose.model("prosumerLog", prosumerLogSchema);
     return prosumerLog;
 }
+/* 
+type Prosumer {
+    id: ID!
+    imgUrl: String
+    distribution: Distribution
+    batteryWarningThreshold: Float
+    loginCredentials: LoginCredentials
+    consumption: Float
+    production: Float
+    tick: Int
+    batteryLevel: Float
+    broken: Booelan
+    weather: ProsumerWeather
+}
+type LoginCredentials {
+    password: String
+    online: Int
+}
+type Distribution {
+    sell: Float
+    store: Float
+    buy: Float
+    drain: Float
+}
+type ProsumerWeather {
+    windspeed: Float
+    temperature: Float
+} */
