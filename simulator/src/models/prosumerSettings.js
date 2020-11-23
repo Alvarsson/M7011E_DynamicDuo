@@ -34,6 +34,6 @@ module.exports = (mongoose) => {
             temperature: Number
         }
     });
-    const prosumerLog = mongsoose.model("prosumerLog", prosumerLogSchema);
+    const prosumerLog = mongoose.model("prosumerLog", prosumerLogSchema);
     return prosumerLog;
 }
