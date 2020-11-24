@@ -7,17 +7,13 @@ version: "3"
 services:
   frontend:
     container_name: frontend
-    build:
-      context: ./frontend
-    volumes:
-      - "./frontend:/app"
-      - "/app/node_modules" #utan denna så skriver man över när man startar
+    build: ./frontend
     ports:
-      - "${FRONTEND_PORT_HOST}:${FRONTEND_PORT_CONTAINER}"
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      
-
+      - "3000:3000"
+    labels:
+      NAME: "frontend"
+    networks:
+      - app-network
 
   mongo-db:
     container_name: database
@@ -31,7 +27,6 @@ services:
     networks:
       - back-tier
 
-
   rest:
     env_file: .env
     container_name: rest
@@ -43,7 +38,6 @@ services:
       - ./rest:/app
     ports:
       - "${BACKEND_PORT_HOST}:${BACKEND_PORT_CONTAINER}"
-    
 
     networks:
       - back-tier
@@ -51,18 +45,18 @@ services:
   # simulator:
   #   env_file: .env
   #   container_name: simulator
-
   #   # Tell docker what file to build the server from
   #   build: ./simulator
   #   command: nodemon simulator.js
   #   volumes:
   #     - ./simulator:/app
-
   #   networks:
   #     - back-tier
 
 networks:
   back-tier:
+  app-network:
+    driver: bridge
 
 volumes:
   node_modules:

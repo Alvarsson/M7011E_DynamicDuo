@@ -1,22 +1,8 @@
-# pull official base image
-FROM node:13.12.0-alpine
-
-# set working directory
+FROM mhart/alpine-node:12 
 WORKDIR /app
+COPY . .
+RUN npm install react-scripts -g --silent
+RUN yarn install
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
 
-
-# install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm install 
-# känns kanske dumt. Kollar på det i framtiden
-RUN npm install react-scripts@4.0.1 -g 
-
-# add app
-COPY . ./
-
-# start app
-CMD ["npm", "start"]
+CMD ["yarn","start"]
