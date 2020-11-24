@@ -27,7 +27,7 @@ class Prosumer {
         this.return_state = [];
 
         this.tick_count_turbine = 0;
-        this.turbine_status = false;
+        this.turbine_broken = false;
     }
 
 // TODO: Write object inital pwr dist.
@@ -59,13 +59,13 @@ class Prosumer {
         }
     }
     tick_counter_turbine() {
-        this.set_turbine_status(true); // set at broken 
-        if (this.tick_count_turbine < 17280) { // 2 days in 10 second ticks. For testing set 2 min = 12
+        this.set_turbine_broken(true); // set at broken 
+        if (this.tick_count_turbine < 6) { // 2 days in 10 second ticks is 17280. For testing set 2 min = 12
             this.tick_count_turbine += 1;
         }
         else {
             this.tick_count_turbine = 0;
-            this.set_turbine_status(false); // fixed turbine.
+            this.set_turbine_broken(false); // fixed turbine.
         }
     }
 
@@ -77,7 +77,7 @@ class Prosumer {
 //----- WIND POWER -----
     set_wind_power(wind_speed) {
         //lets assume we get 4 pwr for each 1 m/s of wind. So 4 m/s generates 16 pwr/ hour.
-        if (this.get_turbine_status() == false) {
+        if (this.get_turbine_broken() == true) {
             this.pwr_production = 0;
         }
         else { 
@@ -87,11 +87,11 @@ class Prosumer {
     get_wind_power() {
         return this.pwr_production;
     }
-    set_turbine_status(bool) {
-        this.turbine_status = bool;
+    set_turbine_broken(bool) {
+        this.turbine_broken = bool;
     }
-    get_turbine_status() {
-        return this.turbine_status;
+    get_turbine_broken() {
+        return this.turbine_broken;
     }
     turbine_break_probability() { // called each tick
         var break_chance = 0.00115741 // 10 % break chance per day, 0.0005787 for 5%, 0.00011574 for 1 %
@@ -103,7 +103,7 @@ class Prosumer {
 //----- CALCULATE POWER ------
     // base consumption - house allocated self-produced pwr.
     warning_low_battery() {
-        if ((get_battery_level()/this.get_battery_max()) < 0.2) {
+        if ((this.get_battery_level()/this.get_battery_max()) < 0.2) {
             this.low_battery = true;
         } else {
             this.low_battery = false;
@@ -146,7 +146,7 @@ class Prosumer {
     }
     charge_battery() {
         if ((this.get_battery_level() + this.get_pwr_to_battery()) > this.get_battery_max()) {
-            diff = this.get_pwr_to_battery - (this.get_battery_max() - this.get_battery_level());
+            var diff = this.get_pwr_to_battery() - (this.get_battery_max() - this.get_battery_level());
             this.set_excess_pwr(diff);
             this.set_battery_level(this.get_battery_max());
         }
@@ -155,11 +155,11 @@ class Prosumer {
         }
     }
     discharge_battery() {
-        if ((this.get_battery_level() + this.drain_from_battery()) < 0 ) {
+        if ((this.get_battery_level() - this.get_pwr_from_battery()) < 0 ) {
             this.set_battery_level(0);
         } 
         else {
-            this.battery_level += this.get_drain_from_battery();
+            this.battery_level += this.get_pwr_from_battery();
         }
     }
     
@@ -190,14 +190,14 @@ class Prosumer {
 //------ POWER DISTRIBUTION ------
     pwr_dist_over(store, sell) { // OVER PROD
         if (this.get_pwr_block()) {
-            pwr_left = this.get_wind_power() - this.get_total_consumption();
-            this.set_wind_pwr_to_house(pwr_left);
+            var pwr_left = this.get_wind_power() - this.get_total_consumption();
+            this.set_wind_pwr_to_house(this.get_wind_power() - pwr_left);
             this.set_store_to_battery(1, pwr_left);
             this.set_sell_to_market(0, pwr_left)
         }
         else {
-            pwr_left = this.get_wind_power() - this.get_total_consumption();
-            this.set_wind_pwr_to_house(pwr_left);
+            var pwr_left = this.get_wind_power() - this.get_total_consumption();
+            this.set_wind_pwr_to_house(this.get_wind_power() - pwr_left);
             this.set_store_to_battery(store, pwr_left);
             this.set_sell_to_market(sell, pwr_left);
         }
@@ -205,7 +205,7 @@ class Prosumer {
         
     pwr_dist_under(drain, buy) {
         if (drain + buy == 1) {
-            demand_left = this.get_total_consumption() - this.get_wind_power();
+            var demand_left = this.get_total_consumption() - this.get_wind_power();
             this.set_wind_pwr_to_house(this.get_wind_power());
             this.set_drain_from_battery(drain, demand_left);
             this.set_buy_from_market(buy, demand_left);
