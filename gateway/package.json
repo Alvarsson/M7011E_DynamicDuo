@@ -24,7 +24,8 @@
     "express-graphql": "^0.11.0",
     "graphql": "^15.4.0",
     "graphql-tools": "^7.0.1",
-    "ioredis": "^4.19.2"
+    "ioredis": "^4.19.2",
+    "mongoose": "^5.10.15"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
