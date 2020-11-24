@@ -15,7 +15,7 @@ var routes = require('./api/routes/todoListRoutes');
 routes(app);
 
 app.use(function(req, res) {
-    res.status(404).send({url: req.originalUrl + ' not found'})
+    res.status(404).send({url: req.originalUrl + ' not found. Make a valid request pls.'})
 });
 
 app.listen(port);
