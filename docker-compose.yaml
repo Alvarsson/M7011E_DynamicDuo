@@ -5,26 +5,19 @@ version: "3"
 
 ####################### DEV version 1
 services:
-  
-  # gateway:
-  #   env_file: .env
-  #   container_name: gateway
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    volumes:
+      - "./frontend:/app"
+      - "/app/node_modules" #utan denna så skriver man över när man startar
+    ports:
+      - "${FRONTEND_PORT_HOST}:${FRONTEND_PORT_CONTAINER}"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      
 
-  #   # Tell docker what file to build the server from
-  #   build: ./gateway
-  #   command: nodemon server.js
-  #   volumes:
-  #     - ./gateway:/app
-  #   ports:
-  #     - "8080:8080"
-  #   networks:
-  #     - back-tier
-
-  #   # env_file: secrets/local.secrets
-    
-
-  #   # Restart action
-  #   restart: always
 
   mongo-db:
     container_name: database
@@ -38,14 +31,6 @@ services:
     networks:
       - back-tier
 
-  # redis:
-  #   image: redis:alpine
-  #   container_name: redis
-  #   ports:
-  #     - 6379:6379
-  #   networks:
-  #     - back-tier
-
 
   rest:
     env_file: .env
@@ -57,26 +42,24 @@ services:
     volumes:
       - ./rest:/app
     ports:
-       - "3000:3000"
-
-    networks:
-      - back-tier
-
-
-  simulator:
-    env_file: .env
-    container_name: simulator
-
-    # Tell docker what file to build the server from
-    build: ./simulator
-    command: nodemon simulator.js
-    volumes:
-      - ./simulator:/app
-
-    networks:
-      - back-tier
-
+      - "${BACKEND_PORT_HOST}:${BACKEND_PORT_CONTAINER}"
     
+
+    networks:
+      - back-tier
+
+  # simulator:
+  #   env_file: .env
+  #   container_name: simulator
+
+  #   # Tell docker what file to build the server from
+  #   build: ./simulator
+  #   command: nodemon simulator.js
+  #   volumes:
+  #     - ./simulator:/app
+
+  #   networks:
+  #     - back-tier
 
 networks:
   back-tier:
