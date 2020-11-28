@@ -5,42 +5,67 @@ ProsumerSettings = mongoose.model('ProsumerSettings');
 
 
 exports.get_prosumer_setting = function(req, res) {
-  console.log("GOT ZE REQUEST FOR" + req.query.id);
-  console.log(req.query.id);
-    ProsumerSettings.findOne({id:req.query.id}, function(err, prosumer) {
+    ProsumerSettings.findOne({id:req.params.id}, function(err, prosumer) {
       if (err){
         res.send("sum ting wong");
       } else{
+        console.log(prosumer)
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
+        prosumer.login_credentials.password ="no you, mr hackerman"; // sophisticated password protection
         res.json(prosumer);
       }
     });    
 }
 
+// split into paths for each setting
 exports.update_prosumer_settings = function(req,res) {
-  //console.log(req.body.kropp);
-  ProsumerSettings.findOneAndUpdate({id: req.query.id}, {$set:{img_url:req.body.img_url}},function(err, prosumer) {
+  console.log(req.params.id);
+  ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{img_url:req.body.img_url}},function(err, prosumer) {
     if(err) {
       res.send("sum ting wonger");
     }
-    console.log("JAMEN JO");
-    res.statusCode = 200; // should be some other code
-    res.json({message:"successfully updated prosumer"});
+    res.statusCode = 204;
   });
 }
 
 exports.add_prosumer_setting = function (req,res) {
 
-  // kolla att den har all skit
-  // kolla att idt inte redan är upptaget.
-
-  // inserta ny prosumersetting:
-  ProsumerSettings.create({id:"eeh"}, function(err, prosumer) {
-    if(err){
-      res.send("sum ting wooong");
-    } else {
-      res.json("insertade skitN");
+  // check that everything is defined.
+  try{
+    if(req.body.id == undefined){
+      throw "Prosumer Id undefined.";
     }
-  });
-}
+    if(req.body.img_url == undefined){
+      throw "Prosumer img_url undefined.";
+    }
+    if(req.body.distribution == undefined || req.body.distribution.sell == undefined || req.body.distribution.store == undefined || req.body.distribution.buy == undefined || req.body.distribution.drain == undefined){
+      throw "Prosumer distribution undefined.";
+    }
+    if(req.body.battery_warning_threshold == undefined){
+      throw "Prosumer battery_warning_threshold undefined.";
+    }
+    if(req.body.login_credentials == undefined || req.body.login_credentials.password == undefined || req.body.login_credentials.online == undefined){
+      throw "Prosumer Id undefined.";
+    }
+    //check that the Id doesnt already exist.
+    ProsumerSettings.findOne({id:req.params.id}, function(err, t) {
+      if(t != null){
+        throw "Prosumer id already registered."
+      }
+    });
+
+    //insert new prosumer:
+    ProsumerSettings.create({id:"Hello", img_url: "http://www.placecage.com/200/200", distribution: {sell: 0.2, store: 0.8, buy:0.2, drain:0.8}, battery_warning_threshold: 20, login_credentials:{password:"supasecret", online: 1}}, function(err, prosumer) {
+      if(err){
+        res.send("sum ting wooong");
+      } else {
+        res.json("insertade skitN");
+      }
+    });
+  } catch(e){
+    console.log(e);
+    res.send("Something went wrong: " + e)
+  }
+  // inserta ny prosumersetting:
+  }
