@@ -5,8 +5,9 @@ module.exports = function(app) {
 
 	
 	app.route('/test') //will need test?id="lisa" for example as query parameter
-		.get(prosumer.get_prosumer_settings)
-		.put(prosumer.update_prosumer_settings);
+		.get(prosumer.get_prosumer_setting)
+		.put(prosumer.update_prosumer_settings)
+		.post(prosumer.add_prosumer_setting);
 
 	//app.route('/tasks/:taskId')
 	// 	.get(todoList.read_a_task)
