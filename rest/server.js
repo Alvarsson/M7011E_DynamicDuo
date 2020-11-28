@@ -3,6 +3,9 @@ app = express(),
 port = process.env.BACKEND_PORT_HOST || 100000,
 mongoose = require('mongoose'),
 Task = require('./api/models/todoListModel'),
+ProsumerSettings = require('./api/models/prosumer_settings_model'),
+Distribution = require('./api/models/prosumer_settings_model'),
+LoginCredentials = require('./api/models/prosumer_settings_model'),
 bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
