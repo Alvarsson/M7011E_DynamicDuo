@@ -2,10 +2,7 @@ var express = require('express'),
 app = express(),
 port = process.env.BACKEND_PORT_HOST || 100000,
 mongoose = require('mongoose'),
-Task = require('./api/models/todoListModel'),
 ProsumerSettings = require('./api/models/prosumer_settings_model'),
-Distribution = require('./api/models/prosumer_settings_model'),
-LoginCredentials = require('./api/models/prosumer_settings_model'),
 bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
@@ -14,7 +11,7 @@ mongoose.connect(`mongodb://${process.env.MONGO_HOSTNAME}/${process.env.MONGO_DA
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-var routes = require('./api/routes/todoListRoutes');
+var routes = require('./api/routes/routes');
 routes(app);
 
 app.use(function(req, res) {
