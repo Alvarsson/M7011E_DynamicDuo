@@ -2,8 +2,7 @@ var express = require('express'),
 app = express(),
 port = process.env.BACKEND_PORT_HOST || 100000,
 mongoose = require('mongoose'),
-Task = require('./api/models/todoListModel'),
-Manager = require('./api/models/manager_model'),
+Prosumer = require('./api/models/prosumer_settings_model'),
 bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
@@ -12,6 +11,8 @@ mongoose.connect(`mongodb://${process.env.MONGO_HOSTNAME}/${process.env.MONGO_DA
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+var routes = require('./api/routes/routes');
+routes(app);
 
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found. Make a valid request pls.'})
