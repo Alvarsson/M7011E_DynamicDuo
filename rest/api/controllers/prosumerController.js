@@ -19,7 +19,7 @@ exports.get_prosumer_setting = function(req, res) {
 }
 
 // split into paths for each setting
-exports.update_prosumer_settings = function(req,res) {
+exports.update_prosumer_settings_img_url = function(req,res) {
   console.log(req.params.id);
   ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{img_url:req.body.img_url}},function(err, prosumer) {
     if(err) {
@@ -30,7 +30,6 @@ exports.update_prosumer_settings = function(req,res) {
 }
 
 exports.add_prosumer_setting = function (req,res) {
-
   // check that everything is defined.
   try{
     if(req.body.id == undefined){
@@ -49,14 +48,14 @@ exports.add_prosumer_setting = function (req,res) {
       throw "Prosumer Id undefined.";
     }
     //check that the Id doesnt already exist.
-    ProsumerSettings.findOne({id:req.params.id}, function(err, t) {
+    ProsumerSettings.findOne({id:req.body.id}, function(err, t) {
       if(t != null){
         throw "Prosumer id already registered."
       }
     });
 
     //insert new prosumer:
-    ProsumerSettings.create({id:"Hello", img_url: "http://www.placecage.com/200/200", distribution: {sell: 0.2, store: 0.8, buy:0.2, drain:0.8}, battery_warning_threshold: 20, login_credentials:{password:"supasecret", online: 1}}, function(err, prosumer) {
+    ProsumerSettings.create({id:req.body.id, img_url: req.body.img_url, distribution: {sell: req.body.distribution.sell, store: req.body.distribution.store, buy:req.body.distribution.buy, drain:req.body.distribution.drain}, battery_warning_threshold: req.body.battery_warning_threshold, login_credentials:{password:req.body.login_credentials.password, online: req.body.login_credentials.online}}, function(err, prosumer) {
       if(err){
         res.send("sum ting wooong");
       } else {

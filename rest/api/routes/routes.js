@@ -9,8 +9,9 @@ module.exports = function(app) {
 		.post(prosumer.add_prosumer_setting);
 
 	app.route('/test/:id')
-		.get(prosumer.get_prosumer_setting)
-		.put(prosumer.update_prosumer_settings);
+		.get(prosumer.get_prosumer_setting);
+	app.route('/test/:id/img_url')
+		.put(prosumer.update_prosumer_settings_img_url);
 	//app.route('/tasks/:taskId')
 	// 	.get(todoList.read_a_task)
 	// 	.put(todoList.update_a_task)
