@@ -13,13 +13,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-// Import routes
-var postRoutes = require('./api/routes/posts');
-postRoutes(app);
-
-var getRoutes = require('./api/routes/gets');
-getRoutes(app);
-
 app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found. Make a valid request pls.'})
 });
