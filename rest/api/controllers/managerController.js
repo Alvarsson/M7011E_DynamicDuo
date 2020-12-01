@@ -5,7 +5,7 @@ ManagerSettings = mongoose.model('ManagerSettings');
 
 //  Always get the manager from the only id existing once created.
 exports.get_manager_setting = function(req, res) {
-    ManagerSettings.findOne({id: "1"}, function(err, manager) {
+    ManagerSettings.findOne({id: "theMan"}, function(err, manager) {
         if(err) {
             res.send("roh row, shaggy");
         } else {
@@ -21,7 +21,7 @@ exports.get_manager_setting = function(req, res) {
 // We don't really need to update via id so should just send update directly.
 exports.update_manager_setting_img_url = function(req, res) {
     console.log(req.params.id);
-    ManagerSettings.findOneAndUpdate({id: "1"}, {$set: {img_url:req.body.img_url}}, function(err, manager) {
+    ManagerSettings.findOneAndUpdate({id: "theMan"}, {$set: {img_url:req.body.img_url}}, function(err, manager) {
         if(err) {
             res.send("roh row, shaggy, cant update dat");
         }
@@ -48,13 +48,13 @@ exports.add_manager_setting = function (req, res) {
             throw "Manager login_credentials undefined";
         }
         // check that the Manager doesn't already exist.
-        ManagerSettings.findOne({id: "1"}, function(err, manager) {
+        ManagerSettings.findOne({id: "theMan"}, function(err, manager) {
             if(manager){
                 throw " The Manager is already registered."
             }
         });
         // insert the manager
-        ManagerSettings.create({id: "1",
+        ManagerSettings.create({id: "theMan",
             img_url: req.body.img_url,
             battery_warning_threshold: req.body.battery_warning_threshold,
             login_credentials: {

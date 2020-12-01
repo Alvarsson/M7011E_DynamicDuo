@@ -2,8 +2,8 @@ var express = require('express'),
 app = express(),
 port = process.env.BACKEND_PORT_HOST || 100000,
 mongoose = require('mongoose'),
-Task = require('./api/models/todoListModel'),
-Manager = require('./api/models/manager_model'),
+// Task = require('./api/models/todoListModel'),
+ManagerSettings = require('./api/models/manager_settings_model'),
 bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;

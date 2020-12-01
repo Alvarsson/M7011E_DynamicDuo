@@ -17,7 +17,10 @@ module.exports = function(app) {
 	
 	// --------- MANAGER ---------
 
-	app.route('/testmanager')
+	app.route('/addman')
 		.get(manager.get_manager_setting)
 		.post(manager.add_manager_setting);
+	
+	app.route('/man/setimg')
+		.put(manager.update_manager_setting_img_url);
 };
