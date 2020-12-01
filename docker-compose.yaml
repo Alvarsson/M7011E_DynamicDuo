@@ -4,6 +4,8 @@ version: "3"
 ##### verisonen av alla images. Och använda multi stage build.
 
 ####################### DEV version 1
+
+
 services:
   frontend:
     container_name: frontend
