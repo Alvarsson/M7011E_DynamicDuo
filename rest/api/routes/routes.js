@@ -24,17 +24,21 @@ module.exports = function(app) {
 		.put(prosumer.update_prosumer_settings_distr_under);
 	app.route('/test/:id/battery_warning_threshold')
 		.put(prosumer.update_prosumer_settings_battery_warning_threshold);
-	//app.route('/tasks/:taskId')
-	// 	.get(todoList.read_a_task)
-	// 	.put(todoList.update_a_task)
-	// 	.delete(todoList.delete_a_task);
 	
 	// --------- MANAGER ---------
 
-	app.route('/addman')
+	app.route('/man')
 		.get(manager.get_manager_setting)
 		.post(manager.add_manager_setting);
 	
-	app.route('/man/setimg')
+	app.route('/getman')
+		.get(manager.get_manager_setting);	
+	app.route('/man/img_url')
 		.put(manager.update_manager_setting_img_url);
+	app.route('/man/password')
+		.put(manager.update_manager_setting_password);
+	app.route('/man/online')
+		.put(manager.update_manager_settings_online);
+	app.route('/man/battery_warning_threshold')
+		.put(manager.update_manager_settings_battery_warning_threshold);
 };
