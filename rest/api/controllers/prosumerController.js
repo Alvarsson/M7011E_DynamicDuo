@@ -9,25 +9,94 @@ exports.get_prosumer_setting = function(req, res) {
       if (err){
         res.send("sum ting wong");
       } else{
-        console.log(prosumer)
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        prosumer.login_credentials.password ="no you, mr hackerman"; // sophisticated password protection
-        res.json(prosumer);
+        if (prosumer != null){
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          prosumer.login_credentials.password ="no you, mr hackerman"; // sophisticated password protection
+          res.json(prosumer);
+        } else{
+          res.statusCode = 404;
+          res.send();
+        }
       }
     });    
 }
 
-// split into paths for each setting
+// TODO: Check valid body, help function?
 exports.update_prosumer_settings_img_url = function(req,res) {
   console.log(req.params.id);
   ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{img_url:req.body.img_url}},function(err, prosumer) {
     if(err) {
-      res.send("sum ting wonger");
+      res.statusCode = 418;
+      res.send("sum ting wong when updating img url");
+    } else{
+      res.statusCode = 204;
+      res.send();
     }
-    res.statusCode = 204;
+    
   });
 }
+
+exports.update_prosumer_settings_password = function(req,res) {
+  ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{"login_credentials.password": req.body.login_credentials.password}},function(err, prosumer) {
+    if(err) {
+      res.statusCode = 418;
+      res.send("sum ting wong when updating password");
+    } else{
+      res.statusCode = 204;
+      res.send();
+    }
+  });
+}
+
+exports.update_prosumer_settings_distr_over = function(req,res) {
+  ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{"distribution.sell": req.body.distribution.sell, "distribution.store": req.body.distribution.store}},function(err, prosumer) {
+    if(err) {
+      res.statusCode = 418;
+      res.send("sum ting wong when updating distr over");
+    } else{
+      res.statusCode = 204;
+      res.send();
+    }
+  });
+}
+
+exports.update_prosumer_settings_distr_under = function(req,res) {
+  ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{"distribution.buy": req.body.distribution.buy, "distribution.drain": req.body.distribution.drain}},function(err, prosumer) {
+    if(err) {
+      res.statusCode = 418;
+      res.send("sum ting wong when updating distr under");
+    } else{
+      res.statusCode = 204;
+      res.send();
+    }
+  });
+}
+
+exports.update_prosumer_settings_battery_warning_threshold = function(req,res) {
+  ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{battery_warning_threshold: req.body.battery_warning_threshold}},function(err, prosumer) {
+    if(err) {
+      res.statusCode = 418;
+      res.send("sum ting wong when updating battery warning threshold");
+    } else{
+      res.statusCode = 204;
+      res.send();
+    }
+  });
+}
+
+exports.update_prosumer_settings_online = function(req,res) {
+  ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{"login_credentials.online": req.body.login_credentials.online}},function(err, prosumer) {
+    if(err) {
+      res.statusCode = 418;
+      res.send("sum ting wong when updating battery online");
+    } else{
+      res.statusCode = 204;
+      res.send();
+    }
+  });
+}
+
 
 exports.add_prosumer_setting = function (req,res) {
   // check that everything is defined.
@@ -57,6 +126,7 @@ exports.add_prosumer_setting = function (req,res) {
     //insert new prosumer:
     ProsumerSettings.create({id:req.body.id, img_url: req.body.img_url, distribution: {sell: req.body.distribution.sell, store: req.body.distribution.store, buy:req.body.distribution.buy, drain:req.body.distribution.drain}, battery_warning_threshold: req.body.battery_warning_threshold, login_credentials:{password:req.body.login_credentials.password, online: req.body.login_credentials.online}}, function(err, prosumer) {
       if(err){
+        res.statusCode = 418;
         res.send("sum ting wooong");
       } else {
         res.json("insertade skitN");
@@ -64,6 +134,7 @@ exports.add_prosumer_setting = function (req,res) {
     });
   } catch(e){
     console.log(e);
+    res.statusCode = 418;
     res.send("Something went wrong: " + e)
   }
   // inserta ny prosumersetting:
