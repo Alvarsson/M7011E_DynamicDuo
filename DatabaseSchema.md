@@ -54,6 +54,7 @@
     "marketprice": 13,
     "batteryLevel": 3000,
     "production": 800,
+    "tick": 46,
     "totalNetConsumption": 900,
     "PowerPlantConsumption": 150,
     "nrOfConsumers": 10
