@@ -3,6 +3,33 @@ The base path for these calls will be: **http://SERVER_IP:3001**
 
 
 ### Prosumer Settings
+
+#### Get all prosumer setting
+**GET** to **/prosumersettings**
+
+You will recieve a response on the form:
+```json
+  [{
+    "img_url": "cool.png",
+    "_id": "5fege2",
+    "id": "lisa",
+    "distribution": {
+      "_id": "4fe5ge5",
+      "sell": 0.2,
+      "store": 0.8,
+      "buy": 0.5,
+      "drain": 0.5
+    },
+    "battery_warning_threshold": 40,
+    "login_credentials": {
+      "_id": "geg5ege",
+      "password": "no you, mr hackerman!",
+      "online": 1
+    }
+  }]
+```
+
+
 #### Get a prosumer setting
 **GET** to **/prosumersettings/*id***
 
