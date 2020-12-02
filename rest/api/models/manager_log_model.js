@@ -32,4 +32,4 @@ var ManagerLogSchema = new Schema({
     }
 });
 
-module.exports = mongoose.module('ManagerLog', ManagerLogSchema);
+module.exports = mongoose.model('ManagerLog', ManagerLogSchema);
