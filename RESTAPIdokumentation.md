@@ -111,7 +111,7 @@ You need to input a body on the below format:
 ```json
 {
     "login_credentials":{
-      "online": 2
+      "online": "2"
     }
 }
 ```
@@ -155,6 +155,15 @@ You need to input a body on the below format:
 }
 ```
 
+#### Delete prosumer setting
+**DELETE** to **/prosumersettings/*id*/delete**
+
+Here, id is the id of the prosumerSetting you want to update.
+You can expect a response as:
+```json
+The prosumer settings are now deleted
+```
+
 ### Manager Settings
 
 #### Get all manager settings
@@ -179,7 +188,7 @@ You will recieve a response on the form:
 #### Add a new manager setting
 **POST** to **/managersettings**
 
-
+The manager has a set id "Manager" since there will only be one.
 You need to input a body on the below format:
 ```json
 {
@@ -189,5 +198,50 @@ You need to input a body on the below format:
         "password": "secure123",
         "online": "0"
     }
+}
+```
+
+#### Update manager setting: img_url
+**PUT** to **/managersettings/img_url**
+
+The id is already set for the manager.
+You only need to input a body with the format below:
+```json
+{
+    "img_url": "www.nybild.img"
+}
+```
+
+#### Update manager setting: password
+**PUT** to **/managersettings/password**
+
+You need to input a body with the format below:
+```json
+{
+    "login_credentials": {
+      "password": "secretboi"
+    }
+}
+```
+
+#### Update manager setting: online
+**PUT** to **/managersettings/online**
+
+You need to input a body on the below format:
+```json
+{
+    "login_credentials":{
+      "online": "3"
+    }
+}
+```
+
+#### Update manager setting: battery_warning_threshold
+**PUT** to **/managersettings/battery_warning_threshold**
+
+You need to input a body on the below format:
+```json
+{
+    "battery_warning_threshold": "200"
 }
 ```
