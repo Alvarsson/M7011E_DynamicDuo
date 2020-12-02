@@ -10,6 +10,7 @@ module.exports = function(app) {
 		//.get(prosumer.get_prosumer_setting) // Should return all prosumer settings, TODO: write controller
 		.post(prosumer.add_prosumer_setting); // add new prosumer setting
 
+<<<<<<< HEAD
 	app.route('/prosumersettings/:id')
 		.get(prosumer.get_prosumer_setting); // Get prosumer setting for id
 	app.route('/prosumersettings/:id/img_url')
@@ -24,10 +25,37 @@ module.exports = function(app) {
 		.put(prosumer.update_prosumer_settings_distr_under); // update under distr for id
 	app.route('/prosumersettings/:id/battery_warning_threshold')
 		.put(prosumer.update_prosumer_settings_battery_warning_threshold); // update battery warn threshold for id
+=======
+	app.route('/test/:id')
+		.get(prosumer.get_prosumer_setting);
+	app.route('/test/:id/img_url')
+		.put(prosumer.update_prosumer_settings_img_url);
+	app.route('/test/:id/password')
+		.put(prosumer.update_prosumer_settings_password);
+	app.route('/test/:id/online')
+		.put(prosumer.update_prosumer_settings_online);
+	app.route('/test/:id/distr_over')
+		.put(prosumer.update_prosumer_settings_distr_over);
+	app.route('/test/:id/distr_under')
+		.put(prosumer.update_prosumer_settings_distr_under);
+	app.route('/test/:id/battery_warning_threshold')
+		.put(prosumer.update_prosumer_settings_battery_warning_threshold);
+>>>>>>> f5544b8beaa96d7363f116b66ae9c4d138d4884d
 	
 	// --------- MANAGER ---------
 
-	app.route('/testmanager')
+	app.route('/man')
 		.get(manager.get_manager_setting)
 		.post(manager.add_manager_setting);
+	
+	app.route('/getman')
+		.get(manager.get_manager_setting);	
+	app.route('/man/img_url')
+		.put(manager.update_manager_setting_img_url);
+	app.route('/man/password')
+		.put(manager.update_manager_setting_password);
+	app.route('/man/online')
+		.put(manager.update_manager_settings_online);
+	app.route('/man/battery_warning_threshold')
+		.put(manager.update_manager_settings_battery_warning_threshold);
 };

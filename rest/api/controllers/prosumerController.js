@@ -89,7 +89,7 @@ exports.update_prosumer_settings_online = function(req,res) {
   ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{"login_credentials.online": req.body.login_credentials.online}},function(err, prosumer) {
     if(err) {
       res.statusCode = 418;
-      res.send("sum ting wong when updating battery online");
+      res.send("sum ting wong when updating online");
     } else{
       res.statusCode = 204;
       res.send();
