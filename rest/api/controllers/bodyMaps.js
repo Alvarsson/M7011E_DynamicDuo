@@ -83,7 +83,24 @@ module.exports.battery_warning_thresholdMap = function(){
     root.set('body', body);
     return root;
 }
-// manager complete map
+module.exports.add_prosumer_logMap = function() {
+    var root = new Map();
+    var body = new Map();
+    var weather = new Map();
+    weather.set('wind_speed', 0);
+    weather.set('temperature', 0);
+    body.set('weather', weather);
+    body.set('consumption', 0);
+    body.set('production', 0);
+    body.set('tick', 0);
+    body.set('battery_level', 0);
+    body.set('broken_turbine', 0);
+    root.set('body', body);
+    return root;
+}
+
+
+// add manager logg map
 module.exports.completeManagerMap = function(){
     var root = new Map();
     var body = new Map();
@@ -96,3 +113,20 @@ module.exports.completeManagerMap = function(){
     root.set('body', body);
     return root;
 }
+
+module.exports.add_manager_logMap = function(){
+    var root = new Map();
+    var body = new Map();
+    body.set('market_price', 0);
+    body.set('battery_level', 0);
+    body.set('production', 0);
+    body.set('tick', 0);
+    body.set('total_net_consumption', 0);
+    body.set('power_plant_consumption', 0);
+    body.set('nr_of_consumers', 0);
+    root.set('body', body);
+    return root;
+}
+
+
+

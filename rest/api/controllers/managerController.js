@@ -11,11 +11,17 @@ exports.get_manager_setting = function(req, res) {
         if(err) {
             res.send("roh row, shaggy");
         } else {
-            console.log(manager)
+            if(manager != null) {
+                console.log(manager)
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
             manager.login_credentials.password = "PaSSwoRd ProTEctIOr 90o0";
             res.json(manager);
+            } else {
+                res.statusCode = 404;
+                res.send("Could not find the manager settings.");
+            }
+            
         }
     });
 }
@@ -141,7 +147,7 @@ exports.delete_manager_settings = function(req, res) {
             res.send("Could not find the manager settings");
         } else {
             res.statusCode = 200;
-            res.send("The manager settings are now gone, gooooonee i tell yee");
+            res.send("The manager settings are now deleted.");
         }
     });
 }
