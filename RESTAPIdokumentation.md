@@ -155,3 +155,39 @@ You need to input a body on the below format:
 }
 ```
 
+### Manager Settings
+
+#### Get all manager settings
+**GET** to **/managersettings/get**
+
+You will recieve a response on the form:
+```json
+{
+    "img_url": "mannen.img",
+    "_id": "5fc7b4acfaf96a00a3c0940d",
+    "id": "Manager",
+    "battery_warning_threshold": 35,
+    "login_credentials": {
+        "_id": "5fc7b4acfaf96a00a3c0940e",
+        "password": "PaSSwoRd ProTEctIOr 90o0",
+        "online": 2
+    },
+    "__v": 0
+}
+```
+
+#### Add a new manager setting
+**POST** to **/managersettings**
+
+
+You need to input a body on the below format:
+```json
+{
+    "img_url": "www.mannen.img",
+    "battery_warning_threshold": "35",
+    "login_credentials": {
+        "password": "secure123",
+        "online": "0"
+    }
+}
+```
