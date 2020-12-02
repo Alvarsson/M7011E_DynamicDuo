@@ -174,3 +174,15 @@ exports.add_prosumer_setting = function (req,res) {
     });
   }
 }
+
+exports.delete_prosumer_settings = function(req,res) {
+  ProsumerSettings.deleteOne({id: req.params.id}, function(err, prosumer) {
+    if (err) {
+      res.statusCode = 418;
+      res.send("Could not find the settings for that prosumer");
+    } else {
+      res.statusCode = 200;
+      res.send("The prosumer settings are now deleted");
+    }
+  });
+}

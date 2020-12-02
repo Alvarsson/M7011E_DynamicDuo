@@ -2,10 +2,13 @@
 
 module.exports = function(app) {
 	var prosumer = require('../controllers/prosumerController');
+	var prosumer_log = require('../controllers/prosumerLogController');
 	var manager = require('../controllers/managerController');
 	//  If we want to use several files with just the route variable name, we could create the index file and export from there.
 	
 	// --------- PROSUMER ---------
+
+	// ---- settings ----
 	app.route('/prosumersettings')
 		//.get(prosumer.get_prosumer_setting) // Should return all prosumer settings, TODO: write controller
 		.post(prosumer.add_prosumer_setting); // add new prosumer setting
@@ -25,10 +28,21 @@ module.exports = function(app) {
 	app.route('/prosumersettings/:id/battery_warning_threshold')
 		.put(prosumer.update_prosumer_settings_battery_warning_threshold); // update battery warn threshold for id
 	
+	app.route('/prosumersettings/:id/delete')
+		.delete(prosumer.delete_prosumer_settings);
+	// ---- log ----
+	app.route('/prosumerlog')
+		.post(prosumer_log.add_prosumer_log);
+
+	app.route('/prosumerlog/:id')
+		.get(prosumer_log.get_prosumer_log);
+	
+	app.route('/prosumerlog/:id/delete')
+		.delete(prosumer_log.delete_prosumer_logs);
+	
 	// --------- MANAGER ---------
 
 	app.route('/man')
-		.get(manager.get_manager_setting)
 		.post(manager.add_manager_setting);
 	
 	app.route('/getman')
@@ -41,4 +55,6 @@ module.exports = function(app) {
 		.put(manager.update_manager_settings_online);
 	app.route('/man/battery_warning_threshold')
 		.put(manager.update_manager_settings_battery_warning_threshold);
+	app.route('/man/delete')
+		.delete(manager.delete_manager_settings);
 };
