@@ -335,3 +335,74 @@ You can expect a response as:
 The manager settings are now deleted.
 ```
 
+### Manager Logs
+
+#### Add a manager log
+**POST** to **/managerlog**
+
+You will need to send a body with the form below:
+```json
+{
+    "market_price": "12",
+    "battery_level": "2500",
+    "production": "900",
+    "tick": "14",
+    "total_net_consumption": "1000",
+    "power_plant_consumption": "130",
+    "nr_of_consumers": "8"
+}
+```
+
+#### Get all manager logs
+**GET** to **/managerlog/getall**
+
+You will get a response with the form:
+```json
+[
+    {
+        "_id": "5fc7bdfd31ce3400cae2839c",
+        "id": "Manager",
+        "market_price": 12,
+        "battery_level": 2500,
+        "production": 900,
+        "tick": 14,
+        "total_net_consumption": 1000,
+        "power_plant_consumption": 130,
+        "nr_of_consumers": 8,
+        "__v": 0
+    }
+]
+```
+
+#### Get latest manager log
+**GET** to **/managerlog/getlatest**
+
+You will get a response with the form:
+```json
+[
+    {
+        "_id": "5fc7bdfd31ce3400cae2839c",
+        "id": "Manager",
+        "market_price": 12,
+        "battery_level": 2550,
+        "production": 600,
+        "tick": 15,
+        "total_net_consumption": 1000,
+        "power_plant_consumption": 130,
+        "nr_of_consumers": 8,
+        "__v": 0
+    }
+]
+```
+
+#### Delete all manager logs
+**DELETE** to **/managerlog/delete**
+
+You will get a response as:
+```json
+The manager logs are now deleted
+
+
+
+
+
