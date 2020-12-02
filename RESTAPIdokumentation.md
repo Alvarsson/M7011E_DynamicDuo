@@ -2,8 +2,8 @@
 The base path for these calls will be: **http://SERVER_IP:3001**
 
 # Table Of Contents
-1. [Prosumer Settings](###Prosumer Settings)
-    1. [Get all prosumer setting](####Get all prosumer setting)
+1. [Prosumer Settings](###pro_settings)
+    1. [Get all prosumer setting](####all_pro_settings)
 2. [Some paragraph](#paragraph1)
     1. [Sub paragraph](#subparagraph1)
 3. [Another paragraph](#paragraph2)
@@ -21,9 +21,9 @@ This is a sub paragraph, formatted in heading 3 style
 The second paragraph text
 
 
-### Prosumer Settings
+### Prosumer Settings <a name="pro_settings"></a>
 
-#### Get all prosumer setting
+#### Get all prosumer setting <a name="all_pro_settings"></a>
 **GET** to **/prosumersettings**
 
 You will recieve a response on the form:
