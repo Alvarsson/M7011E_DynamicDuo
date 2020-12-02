@@ -2,8 +2,8 @@
 The base path for these calls will be: **http://SERVER_IP:3001**
 
 # Table Of Contents
-1. [Prosumer Settings](###pro_settings)
-    1. [Get all prosumer setting](####all_pro_settings)
+1. [Prosumer Settings](#pro_settings)
+    1. [Get all prosumer setting](#all_pro_settings)
 2. [Some paragraph](#paragraph1)
     1. [Sub paragraph](#subparagraph1)
 3. [Another paragraph](#paragraph2)
