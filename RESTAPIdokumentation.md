@@ -4,22 +4,35 @@ The base path for these calls will be: **http://SERVER_IP:3001**
 # Table Of Contents
 1. [Prosumer Settings](#pro_settings)
     1. [Get all prosumer setting](#all_pro_settings)
-2. [Some paragraph](#paragraph1)
-    1. [Sub paragraph](#subparagraph1)
-3. [Another paragraph](#paragraph2)
-
-## This is the introduction <a name="introduction"></a>
-Some introduction text, formatted in heading 2 style
-
-## Some paragraph <a name="paragraph1"></a>
-The first paragraph text
-
-### Sub paragraph <a name="subparagraph1"></a>
-This is a sub paragraph, formatted in heading 3 style
-
-## Another paragraph <a name="paragraph2"></a>
-The second paragraph text
-
+    2. [Get a prosumer setting](#a_pro_settings)
+    3. [Add a new prosumer setting](#new_pro_setting)
+    4. [Update prosumer setting: img_url](#upd_pro_img)
+    5. [Update prosumer setting: password](#upd_pro_pw)
+    6. [Update prosumer setting: online](#upd_pro_online)
+    7. [Update prosumer setting: distr_over](#upd_pro_dist_over)
+    8. [Update prosumer setting: distr_under](#upd_pro_dist_under)
+    9. [Update prosumer setting: battery_warning_threshold](#upd_pro_bat)
+    10. [Delete prosumer setting](#del_pro_set)
+    
+2. [Prosumer Logs](#pro_log)
+    1. [Add a prosumer log](#add_pro_log)
+    2. [Get all logs from specific prosumer](#get_all_pro_log)
+    3. [Get the latest log from specific prosumer](#get_lat_pro_log)
+    4. [Delete all logs from a specific prosumer](#del_pro_log)
+    
+3. [Manager Settings](#man_set)
+    1. [Get all manager settings](#man_set_all)
+    2. [Add a new manager setting](#man_set_add_new)
+    3. [Update manager setting: img_url](#man_set_upd_img)
+    4. [Update manager setting: password](#man_set_upd_pw)
+    5. [Update manager setting: online](#man_set_upd_onl)
+    6. [Update manager setting: battery_warning_threshold](#man_set_upd_bat)
+    7. [Delete manager setting](#man_set_del)
+4. [Manager Logs](#man_log)
+    1. [Add a manager log](#man_log_add)
+    2. [Get all manager logs](#man_log_all)
+    3. [Get latest manager log](#man_log_lat)
+    4. [Delete all manager logs](#man_log_del)
 
 ### Prosumer Settings <a name="pro_settings"></a>
 
@@ -49,7 +62,7 @@ You will recieve a response on the form:
 ```
 
 
-#### Get a prosumer setting
+#### Get a prosumer setting <a name="a_pro_settings"></a>
 **GET** to **/prosumersettings/*id***
 
 Here, id is the id of the prosumerSetting you want to get.
@@ -75,7 +88,7 @@ You will recieve a response on the form:
 }
 ```
 
-#### Add a new prosumer setting
+#### Add a new prosumer setting <a name="new_pro_setting"></a>
 **POST** to **/prosumersettings**
 
 
@@ -98,7 +111,7 @@ You need to input a body on the below format:
 }
 ```
 
-#### Update prosumer setting: img_url
+#### Update prosumer setting: img_url <a name="upd_pro_img"></a>
 **PUT** to **/prosumersettings/*id*/img_url**
 
 Here, id is the id of the prosumerSetting you want to update.
@@ -109,7 +122,7 @@ You need to input a body on the below format:
 }
 ```
 
-#### Update prosumer setting: password
+#### Update prosumer setting: password <a name="upd_pro_pw"></a>
 **PUT** to **/prosumersettings/*id*/password**
 
 Here, id is the id of the prosumerSetting you want to update.
@@ -122,7 +135,7 @@ You need to input a body on the below format:
 }
 ```
 
-#### Update prosumer setting: online
+#### Update prosumer setting: online <a name="upd_pro_online"></a>
 **PUT** to **/prosumersettings/*id*/online**
 
 Here, id is the id of the prosumerSetting you want to update.
@@ -135,7 +148,7 @@ You need to input a body on the below format:
 }
 ```
 
-#### Update prosumer setting: distr_over
+#### Update prosumer setting: distr_over <a name="upd_pro_dist_over"></a>
 **PUT** to **/prosumersettings/*id*/distr_over**
 
 Here, id is the id of the prosumerSetting you want to update.
@@ -149,7 +162,7 @@ You need to input a body on the below format:
 }
 ```
 
-#### Update prosumer setting: distr_under
+#### Update prosumer setting: distr_under <a name="upd_pro_dist_under"></a>
 **PUT** to **/prosumersettings/*id*/distr_under**
 
 Here, id is the id of the prosumerSetting you want to update.
@@ -163,7 +176,7 @@ You need to input a body on the below format:
 }
 ```
 
-#### Update prosumer setting: battery_warning_threshold
+#### Update prosumer setting: battery_warning_threshold <a name="upd_pro_bat"></a>
 **PUT** to **/prosumersettings/*id*/battery_warning_threshold**
 
 Here, id is the id of the prosumerSetting you want to update.
@@ -174,7 +187,7 @@ You need to input a body on the below format:
 }
 ```
 
-#### Delete prosumer setting
+#### Delete prosumer setting <a name="del_pro_set"></a>
 **DELETE** to **/prosumersettings/*id*/delete**
 
 Here, id is the id of the prosumerSetting you want to update.
@@ -183,9 +196,9 @@ You can expect a response as:
 The prosumer settings are now deleted
 ```
 
-### Prosumer Logs
+### Prosumer Logs <a name="pro_log"></a>
 
-#### Add a prosumer log
+#### Add a prosumer log <a name="add_pro_log"></a>
 **POST** to **/prosumerlog**
 
 You will need to send a body with the form below:
@@ -204,7 +217,7 @@ You will need to send a body with the form below:
 }
 ```
 
-#### Get all logs from specific prosumer
+#### Get all logs from specific prosumer <a name="get_all_pro_log"></a>
 **GET** to **/prosumerlog/:id/getall**
 
 Here the id is the id of the prosumer you want to get logs from.
@@ -229,7 +242,7 @@ You will get a response in the form of:
 ]
 ```
 
-#### Get the latest log from specific prosumer
+#### Get the latest log from specific prosumer <a name="get_lat_pro_log"></a>
 **GET** to **/prosumerlog/:id/getlatest**
 
 Here the id is the id of the prosumer you want to get the latest log from.
@@ -254,7 +267,7 @@ You will get a response in the form of:
 ]
 ```
 
-#### Delete all logs from a specific prosumer
+#### Delete all logs from a specific prosumer <a name="del_pro_log"></a>
 **DELETE** to **/prosumerlog/:id/delete**
 
 Here the id is the id of the prosumer you want to delete logs from.
@@ -264,9 +277,9 @@ The prosumer logs are deleted
 ```
 
 
-### Manager Settings
+### Manager Settings <a name="man_set"></a>
 
-#### Get all manager settings
+#### Get all manager settings <a name="man_set_all"></a>
 **GET** to **/managersettings/get**
 
 You will recieve a response on the form:
@@ -285,7 +298,7 @@ You will recieve a response on the form:
 }
 ```
 
-#### Add a new manager setting
+#### Add a new manager setting <a name="man_set_add_new"></a>
 **POST** to **/managersettings**
 
 The manager has a set id "Manager" since there will only be one.
@@ -301,7 +314,7 @@ You need to input a body on the below format:
 }
 ```
 
-#### Update manager setting: img_url
+#### Update manager setting: img_url <a name="man_set_upd_img"></a>
 **PUT** to **/managersettings/img_url**
 
 The id is already set for the manager.
@@ -312,7 +325,7 @@ You only need to input a body with the format below:
 }
 ```
 
-#### Update manager setting: password
+#### Update manager setting: password <a name="man_set_upd_pw"></a>
 **PUT** to **/managersettings/password**
 
 You need to input a body with the format below:
@@ -324,7 +337,7 @@ You need to input a body with the format below:
 }
 ```
 
-#### Update manager setting: online
+#### Update manager setting: online <a name="man_set_upd_onl"></a>
 **PUT** to **/managersettings/online**
 
 You need to input a body on the below format:
@@ -336,7 +349,7 @@ You need to input a body on the below format:
 }
 ```
 
-#### Update manager setting: battery_warning_threshold
+#### Update manager setting: battery_warning_threshold <a name="man_set_upd_bat"></a>
 **PUT** to **/managersettings/battery_warning_threshold**
 
 You need to input a body on the below format:
@@ -346,7 +359,7 @@ You need to input a body on the below format:
 }
 ```
 
-#### Delete manager setting
+#### Delete manager setting <a name="man_set_del"></a>
 **DELETE** to **/managersettings/delete**
 
 You can expect a response as:
@@ -354,9 +367,9 @@ You can expect a response as:
 The manager settings are now deleted.
 ```
 
-### Manager Logs
+### Manager Logs <a name="man_log"></a>
 
-#### Add a manager log
+#### Add a manager log <a name="man_log_add"></a>
 **POST** to **/managerlog**
 
 You will need to send a body with the form below:
@@ -372,7 +385,7 @@ You will need to send a body with the form below:
 }
 ```
 
-#### Get all manager logs
+#### Get all manager logs <a name="man_log_all"></a>
 **GET** to **/managerlog/getall**
 
 You will get a response with the form:
@@ -393,7 +406,7 @@ You will get a response with the form:
 ]
 ```
 
-#### Get latest manager log
+#### Get latest manager log <a name="man_log_lat"></a>
 **GET** to **/managerlog/getlatest**
 
 You will get a response with the form:
@@ -414,7 +427,7 @@ You will get a response with the form:
 ]
 ```
 
-#### Delete all manager logs
+#### Delete all manager logs <a name="man_log_del"></a>
 **DELETE** to **/managerlog/delete**
 
 You will get a response as:
