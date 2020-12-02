@@ -83,3 +83,16 @@ module.exports.battery_warning_thresholdMap = function(){
     root.set('body', body);
     return root;
 }
+// manager complete map
+module.exports.completeManagerMap = function(){
+    var root = new Map();
+    var body = new Map();
+    var login = new Map();
+    login.set('password', 0);
+    login.set('online', 0);
+    body.set('login_credentials', login);
+    body.set('img_url', 0);
+    body.set('battery_warning_threshold', 0);
+    root.set('body', body);
+    return root;
+}
