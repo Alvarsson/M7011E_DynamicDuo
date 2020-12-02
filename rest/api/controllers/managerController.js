@@ -118,3 +118,15 @@ exports.add_manager_setting = function (req, res) {
         res.send("Something wong, no try is good enough: " + e)
     }
 }
+
+exports.delete_manager_settings = function(req, res) {
+    ManagerSettings.deleteOne({id: "Manager"}, function(err, manager){
+        if (err) {
+            res.statusCode = 418;
+            res.send("Could not find the manager settings");
+        } else {
+            res.statusCode = 200;
+            res.send("The manager settings are now gone, gooooonee i tell yee");
+        }
+    });
+}
