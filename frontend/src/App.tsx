@@ -1,22 +1,18 @@
 import React from 'react';
 
-import Jumbotron from 'react-bootstrap/Jumbotron';
+import Distributions from './components/distribution/distribution'
 import Container from 'react-bootstrap/Container';
 
-import ButtonsShowcase from './showcases/Buttons';
 
 const App: React.FC = () => {
   return (
     <Container className="p-3">
-      <Jumbotron>
-        <h1 className="header">
-          Welcome To React-Bootstrap TypeScript Example
-        </h1>
-      </Jumbotron>
-      <h2>Buttons</h2>
-      <ButtonsShowcase />
+      <Distributions /> 
     </Container>
+    
   );
 };
 
 export default App;
+
+
