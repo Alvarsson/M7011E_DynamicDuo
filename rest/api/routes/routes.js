@@ -10,7 +10,7 @@ module.exports = function(app) {
 
 	// ---- settings ----
 	app.route('/prosumersettings')
-		//.get(prosumer.get_prosumer_setting) // Should return all prosumer settings, TODO: write controller
+		.get(prosumer.get_all_prosumer_settings) // Should return all prosumer settings
 		.post(prosumer.add_prosumer_setting); // add new prosumer setting
 
 	app.route('/prosumersettings/:id')

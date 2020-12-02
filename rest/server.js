@@ -2,8 +2,9 @@ var express = require('express'),
 app = express(),
 port = process.env.BACKEND_PORT_HOST || 100000,
 mongoose = require('mongoose'),
-Prosumer = require('./api/models/prosumer_settings_model'),
+ProsumerSettings = require('./api/models/prosumer_settings_model'),
 Manager = require('./api/models/manager_settings_model'),
+ProsumerLog = require('./api/models/prosumer_log_model'),
 bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;

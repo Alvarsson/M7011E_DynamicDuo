@@ -49,7 +49,7 @@ module.exports.distr_overMap = function(){
     var distr = new Map();
     distr.set('sell', 0);
     distr.set('store', 0);
-    body.set('distribution', login);
+    body.set('distribution', distr);
     root.set('body', body);
     return root;
 }
@@ -61,7 +61,7 @@ module.exports.distr_underMap = function(){
     var distr = new Map();
     distr.set('buy', 0);
     distr.set('drain', 0);
-    body.set('distribution', login);
+    body.set('distribution', distr);
     root.set('body', body);
     return root;
 }

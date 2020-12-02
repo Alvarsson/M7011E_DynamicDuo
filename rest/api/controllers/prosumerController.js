@@ -5,6 +5,25 @@ Util = require('../util/api_utils'),
 BodyMaps = require('./bodyMaps'),
 ProsumerSettings = mongoose.model('ProsumerSettings');
 
+exports.get_all_prosumer_settings = function(req, res) {
+  ProsumerSettings.find({}, function(err, prosumers) {
+    if (err){
+      res.send("sum ting wong");
+    } else{
+      var i = 0;
+      for (i = 0; i<prosumers.length; i++){
+        if(prosumers[i] != null){
+          prosumers[i].login_credentials.password ="no you, mr hackerman"; // sophisticated password protection
+        }
+      }
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.json(prosumers);
+    }
+  });    
+}
+
+
 
 exports.get_prosumer_setting = function(req, res) {
   ProsumerSettings.findOne({id:req.params.id}, function(err, prosumer) {
