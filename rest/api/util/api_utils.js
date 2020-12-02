@@ -1,7 +1,3 @@
-
-
-
-
 /* This function will return true if all required fields are present.
 Req: a http request (or similar structure)
 check: the fields to be checked, you can get these from X <- TODO
