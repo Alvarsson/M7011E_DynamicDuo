@@ -1,28 +1,28 @@
 'use strict';
 
 var mongoose = require('mongoose'),
+Util = require('../util/api_utils'),
 ProsumerSettings = mongoose.model('ProsumerSettings');
 
 
 exports.get_prosumer_setting = function(req, res) {
-    ProsumerSettings.findOne({id:req.params.id}, function(err, prosumer) {
-      if (err){
-        res.send("sum ting wong");
+  ProsumerSettings.findOne({id:req.params.id}, function(err, prosumer) {
+    if (err){
+      res.send("sum ting wong");
+    } else{
+      if (prosumer != null){
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        prosumer.login_credentials.password ="no you, mr hackerman"; // sophisticated password protection
+        res.json(prosumer);
       } else{
-        if (prosumer != null){
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json');
-          prosumer.login_credentials.password ="no you, mr hackerman"; // sophisticated password protection
-          res.json(prosumer);
-        } else{
-          res.statusCode = 404;
-          res.send();
-        }
+        res.statusCode = 404;
+        res.send();
       }
-    });    
+    }
+  });    
 }
 
-// TODO: Check valid body, help function?
 exports.update_prosumer_settings_img_url = function(req,res) {
   console.log(req.params.id);
   ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{img_url:req.body.img_url}},function(err, prosumer) {
@@ -38,15 +38,31 @@ exports.update_prosumer_settings_img_url = function(req,res) {
 }
 
 exports.update_prosumer_settings_password = function(req,res) {
-  ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{"login_credentials.password": req.body.login_credentials.password}},function(err, prosumer) {
-    if(err) {
-      res.statusCode = 418;
-      res.send("sum ting wong when updating password");
-    } else{
-      res.statusCode = 204;
-      res.send();
-    }
-  });
+  /* --- for testing ---*/
+  var check = new Map();
+  var body = new Map();
+  var login = new Map();
+  login.set('password', 0);
+  body.set('login_credentials', login);
+  check.set('body', body);
+  var valid = Util.validBody(req, check);
+  if(!valid){
+    res.statusCode = 400;
+    res.send('BADU INPUTTUH');
+    return;
+  } else{
+    ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{"login_credentials.password": req.body.login_credentials.password}},function(err, prosumer) {
+      if(err) {
+        res.statusCode = 418;
+        res.send("sum ting wong when updating password");
+      } else{
+        res.statusCode = 204;
+        res.send();
+      }
+    });
+  }
+  /* --- for testing ---*/
+  
 }
 
 exports.update_prosumer_settings_distr_over = function(req,res) {
@@ -138,4 +154,4 @@ exports.add_prosumer_setting = function (req,res) {
     res.send("Something went wrong: " + e)
   }
   // inserta ny prosumersetting:
-  }
+}
