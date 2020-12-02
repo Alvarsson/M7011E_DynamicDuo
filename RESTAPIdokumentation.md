@@ -124,8 +124,8 @@ You need to input a body on the below format:
 ```json
 {
     "distribution":{
-      "sell": 0.2,
-      "store": 0.8
+      "sell": "0.2",
+      "store": "0.8"
     }
 }
 ```
@@ -138,8 +138,8 @@ You need to input a body on the below format:
 ```json
 {
     "distribution":{
-      "buy": 0.2,
-      "drain": 0.8
+      "buy": "0.2",
+      "drain": "0.8"
     }
 }
 ```
@@ -151,7 +151,7 @@ Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
 ```json
 {
-    "battery_warning_threshold": 50
+    "battery_warning_threshold": "50"
 }
 ```
 
@@ -163,6 +163,87 @@ You can expect a response as:
 ```json
 The prosumer settings are now deleted
 ```
+
+### Prosumer Logs
+
+#### Add a prosumer log
+**POST** to **/prosumerlog**
+
+You will need to send a body with the form below:
+```json
+{
+    "id": "Haxel",
+    "consumption": "40",
+    "production": "30",
+    "tick": "10",
+    "battery_level": "110",
+    "broken_turbine": "false",
+    "weather": {
+        "wind_speed": "6",
+        "temperature": "10"
+    }
+}
+```
+
+#### Get all logs from specific prosumer
+**GET** to **/prosumerlog/:id/getall**
+
+Here the id is the id of the prosumer you want to get logs from.
+You will get a response in the form of:
+```json
+[
+    {
+        "_id": "5fc7ba56440f1000bc58faad",
+        "id": "Haxel",
+        "consumption": 40,
+        "production": 30,
+        "tick": 10,
+        "battery_level": 110,
+        "broken_turbine": false,
+        "weather": {
+            "_id": "5fc7ba56440f1000bc58faae",
+            "wind_speed": 6,
+            "temperature": 10
+        },
+        "__v": 0
+    }
+]
+```
+
+#### Get the latest log from specific prosumer
+**GET** to **/prosumerlog/:id/getlatest**
+
+Here the id is the id of the prosumer you want to get the latest log from.
+You will get a response in the form of:
+```json
+[
+    {
+        "_id": "5fc7ba56440f1000bc58faad",
+        "id": "Haxel",
+        "consumption": 45,
+        "production": 30,
+        "tick": 11,
+        "battery_level": 110,
+        "broken_turbine": false,
+        "weather": {
+            "_id": "5fc7ba56440f1000bc58faae",
+            "wind_speed": 6,
+            "temperature": 11
+        },
+        "__v": 0
+    }
+]
+```
+
+#### Delete all logs from a specific prosumer
+**DELETE** to **/prosumerlog/:id/delete**
+
+Here the id is the id of the prosumer you want to delete logs from.
+You will get a response in the form below:
+```json
+The prosumer logs are deleted
+```
+
 
 ### Manager Settings
 
@@ -245,3 +326,12 @@ You need to input a body on the below format:
     "battery_warning_threshold": "200"
 }
 ```
+
+#### Delete manager setting
+**DELETE** to **/managersettings/delete**
+
+You can expect a response as:
+```json
+The manager settings are now deleted.
+```
+
