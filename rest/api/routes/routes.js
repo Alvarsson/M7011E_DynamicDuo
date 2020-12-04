@@ -5,6 +5,8 @@ module.exports = function(app) {
 	var prosumer_log = require('../controllers/prosumerLogController');
 	var manager = require('../controllers/managerController');
 	var manager_log = require('../controllers/managerLogController');
+	var wind_speed = require('../controllers/windSpeedController');
+	var blackout = require('../controllers/blackoutController');
 	//  If we want to use several files with just the route variable name, we could create the index file and export from there.
 	
 	// --------- PROSUMER ---------
@@ -73,4 +75,23 @@ module.exports = function(app) {
 		.get(manager_log.get_latest_manager_log);
 	app.route('/managerlog/delete') // delete all manager logs
 		.delete(manager_log.delete_manager_logs);
+
+	// ----------- WIND SPEED -----------
+
+
+	app.route('/windspeed')	// add wind speed data
+		.post(wind_speed.add_wind_speed);
+	app.route('/windspeed/get') // get wind speed data
+		.get(wind_speed.get_wind_speed);
+
+	// ----------- BLACK OUT ------------
+
+	app.route('/prosumer_blackout') // add prosumer blackout data
+		.post(blackout.add_prosumer_blackout);
+	app.route('/prosumer_blackout/get') // get prosumer blackout data
+		.get(blackout.get_prosumer_blackout);
+	app.route('/consumer_blackout')// add consumer blackout data
+		.post(blackout.add_consumer_blackout);
+	app.route('/consumer_blackout/get')// get consumer blackout data
+		.get(blackout.get_consumer_blackout);
 };

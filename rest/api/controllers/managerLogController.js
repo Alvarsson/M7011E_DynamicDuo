@@ -75,7 +75,7 @@ exports.add_manager_log = function(req,res) {
         function(err, manager){
             if(err) {
                 res.statusCode = 418;
-                res.send('A teapot tried to create this log but failed');
+                res.send('A teapot tried to create this log, but failed');
             } else {
                 res.json('Manager log created.');
             }

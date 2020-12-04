@@ -129,4 +129,24 @@ module.exports.add_manager_logMap = function(){
 }
 
 
+module.exports.add_wind_speedMap = function(){
+    var root = new Map();
+    var body = new Map();
+    body.set('tick', 0);
+    body.set('wind_speed', 0);
+    root.set('body', body);
+    return root;
+}
+
+module.exports.add_blackoutMap = function(){
+    var root = new Map();
+    var body = new Map();
+    body.set('id', 0);
+    body.set('tick', 0);
+    body.set('amount', 0);
+    root.set('body', body);
+    return root;
+}
+
+
 

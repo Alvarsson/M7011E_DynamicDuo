@@ -6,6 +6,8 @@ Prosumer = require('./api/models/prosumer_settings_model'),
 ProsumerLog = require('./api/models/prosumer_log_model'),
 Manager = require('./api/models/manager_settings_model'),
 ManagerLog = require('./api/models/manager_log_model'),
+WindSPeed = require('./api/models/wind_speed_model'),
+Blackout = require('./api/models/blackout_model'),
 
 bodyParser = require('body-parser');
 
