@@ -49,10 +49,10 @@ const Distribution: React.FC<Props> = () => {
     return axios
       .put("http://localhost:3001/prosumersettings/lisa2/distr_over", {
         distribution: {
-          sell: 0.1, //1 - valA / 100,
-          store: 0.55, //valA / 100,}
+          sell: 1 - valA / 100,
+          store: valA / 100,}
         },
-      })
+      )
       .then((response) => console.log(response));
   }
 
@@ -62,8 +62,8 @@ const Distribution: React.FC<Props> = () => {
     return axios
       .put("http://localhost:3001/prosumersettings/lisa2/distr_under", {
         distribution: {
-          buy: 0.6, //1 - valB / 100,
-          drain: 0.7, //valB/ 100,
+          buy: 1 - valB / 100,
+          drain: valB/ 100,
         },
       })
       .then((response) => console.log(response));
