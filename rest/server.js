@@ -5,11 +5,9 @@ mongoose = require('mongoose'),
 Prosumer = require('./api/models/prosumer_settings_model'),
 ProsumerLog = require('./api/models/prosumer_log_model'),
 Manager = require('./api/models/manager_settings_model'),
-<<<<<<< HEAD
 ManagerLog = require('./api/models/manager_log_model'),
 WindSPeed = require('./api/models/wind_speed_model'),
 Blackout = require('./api/models/blackout_model'),
-=======
 ManagerLog = require('./api/models/manager_log_model')
 
 var cors = require('cors')
@@ -17,7 +15,6 @@ var cors = require('cors')
 app.use(cors())
 app.options('*',cors())
 
->>>>>>> 8ae0f04... small changes in backend. Added cors settings and some prints for debugging. Added a component to the homepage. Very WIP
 
 bodyParser = require('body-parser');
 
