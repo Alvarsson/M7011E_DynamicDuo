@@ -85,6 +85,7 @@ exports.update_prosumer_settings_password = function(req,res) {
 }
 
 exports.update_prosumer_settings_distr_over = function(req,res) {
+    console.log(req.body)
   var valid = Util.validBody(req, BodyMaps.distr_overMap());
   if (!valid) {
     res.statusCode = 400;
