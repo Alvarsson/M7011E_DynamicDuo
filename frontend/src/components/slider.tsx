@@ -25,9 +25,8 @@ const MySlider: React.FC<Props> = ({
   const [value, setValue] = useState(defaultValue);
 
   function log1(value: number) {
-    setValue(value);
+    setValue(value); //store the value in current state
     funn(value); //callback to parent
-
 
     return null;
   }
@@ -37,7 +36,7 @@ const MySlider: React.FC<Props> = ({
       <Row>
         <Col>
           {" "}
-          {labelLeft + "/" + labelRight} {100 - value + "/" + value}
+          {labelLeft + "/" + labelRight+":"} {100 - value + "/" + value}
         </Col>
         <Col>
           <Slider onChange={log1} defaultValue={defaultValue} />

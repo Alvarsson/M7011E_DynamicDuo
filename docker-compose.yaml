@@ -5,19 +5,17 @@ version: "3"
 
 ####################### DEV version 1
 
-
 services:
-  # frontend:
-  #   container_name: frontend
-  #   build: ./frontend
-  #   ports:
-  #     - "3000:3000"
-  #   labels:
-  #     NAME: "frontend"
-  #   networks:
-  #     - app-network
-  #   environment:
-  #     CHOKIDAR_USEPOLLING: 'true'
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    volumes:
+       - ./frontend:/usr/src/app/frontend
+       - /usr/src/app/frontend/node_modules
 
   mongo-db:
     container_name: database

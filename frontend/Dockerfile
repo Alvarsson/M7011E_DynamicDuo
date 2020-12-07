@@ -1,8 +1,12 @@
-FROM mhart/alpine-node:12 
-WORKDIR /app
-COPY . .
-RUN npm install react-scripts -g --silent
-RUN yarn install
+FROM node:14-alpine 
 
+WORKDIR /usr/src/app/frontend
 
-CMD ["yarn","start"]
+COPY package*.json ./
+
+RUN npm install
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+

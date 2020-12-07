@@ -26,8 +26,8 @@ const Distribution: React.FC<Props> = () => {
     setValB(value);
     return null;
   }
-
-  function fetchData() {
+  //TODO: nu vill jag bara fetcha data när vi öppnar sidan och sen spara de värdena som defaults
+  function fetchData() { //nu vill jag bara fetcha data när vi öppnar sidan och sen spara de värdena som defaults
     console.log("val " + valA);
     console.log("val " + valB);
 
@@ -87,7 +87,7 @@ const Distribution: React.FC<Props> = () => {
 
       <p>{""}</p>
 
-      <Button onClick={postChanges}> Fetch that shit </Button>
+      <Button onClick={postChanges}> Save </Button>
     </Container>
   );
 };
