@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import Container from "react-bootstrap/Container";
 
-import MySlider from "./slider";
+import LabelledSlider from "./LabelledSlider";
 
 import Button from "react-bootstrap/Button";
 
@@ -59,18 +59,18 @@ const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
   return (
     <Container className="p-3">
       <h4>{"For over-production:"}</h4>
-      <MySlider
+      <LabelledSlider
         labelLeft={"Sell"}
         labelRight={"Store"}
         defaultValue={valA}
-        funn={handleA}
+        callback={handleA}
       />
       <h4>{"For under-production:"}</h4>
-      <MySlider
+      <LabelledSlider
         labelLeft={"Buy"}
         labelRight={"Drain"}
         defaultValue={valB}
-        funn={handleB}
+        callback={handleB}
       />
 
       <Button onClick={postChanges}> Save </Button>

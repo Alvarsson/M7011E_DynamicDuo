@@ -13,20 +13,20 @@ interface Props {
   labelLeft: string;
   labelRight: string;
   defaultValue: number;
-  funn: (val: number) => null;
+  callback: (val: number) => null;
 }
 
-const MySlider: React.FC<Props> = ({
+const LabelledSlider: React.FC<Props> = ({
   labelLeft = "left",
   labelRight = "right",
   defaultValue= 55,
-  funn,
+  callback,
 }) => {
   const [value, setValue] = useState(defaultValue);
 
-  function log1(value: number) {
-    setValue(value); //store the value in current state
-    funn(value); //callback to parent
+  function log1(newValue: number) {
+    setValue(newValue); //store the value in current state
+    callback(newValue); //callback to parent
 
     return null;
   }
@@ -46,4 +46,4 @@ const MySlider: React.FC<Props> = ({
   );
 };
 
-export default MySlider;
+export default LabelledSlider;
