@@ -7,6 +7,8 @@ module.exports = function(app) {
 	var manager_log = require('../controllers/managerLogController');
 	var wind_speed = require('../controllers/windSpeedController');
 	var blackout = require('../controllers/blackoutController');
+	var user = require('../controllers/authController');
+	const { auth } = require('../middleware/auth');
 	//  If we want to use several files with just the route variable name, we could create the index file and export from there.
 	
 	// --------- PROSUMER ---------
@@ -93,5 +95,19 @@ module.exports = function(app) {
 	app.route('/consumer_blackout')// add consumer blackout data
 		.post(blackout.add_consumer_blackout);
 	app.route('/consumer_blackout/get')// get consumer blackout data
-		.get(blackout.get_consumer_blackout);
+		.get(blackout.get_consumer_blackout);	
+	
+	// ---------- AUTHENTICATION -------------
+	app.route('/login')
+		.post(user.LoginUser);
+	app.route('/logout')
+		.get(auth, user.LogoutUser);
+	app.route('/register')
+		.post(user.RegisterUser);
+	app.route('/details')
+		.get(auth, user.getUserDetails);
+
 };
+
+
+	
