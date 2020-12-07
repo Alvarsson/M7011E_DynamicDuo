@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Container from "react-bootstrap/Container";
 
@@ -8,84 +8,70 @@ import Button from "react-bootstrap/Button";
 
 import axios from "axios";
 
-interface Props {}
+interface Props {
+  initialValueA: number;
+  initialValueB: number;
+}
 
-const Distribution: React.FC<Props> = () => {
-  const [valA, setValA] = useState(50);
+const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
+  const [valA, setValA] = useState(initialValueA);
 
-  const [valB, setValB] = useState(50);
+  const [valB, setValB] = useState(initialValueB);
 
   function handleA(value: number) {
     //kanske kan plocka in id här och meka.. vem vet. inte såhär dock...
-    setValA(value);
+    console.log(Math.round(value));
+    setValA(Math.round(value));
     return null;
   }
 
   function handleB(value: number) {
     //kanske kan plocka in id här och meka.. vem vet. inte såhär dock...
-    setValB(value);
+    setValB(Math.round(value));
     return null;
-  }
-  //TODO: nu vill jag bara fetcha data när vi öppnar sidan och sen spara de värdena som defaults
-  function fetchData() { //nu vill jag bara fetcha data när vi öppnar sidan och sen spara de värdena som defaults
-    console.log("val " + valA);
-    console.log("val " + valB);
-
-    return axios
-      .get("http://localhost:3001/prosumersettings/lisa2")
-      .then((response) => console.log(response));
   }
 
   function postChanges() {
     postDistribution_Over();
     postDistribution_under(); //testar bara att de funkar. kanske ska göras till async/await eller göras om helt
-
-    fetchData();
   }
 
   function postDistribution_Over() {
-    console.log("sell " + (1 - valA / 100));
-
     return axios
       .put("http://localhost:3001/prosumersettings/lisa2/distr_over", {
         distribution: {
-          sell: 1 - valA / 100,
-          store: valA / 100,}
+          sell: 100 - valA,
+          store: valA,
         },
-      )
-      .then((response) => console.log(response));
+      });
   }
 
   function postDistribution_under() {
-    console.log("buy " + (1 - valB / 100));
-
     return axios
       .put("http://localhost:3001/prosumersettings/lisa2/distr_under", {
         distribution: {
-          buy: 1 - valB / 100,
-          drain: valB/ 100,
+          buy: 100 - valB,
+          drain: valB,
         },
-      })
-      .then((response) => console.log(response));
+      });
   }
 
   return (
     <Container className="p-3">
+      <h4>{"For over-production:"}</h4>
       <MySlider
-        labelLeft={"sell"}
-        labelRight={"store"}
+        labelLeft={"Sell"}
+        labelRight={"Store"}
         defaultValue={valA}
         funn={handleA}
       />
-
+      <h4>{"For under-production:"}</h4>
       <MySlider
-        labelLeft={"buy"}
-        labelRight={"drain"}
+        labelLeft={"Buy"}
+        labelRight={"Drain"}
         defaultValue={valB}
         funn={handleB}
       />
-
-      <p>{""}</p>
 
       <Button onClick={postChanges}> Save </Button>
     </Container>

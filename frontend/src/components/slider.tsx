@@ -19,7 +19,7 @@ interface Props {
 const MySlider: React.FC<Props> = ({
   labelLeft = "left",
   labelRight = "right",
-  defaultValue = 55,
+  defaultValue= 55,
   funn,
 }) => {
   const [value, setValue] = useState(defaultValue);
@@ -39,7 +39,7 @@ const MySlider: React.FC<Props> = ({
           {labelLeft + "/" + labelRight+":"} {100 - value + "/" + value}
         </Col>
         <Col>
-          <Slider onChange={log1} defaultValue={defaultValue} />
+          <Slider onChange={log1} defaultValue={defaultValue} step={1} max={100} min={0} />
         </Col>
       </Row>
     </Container>
