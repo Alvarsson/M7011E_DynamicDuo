@@ -1,17 +1,26 @@
 class Prosumer {
-    
     constructor(id) {
         this.id = id;
         this.base_consumption = 20;
-        this.pwr_production;
-        this.total_pwr_cons;
-        this.temperature_consumption = 0;
+        this.pwr_production = 20;
+        this.total_pwr_cons = 20;
+        this.temperature_consumption = 0; // needed?
+
+        //initial distribution
+        this.store_percentage = 0.5;
+        this.sell_percentage = 0.5;
+        this.buy_percentage = 0.5;
+        this.drain_percentage = 0.5,
+
+        // weather
+        this.wind_speed = 5;
+        this.temperature = 20;
 
         this.wind_pwr_to_house;
 
         this.store_to_battery; // STORE amount/tick
         this.drain_from_battery; // DRAIN amount/tick
-        this.battery_level;
+        this.battery_level = 0;
         this.battery_max = 200;
         this.sell_excess = 0;
         this.low_battery;
@@ -24,7 +33,7 @@ class Prosumer {
 
         this.tick_count_mngr = 0;
         this.pwr_blocked = false;
-        this.return_state = [];
+        this.return_state = []; // used to store distr while blocked/broken
 
         this.tick_count_turbine = 0;
         this.turbine_broken = false;
@@ -36,6 +45,14 @@ class Prosumer {
 //----- ID -----
     get_prosumer_id() {
         return this.id;
+    }
+
+// ---- weather ----
+    get_wind_speed(){
+        return this.wind_speed;
+    }
+    get_temperature(){
+        return this.temperature;
     }
 
 //------- TICK COUNTER ------
@@ -228,6 +245,19 @@ class Prosumer {
     }
     get_pwr_from_market() {
         return this.buy_from_market;
+    }
+
+    get_sell_percentage(){
+        return this.sell_percentage;
+    }
+    get_store_percentage(){
+        return this.store_percentage;
+    }
+    get_buy_percentage(){
+        return this.buy_percentage;
+    }
+    get_drain_percentage(){
+        return this.drain_percentage;
     }
 }
 module.exports = Prosumer;

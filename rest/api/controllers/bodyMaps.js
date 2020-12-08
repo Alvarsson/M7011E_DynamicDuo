@@ -89,6 +89,7 @@ module.exports.add_prosumer_logMap = function() {
     var weather = new Map();
     weather.set('wind_speed', 0);
     weather.set('temperature', 0);
+    body.set("id", 0);
     body.set('weather', weather);
     body.set('consumption', 0);
     body.set('production', 0);

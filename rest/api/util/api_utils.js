@@ -7,10 +7,12 @@ module.exports.validBody = function(req, check){
       if(typeof value == 'object'){
         var valid = this.validBody(req[key], value); // call on inner object
         if(!valid){
+          console.log("NOT VALID: ", key, value);
           return false;
         }
       } else{ // no nested under this
         if(req[key] == undefined){
+          console.log("GOT UNDEFINED on ", key);
           return false;
         }
       }

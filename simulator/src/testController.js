@@ -4,7 +4,7 @@ const WeatherSpeedsModel = db.weatherSpeeds;
 const ProsumerSettings = db.prosumerSettings;
 
 // Create and Save a new Tutorial
-exports.create = () => {
+exports.create = () => { // wat
   // Validate request
 
   // Create a Tutorial
