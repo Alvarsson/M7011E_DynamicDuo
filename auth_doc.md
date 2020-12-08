@@ -28,13 +28,13 @@ You can expect a response as:
 
 If no ID, no password or already claimed ID is sent you can expect a response:
 
-```json
+```
 {
   Need a user ID and Password.
 }
 ```
 Or
-```json
+```
 {
   Id already claimed.
 }
@@ -47,7 +47,7 @@ This token will be required for any GUI related action of the user to authentica
 **POST** to **/login**
 
 You can login as both types of user using the same form as when registering:
-```json
+```
 {
     "id": "pelle2",
     "password": "tjosan123"
@@ -55,7 +55,7 @@ You can login as both types of user using the same form as when registering:
 ```
 
 When entering a correct ID and Password you can expect an answer as:
-```json
+```
 {
   success: true,
   message: 'Successfully Logged in!',
@@ -66,7 +66,7 @@ When entering a correct ID and Password you can expect an answer as:
 ```
 
 If ID or Password is incorrect you can expect a response:
-```json
+```
 {
   success: false,
   User id not found.
@@ -75,7 +75,7 @@ If ID or Password is incorrect you can expect a response:
 
 Or
 
-```json
+```
 {
   success: false,
   Wrong Password.
@@ -90,7 +90,7 @@ Logout a user requires an active session token in cookies, or spoofing a Bearer 
 
 The following response is given if a legitimate session token is found connected to the user id.
 
-```json
+```
 {
   success: true,
   Successfully logged out.
