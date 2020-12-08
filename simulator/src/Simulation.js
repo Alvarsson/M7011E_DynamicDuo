@@ -5,6 +5,7 @@ const WindModule = require("./wind_module");
 const axios = require("axios");
 const tick_time = 5000;
 
+
 const testModel = require("./testController");
 const { set } = require("mongoose");
 
@@ -134,8 +135,7 @@ class Simulation {
     //calculate prod/con
     //push to log DB for pro and man
     //push to blackout
-    this.push_prosumer_logs(this.prosumer_list, this.tick);
-    this.tick++;
+    this.push_prosumer_logs(this.prosumer_list, this.tick++);
     // Collection of all functions that should
     //testModel.create();
     console.log("tick at 5 seconds")
