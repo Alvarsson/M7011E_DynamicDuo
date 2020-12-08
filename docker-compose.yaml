@@ -44,16 +44,16 @@ services:
     networks:
       - back-tier
 
-  # simulator:
-  #   env_file: .env
-  #   container_name: simulator
-  #   # Tell docker what file to build the server from
-  #   build: ./simulator
-  #   command: nodemon simulator.js
-  #   volumes:
-  #     - ./simulator:/app
-  #   networks:
-  #     - back-tier
+  simulator:
+    env_file: .env
+    container_name: simulator
+    # Tell docker what file to build the server from
+    build: ./simulator
+    command: nodemon simulator.js
+    volumes:
+      - ./simulator:/app
+    networks:
+      - back-tier
 
 networks:
   back-tier:

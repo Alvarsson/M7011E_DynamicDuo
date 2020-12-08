@@ -16,6 +16,8 @@ class Simulation {
     int_cons: Amout of consumers in sim, ex 8 will gen 8 consumer objects.
     */
   constructor(sim_time, int_pros, int_cons) {
+    
+    console.log("CONSTRUCTOR");
     this.wm = new WindModule();
     //this.wind_data = wm.get_GD_for_time(sim_time); // NEEDS TO BE PUSHED TO DB
 
@@ -29,11 +31,20 @@ class Simulation {
   }
 
   update() {
+    const axios = require('axios');
+
+    axios.get(`http://rest:3001/prosumersettings`)
+    .then(response => {
+      console.log(response.data.id);
+      console.log(response.data.explanation);
+    })
+    .catch(error => {
+      console.log(error);
+  });
     // Collection of all functions that should
     //testModel.create();
-    console.log("tick at 100 seconds")
+    console.log("tick at 5 seconds")
   }
-  // hej
   generate_wind_data() {
     testModel.fillWeatherDataOnce(this.wm.tick_variation(2));
     
