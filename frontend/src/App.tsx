@@ -8,6 +8,7 @@ import axios from "axios";
 import DashSimple from "./components/DashSimple";
 import Col from "react-bootstrap/esm/Col";
 
+
 const App: React.FC = () => {
   const [valA, setValA] = useState(1);
   const [valB, setValB] = useState(1);
@@ -30,8 +31,6 @@ const App: React.FC = () => {
         setValA(100 - valA);
         setValB(100 - valB);
         setLoaded(true);
-
-        console.log(valB);
       });
   };
 

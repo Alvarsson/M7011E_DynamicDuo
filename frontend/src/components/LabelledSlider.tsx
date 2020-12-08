@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import Slider, { createSliderWithTooltip } from "rc-slider";
+import Slider from "rc-slider";
 //man kan använda tooltips för att visa i slider vad du har för värden. kanske är snyggt?
 
 import "rc-slider/assets/index.css";
@@ -23,7 +23,6 @@ const LabelledSlider: React.FC<Props> = ({
   callback,
 }) => {
   const [value, setValue] = useState(defaultValue);
-
   function log1(newValue: number) {
     setValue(newValue); //store the value in current state
     callback(newValue); //callback to parent

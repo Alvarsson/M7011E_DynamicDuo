@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 import Container from "react-bootstrap/Container";
 
 import LabelledSlider from "./LabelledSlider";
-
 import Button from "react-bootstrap/Button";
 
-import axios from "axios";
+
 
 interface Props {
   initialValueA: number;

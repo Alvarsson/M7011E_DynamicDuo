@@ -16,6 +16,8 @@ services:
     volumes:
        - ./frontend:/usr/src/app/frontend
        - /usr/src/app/frontend/node_modules
+    networks:
+      - back-tier
 
   mongo-db:
     container_name: database
