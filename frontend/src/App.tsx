@@ -5,6 +5,8 @@ import Container from "react-bootstrap/Container";
 import Distribution from "./components/Distribution";
 
 import axios from "axios";
+import DashSimple from "./components/DashSimple";
+import Col from "react-bootstrap/esm/Col";
 
 const App: React.FC = () => {
   const [valA, setValA] = useState(1);
@@ -35,11 +37,17 @@ const App: React.FC = () => {
 
   return (
     <Container className="p-3">
+      <Col>
+        <DashSimple />
+      </Col>
+
+      <Col>
       {isLoaded ? (
         <Distribution initialValueA={valA} initialValueB={valB} />
       ) : (
         <p> waiting </p>
       )}
+      </Col>
     </Container>
   );
 };
