@@ -1,38 +1,43 @@
 //@ts-ignore
 
 import React from "react";
-import { LineChart, Line, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/esm/Row";
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
+import Card from "react-bootstrap/Card";
 
 export default function DashComponent(props) {
   return (
-    <Container className="p-3">
-      <Row class="text-center">
+   <Card style={{ width: '30vw' }} bg="light">
+      <Card.Body>
+        
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart
+              data={props.display}
+              margin={{ top: 3, right: 5, left: -20, bottom: 3 }}
+            >
+              <XAxis dataKey="tick" />
+              <YAxis  />
 
-        <h3>{props.current}</h3>
-
-      </Row>
-      <Row>
-        <LineChart
-          width={300}
-          height={200}
-          data={props.display}
-          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-        >
-          <XAxis dataKey="tick" />
-          <YAxis domain={[0,100]}/>
-          <Tooltip />
-          <CartesianGrid stroke="#f5f5f5" />
-          <Line
-            type="monotone"
-            dataKey="value"
-            isAnimationActive={false}
-            stroke="#8884d8"
-            dot={false}
-          />
-        </LineChart>
-      </Row>
-    </Container>
-  );
+              <CartesianGrid stroke="#eee"  />
+              <Line
+                type="monotone"
+                dataKey="value"
+                animationDuration={300}
+                stroke={props.strokeColor}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        
+        <Card.Title>
+          {props.dataType}: {props.current}
+        </Card.Title>
+      </Card.Body>
+    </Card>
+  ); ///*<Tooltip />*/
 }

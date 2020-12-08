@@ -6,8 +6,7 @@ import Distribution from "./components/Distribution";
 
 import axios from "axios";
 import DashSimple from "./components/DashSimple";
-import Col from "react-bootstrap/esm/Col";
-
+import Row from "react-bootstrap/Row";
 
 const App: React.FC = () => {
   const [valA, setValA] = useState(1);
@@ -24,9 +23,10 @@ const App: React.FC = () => {
   const fetchShit = () => {
     axios
       .get("http://localhost:3001/prosumersettings/lisa2")
-      .then((response) => {
-        const valA = response.data.distribution.sell;
-        const valB = response.data.distribution.buy;
+      .then(({ data }) => {
+        console.log(data);
+        const valA = data.distribution.sell;
+        const valB = data.distribution.buy;
 
         setValA(100 - valA);
         setValB(100 - valB);
@@ -36,17 +36,19 @@ const App: React.FC = () => {
 
   return (
     <Container className="p-3">
-      <Col>
-        <DashSimple />
-      </Col>
 
-      <Col>
-      {isLoaded ? (
-        <Distribution initialValueA={valA} initialValueB={valB} />
-      ) : (
-        <p> waiting </p>
-      )}
-      </Col>
+      <Row>
+        <DashSimple />
+      </Row>
+
+      <Row>
+      
+        {isLoaded ? (
+          <Distribution initialValueA={valA} initialValueB={valB} />
+        ) : (
+          <p> waiting </p>
+        )}
+      </Row>
     </Container>
   );
 };
