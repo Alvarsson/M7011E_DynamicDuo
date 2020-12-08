@@ -23,7 +23,7 @@ exports.RegisterUser = function (req, res) {
                     return res.status(200).json({
                         success: true,
                         message: 'Successfully Signed Up',
-                        userData
+                        userData,
                     })
                 }
             });
@@ -48,18 +48,24 @@ exports.LoginUser = (req, res) => {
                         message: 'Wrong Password.'
                     });
                 } else {
-                    const data = {
-                        userID: user._id,
-                        id: user.id,
-                        token: user.token
-                    }
-                    // saves token to cookie
-                    res.cookie('authToken', user.token).status(200).json({
-                        success: true,
-                        message: 'Successfully Logged in!',
-                        userData: data
+                    user.generateToken((err, user) => {
+                        if(err) {
+                            return res.status(400).send({err});
+                        } else {
+                            const data = {
+                                userID: user._id,
+                                id: user.id,
+                                token: user.token
+                            }
+                            // saves token to cookie
+                            res.cookie('authToken', user.token).status(200).json({
+                                success: true,
+                                message: 'Successfully Logged in!',
+                                userData: data
+                            })
+                        }
                     })
-                }
+                } 
             });
         }
     });
