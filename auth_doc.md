@@ -18,7 +18,7 @@ The following is an example of creating a user:
 }
 ```
 You can expect a response as:
-```json
+```
 {
   success: true
   Sucessfully signed up
