@@ -47,7 +47,6 @@ userSchema.pre('save', function (next) {
 
 
 // comparing users entered pw with db during login
-
 userSchema.methods.comparePassword = function (candidatePassword, callBack) {
     bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
         if (err) {
@@ -60,7 +59,7 @@ userSchema.methods.comparePassword = function (candidatePassword, callBack) {
 // genereating token when logged in
 userSchema.methods.generateToken = function (callBack) {
     var user = this;
-    var token = jwt.sign(user._id.toHextString(), process.env.SECRET);
+    var token = jwt.sign(user._id.toHexString(), process.env.SECRET);
     user.token = token;
     user.save(function (err, user) {
         if (err) {

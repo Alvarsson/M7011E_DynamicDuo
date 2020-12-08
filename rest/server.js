@@ -2,6 +2,7 @@ var express = require('express'),
 app = express(),
 port = process.env.BACKEND_PORT_HOST || 100000,
 mongoose = require('mongoose'),
+util = require('./api/util/api_utils'),
 Prosumer = require('./api/models/prosumer_settings_model'),
 ProsumerLog = require('./api/models/prosumer_log_model'),
 Manager = require('./api/models/manager_settings_model'),
@@ -9,7 +10,7 @@ ManagerLog = require('./api/models/manager_log_model'),
 WindSpeed = require('./api/models/wind_speed_model'),
 Blackout = require('./api/models/blackout_model'),
 ManagerLog = require('./api/models/manager_log_model')
-
+// manager = require('./api/controllers/managerController')
 var cors = require('cors')
 
 app.use(cors())
@@ -41,5 +42,9 @@ app.use(function(req, res) {
 });
 
 app.listen(port);
+
+/* app.post(manager.add_manager_setting, function(){
+
+}) */
 
 console.log('REST API server started on: ' + port)

@@ -7,34 +7,40 @@ module.exports = function(app) {
 	var manager_log = require('../controllers/managerLogController');
 	var wind_speed = require('../controllers/windSpeedController');
 	var blackout = require('../controllers/blackoutController');
-	var user = require('../controllers/authController');
+	const { RegisterUser, LoginUser, LogoutUser, getUserDetails } = require('../controllers/authController');
 	const { auth } = require('../middleware/auth');
+	
 	//  If we want to use several files with just the route variable name, we could create the index file and export from there.
 	
+// TODO:
+// - prosumer setting should be created when registering a prosumer
+// - auth protocol to get prosumer settings and rest
+
+
 	// --------- PROSUMER ---------
 
 	// ---- settings ----
-	app.route('/prosumersettings')
+	app.route('/prosumersettings') 
 		.get(prosumer.get_all_prosumer_settings) // Should return all prosumer settings
 		.post(prosumer.add_prosumer_setting); // add new prosumer setting
 
 	app.route('/prosumersettings/:id')
-		.get(prosumer.get_prosumer_setting); // Get prosumer setting for id
+		.get(auth,prosumer.get_prosumer_setting); // Get prosumer setting for id
 	app.route('/prosumersettings/:id/img_url')
-		.put(prosumer.update_prosumer_settings_img_url); // update img_url for id
+		.put(auth,prosumer.update_prosumer_settings_img_url); // update img_url for id
 	app.route('/prosumersettings/:id/password')
-		.put(prosumer.update_prosumer_settings_password); // update password for id
+		.put(auth,prosumer.update_prosumer_settings_password); // update password for id
 	app.route('/prosumersettings/:id/online')
-		.put(prosumer.update_prosumer_settings_online); // update online for id
+		.put(auth,prosumer.update_prosumer_settings_online); // update online for id
 	app.route('/prosumersettings/:id/distr_over')
-		.put(prosumer.update_prosumer_settings_distr_over); // update over distr for id
+		.put(auth,prosumer.update_prosumer_settings_distr_over); // update over distr for id
 	app.route('/prosumersettings/:id/distr_under')
-		.put(prosumer.update_prosumer_settings_distr_under); // update under distr for id
+		.put(auth,prosumer.update_prosumer_settings_distr_under); // update under distr for id
 	app.route('/prosumersettings/:id/battery_warning_threshold')
-		.put(prosumer.update_prosumer_settings_battery_warning_threshold); // update battery warn threshold for id
+		.put(auth,prosumer.update_prosumer_settings_battery_warning_threshold); // update battery warn threshold for id
 	
 	app.route('/prosumersettings/:id/delete') // delete the specific prosumer  settings
-		.delete(prosumer.delete_prosumer_settings);
+		.delete(auth,prosumer.delete_prosumer_settings);
 	
 
 	// ---- log ----
@@ -56,17 +62,17 @@ module.exports = function(app) {
 		.post(manager.add_manager_setting);
 	
 	app.route('/managersettings/get') // get the manager settings
-		.get(manager.get_manager_setting);	
+		.get(auth, manager.get_manager_setting);	
 	app.route('/managersettings/img_url') // set the manager img_url
-		.put(manager.update_manager_setting_img_url);
+		.put(auth, manager.update_manager_setting_img_url);
 	app.route('/managersettings/password') // set the manager password
-		.put(manager.update_manager_setting_password);
+		.put(auth, manager.update_manager_setting_password);
 	app.route('/managersettings/online') // set the manager online number
-		.put(manager.update_manager_settings_online);
+		.put(auth, manager.update_manager_settings_online);
 	app.route('/managersettings/battery_warning_threshold') // set the manager battery threshold warning
-		.put(manager.update_manager_settings_battery_warning_threshold);
+		.put(auth, manager.update_manager_settings_battery_warning_threshold);
 	app.route('/managersettings/delete') // delete the manager settings
-		.delete(manager.delete_manager_settings);
+		.delete(auth, manager.delete_manager_settings);
 
 	// ---- log ----
 	app.route('/managerlog') // add a manager log
@@ -99,13 +105,13 @@ module.exports = function(app) {
 	
 	// ---------- AUTHENTICATION -------------
 	app.route('/login')
-		.post(user.LoginUser);
+		.post(LoginUser);
 	app.route('/logout')
-		.get(auth, user.LogoutUser);
+		.get(auth, LogoutUser);
 	app.route('/register')
-		.post(user.RegisterUser);
+		.post(RegisterUser);
 	app.route('/details')
-		.get(auth, user.getUserDetails);
+		.get(auth, getUserDetails);
 
 };
 

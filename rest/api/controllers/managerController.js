@@ -7,6 +7,11 @@ ManagerSettings = mongoose.model('ManagerSettings');
 
 //  Always get the manager from the only id existing once created.
 exports.get_manager_setting = function(req, res) {
+    var isManager = Util.isManager(req);
+    if(!isManager) {
+        res.statusCode = 404;
+        res.send("Must be logged in as Manager.");
+    }
     ManagerSettings.findOne({id: "Manager"}, function(err, manager) {
         if(err) {
             res.send("roh row, shaggy");
@@ -28,8 +33,9 @@ exports.get_manager_setting = function(req, res) {
 
 // We don't really need to update via id so should just send update directly.
 exports.update_manager_setting_img_url = function(req, res) {
+    var isManager = Util.isManager(req);
     var valid = Util.validBody(req, BodyMaps.img_urlMap());
-    if(!valid) {
+    if(!valid || !isManager) {
         res.statusCode = 400;
         res.send('Bad request, veri bad');
     } else {
@@ -48,8 +54,9 @@ exports.update_manager_setting_img_url = function(req, res) {
 }
 
 exports.update_manager_setting_password = function(req, res){
+    var isManager = Util.isManager(req);
     var valid = Util.validBody(req, BodyMaps.passwordMap());
-    if(!valid) {
+    if(!valid || !isManager) {
         res.statusCode = 400;
         res.send("Bad request for dat sweet password");
     } else {
@@ -69,8 +76,9 @@ exports.update_manager_setting_password = function(req, res){
 }
 
 exports.update_manager_settings_battery_warning_threshold = function(req,res) {
+    var isManager = Util.isManager(req);
     var valid = Util.validBody(req, BodyMaps.battery_warning_thresholdMap());
-    if(!valid) {
+    if(!valid || !isManager) {
         res.statusCode = 400;
         res.send("Das is eine bad request jaah");
     } else {
@@ -89,8 +97,9 @@ exports.update_manager_settings_battery_warning_threshold = function(req,res) {
 }
 
 exports.update_manager_settings_online = function(req,res) {
+    var isManager = Util.isManager(req);
     var valid = Util.validBody(req, BodyMaps.onlineMap());
-    if(!valid) {
+    if(!valid || !isManager) {
         res.statusCode = 400;
         res.send("Das is eine bad request jaah");
     } else {
@@ -141,6 +150,11 @@ exports.add_manager_setting = function (req, res) {
 }
 
 exports.delete_manager_settings = function(req, res) {
+    var isManager = Util.isManager(req);
+    if(!isManager) {
+        res.statusCode = 404;
+        res.send("Must be logged in as Manager.");
+    }
     ManagerSettings.deleteOne({id: "Manager"}, function(err, manager){
         if (err) {
             res.statusCode = 418;

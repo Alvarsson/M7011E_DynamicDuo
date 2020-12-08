@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 import Container from "react-bootstrap/Container";
 
 import LabelledSlider from "./LabelledSlider";
-
 import Button from "react-bootstrap/Button";
 
-import axios from "axios";
+import Card from "react-bootstrap/esm/Card";
+
 
 interface Props {
   initialValueA: number;
@@ -37,43 +38,52 @@ const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
   }
 
   function postDistribution_Over() {
-    return axios
-      .put("http://localhost:3001/prosumersettings/lisa2/distr_over", {
+    return axios.put(
+      "http://localhost:3001/prosumersettings/lisa2/distr_over",
+      {
         distribution: {
           sell: 100 - valA,
           store: valA,
         },
-      });
+      }
+    );
   }
 
   function postDistribution_under() {
-    return axios
-      .put("http://localhost:3001/prosumersettings/lisa2/distr_under", {
+    return axios.put(
+      "http://localhost:3001/prosumersettings/lisa2/distr_under",
+      {
         distribution: {
           buy: 100 - valB,
           drain: valB,
         },
-      });
+      }
+    );
   }
 
   return (
     <Container className="p-3">
-      <h4>{"For over-production:"}</h4>
-      <LabelledSlider
-        labelLeft={"Sell"}
-        labelRight={"Store"}
-        defaultValue={valA}
-        callback={handleA}
-      />
-      <h4>{"For under-production:"}</h4>
-      <LabelledSlider
-        labelLeft={"Buy"}
-        labelRight={"Drain"}
-        defaultValue={valB}
-        callback={handleB}
-      />
+      <Card style={{ width: "30vw" }} bg="light">
+        <Card.Body>
+          <Card.Title>{"For over-production:"}</Card.Title>
 
-      <Button onClick={postChanges}> Save </Button>
+          <LabelledSlider
+            labelLeft={"Sell"}
+            labelRight={"Store"}
+            defaultValue={valA}
+            callback={handleA}
+          />
+          <h4>{"For under-production:"}</h4>
+          <LabelledSlider
+            labelLeft={"Buy"}
+            labelRight={"Drain"}
+            defaultValue={valB}
+            callback={handleB}
+          />
+
+          <Button onClick={postChanges}> Save </Button>
+        </Card.Body>
+      </Card>
     </Container>
   );
 };

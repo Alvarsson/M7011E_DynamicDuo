@@ -2,6 +2,8 @@
 Req: a http request (or similar structure)
 check: the fields to be checked, you can get these from X <- TODO
 */
+
+
 module.exports.validBody = function(req, check){
     for(const [key,value] of check.entries()){
       if(typeof value == 'object'){
@@ -18,4 +20,12 @@ module.exports.validBody = function(req, check){
       }
     }
     return true;
+  }
+
+  module.exports.isManager = function(req) {
+    if (req.body.id != "Manager") {
+      return false;
+    } else {
+      return true;
+    }
   }
