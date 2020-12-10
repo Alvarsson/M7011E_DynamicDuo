@@ -29,7 +29,7 @@ mongoose.connect(`mongodb://${process.env.MONGO_HOSTNAME}/${process.env.MONGO_DA
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
 // parse requests of content-type - application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(cookieParser());
 
 

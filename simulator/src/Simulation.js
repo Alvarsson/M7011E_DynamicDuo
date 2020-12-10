@@ -6,7 +6,7 @@ const axios = require("axios");
 const tick_time = 5000;
 
 
-const testModel = require("./testController");
+const SimController = require("./Simulation_controller");
 const { set } = require("mongoose");
 
 /* Thoughts 
@@ -21,11 +21,11 @@ class Simulation {
     */
   constructor(sim_time, int_pros, int_cons) {
     this.tick = 0;
-    console.log("CONSTRUCTOR");
+    console.log("SETTING UP SIMULATOR");
     // generera wind, into DB
     console.log("Generating wind data");
     this.wm = new WindModule();
-    // this.generate_wind_data(); // uncomment this for deployment
+    this.generate_wind_data(); // uncomment this for deployment
 
     // create prosumers, add to DB
     console.log("Creating Prosumers");
@@ -34,20 +34,19 @@ class Simulation {
     console.log("Pushing prosumers to DB");
     this.register_prosumers(this.prosumer_list);
 
- 
+
     console.log("Creating consumers");
     this.nr_of_consumers = int_cons;
     this.consumer = new Consumer(); // used to calc consumer data
-
   }
 
 
   generate_wind_data() {
-    testModel.fillWeatherDataOnce(this.wm.tick_variation(2)); // 2 days, change for longer sims.
+    SimController.fillWeatherDataOnce(this.wm.tick_variation(1)); // 2 days, change for longer sims.
 
   }
   create_prosumers(num) {
-    for (var i = 0; i < num; i++) {
+    for (var i = 0; i < num; i++) { 
       var prosumer = new Prosumer(i);
       this.prosumer_list.push(prosumer);
     }
@@ -67,8 +66,6 @@ class Simulation {
     for (var i = 0; i < list.length; i++) {
       list[i].set_wind_power(4);
       list[i].calc_total_consumption();
-      //list[i].
-      //list[i].
     }
   }
 
@@ -90,17 +87,13 @@ class Simulation {
     })
       .then(response => {
         console.log("Registered prosumer: " + prosumer.get_prosumer_id());
-        //console.log(response.data);
-        //console.log(response.data.explanation);
       })
       .catch(error => {
         console.log(error.response.status + " Failed to register prosumer, it probable exists or smth");
-        //console.log(error);
       });
   }
   push_prosumer_logs(prosumer_list, tick) {
     for (var i = 0; i < prosumer_list.length; i++) {
-      console.log("BATTERYIIIlvl",prosumer_list[i].get_battery_level());
       axios.post(`http://rest:3001/prosumerlog/`, {
         id: prosumer_list[i].get_prosumer_id(),
         consumption: prosumer_list[i].get_total_consumption(),
@@ -113,9 +106,6 @@ class Simulation {
           temperature: prosumer_list[i].get_temperature()
         }
       }).then(response => {
-        //console.log("Logged prosumer: " + prosumer_list[i].get_prosumer_id());
-        console.log("GREAT SUCCESS");
-        //console.log(response.data.explanation);
       })
         .catch(error => {
           console.log(error);
@@ -130,15 +120,70 @@ class Simulation {
     }
   }
 
+  /* updates distr in all prosumer objects */
+  update_prosumer_distrs(prosumer_list) {
+    for (var i = 0; i < prosumer_list.length; i++) {
+      this.update_prosumer_distr(prosumer_list[i]);
+    }
+  }
+
+  update_prosumer_distr(prosumer){
+    axios.get(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}`).
+      then(response => {
+        prosumer.set_sell_percentage(response.data.distribution.sell);
+        prosumer.set_store_percentage(response.data.distribution.store);
+        prosumer.set_buy_percentage(response.data.distribution.buy);
+        prosumer.set_drain_percentage(response.data.distribution.drain);
+      })
+        .catch(error => {
+          console.log(error);
+        });
+  }
+
+  get_current_wind_speed(tick){
+    axios.get(`http://rest:3001/windspeed/${tick}`).
+      then(response => {
+        this.wind_speed = response.data.wind_speed;
+      })
+        .catch(error => {
+          if (error.response.status == 404){
+            console.log("Windspeed not found, check that you have wind data in DB");
+          } else{
+            console.log(error);
+          }
+        });
+  }
+
+  calculate_new_logs(prosumer_list){
+    var i = 0;
+    for(i = 0; i < prosumer_list.length; i++) {
+      //prosumer_list[i].räknaUtSkiten
+    }
+    // PROSUMER: 
+    //consumption
+    //production
+    //batterylvl
+    //broken
+    //weather
+  }
+
   update() {
+
+    console.log("tick at 20 seconds")
+    // check if new prosumersettings added/removed LOW PRIO BOI
+    
     // get updated distr + weathertick
+    this.update_prosumer_distrs(this.prosumer_list);
+    this.wind_speed = this.get_current_wind_speed(this.tick);
     //calculate prod/con
+    //this.calculate_new_logs();
     //push to log DB for pro and man
-    //push to blackout
     this.push_prosumer_logs(this.prosumer_list, this.tick++);
+    // PUSH TO MANAGER HERE
+    //push to blackout
+
     // Collection of all functions that should
-    //testModel.create();
-    console.log("tick at 5 seconds")
+    //SimController.create();
   }
 
   // Steps of starting process.

@@ -6,13 +6,16 @@ BodyMaps = require('./bodyMaps'),
 WindSpeed = mongoose.model('WindSpeed');
 
 exports.get_wind_speed = function(req,res) {
-    WindSpeed.findOne({tick: req.body.tick}, function(err, wind) {
+    console.log("wind speed: ", req.params.tick);
+    WindSpeed.findOne({tick: req.params.tick}, function(err, wind) {
         if (err) {
             res.statusCode = 400;
             res.send("Could not fetch the wind speed.");
         } else {
+
             if (wind != null) {
                 res.statusCode = 200;
+                console.log("binden är ", wind);
                 res.json(wind);
             } else {
                 res.statusCode = 404;
@@ -47,6 +50,24 @@ exports.add_wind_speed = function(req, res){
         WindSpeed.create({tick: req.body.tick,
         wind_speed: req.body.wind_speed},
         function(err, wind) {
+            if(err) {
+                res.statusCode = 418;
+                res.send('Oh, someone does not have medvind right now.');
+            } else {
+                res.statusCode = 200;
+                res.json('Wind data inserted.');
+            }
+        });
+    }
+}
+
+exports.add_wind_speed_many = function(req, res){
+    var valid = true; //Util.validBody(req, BodyMaps.add_wind_speedMap()); // CBA making a map atm.
+    if (!valid) {
+        res.statusCode = 400;
+        res.send('Bad request, no wind added.');
+    } else {
+        WindSpeed.insertMany(req.body, function(err, wind) {
             if(err) {
                 res.statusCode = 418;
                 res.send('Oh, someone does not have medvind right now.');
