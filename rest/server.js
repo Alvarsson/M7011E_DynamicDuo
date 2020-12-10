@@ -13,8 +13,12 @@ ManagerLog = require('./api/models/manager_log_model')
 // manager = require('./api/controllers/managerController')
 var cors = require('cors')
 
-app.use(cors())
-app.options('*',cors())
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials : true
+  }))
+
+//app.options(corsOptions,cors())
 
 
 User = require('./api/models/user_model'),
@@ -25,7 +29,6 @@ bodyParser = require('body-parser');
 // mongoose.Promise = global.Promise;
 mongoose.connect(`mongodb://${process.env.MONGO_HOSTNAME}/${process.env.MONGO_DATABASE}`,{useNewUrlParser: true, useUnifiedTopology: true});
 
-//app.use(cors(corsOption));
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
 // parse requests of content-type - application/json

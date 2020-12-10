@@ -2,6 +2,8 @@
 
 var mongoose = require('mongoose'),
 User = mongoose.model('User');
+var prosumerController = require('./prosumerController');
+
 
 exports.RegisterUser = function (req, res) {
     const user = new User (req.body);
@@ -10,6 +12,7 @@ exports.RegisterUser = function (req, res) {
         res.send("Need a user ID and Password.");
     }
     User.findOne({id: req.body.id}, function(err, usr) {
+
         if (usr) {
             return res.status(400).json("Id already claimed.")
         } else {
@@ -20,6 +23,9 @@ exports.RegisterUser = function (req, res) {
                     const userData = {
                         id: dock.id
                     }
+
+                    prosumerController.add_prosumer_setting_test(userData)
+
                     return res.status(200).json({
                         success: true,
                         message: 'Successfully Signed Up',
@@ -40,7 +46,7 @@ exports.LoginUser = (req, res) => {
             });
         } else {
             user.comparePassword(req.body.password, (err, isMatch) => {
-                console.log(isMatch);
+                console.log("password == storedPAss: " + isMatch);
                 //isMatch is either true or false
                 if(!isMatch) {
                     return res.status(400).json({
@@ -52,6 +58,7 @@ exports.LoginUser = (req, res) => {
                         if(err) {
                             return res.status(400).send({err});
                         } else {
+                            console.log("the token we generated and added to the backend is:" +  user.token)
                             const data = {
                                 userID: user._id,
                                 id: user.id,
@@ -63,6 +70,7 @@ exports.LoginUser = (req, res) => {
                                 message: 'Successfully Logged in!',
                                 userData: data
                             })
+                            console.log(res.cookie.toString())
                         }
                     })
                 } 

@@ -8,11 +8,12 @@ import Button from "react-bootstrap/Button";
 
 import Card from "react-bootstrap/esm/Card";
 
-
 interface Props {
   initialValueA: number;
   initialValueB: number;
 }
+
+
 
 const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
   const [valA, setValA] = useState(initialValueA);
@@ -38,27 +39,32 @@ const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
   }
 
   function postDistribution_Over() {
+
     return axios.put(
-      "http://localhost:3001/prosumersettings/lisa2/distr_over",
+      "http://localhost:3001/prosumersettings/1/distr_over",
       {
         distribution: {
-          sell: 100 - valA,
-          store: valA,
+          sell: (100 - valA) / 100,
+          store: valA / 100,
         },
-      }
+      },
+      
     );
   }
 
   function postDistribution_under() {
-    return axios.put(
-      "http://localhost:3001/prosumersettings/lisa2/distr_under",
-      {
-        distribution: {
-          buy: 100 - valB,
-          drain: valB,
+    return axios
+      .put(
+        "http://localhost:3001/prosumersettings/1/distr_under",
+        {
+          distribution: {
+            buy: (100 - valB) / 100,
+            drain: valB / 100,
+          },
         },
-      }
-    );
+        
+      )
+      .then((response) => console.log(response));
   }
 
   return (

@@ -21,14 +21,14 @@ export default function DashComponent(props) {
               data={props.display}
               margin={{ top: 3, right: 5, left: -20, bottom: 3 }}
             >
-              <XAxis dataKey="tick" />
+              <XAxis dataKey="tick" tick={false}/>
               <YAxis  />
 
               <CartesianGrid stroke="#eee"  />
               <Line
                 type="monotone"
                 dataKey="value"
-                animationDuration={300}
+                isAnimationActive={false}
                 stroke={props.strokeColor}
               />
             </LineChart>
