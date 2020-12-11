@@ -24,7 +24,7 @@ const ProsumerSettings: React.FC = () => {
   const fetchShit = () => {
     //TODO: skaffa wrapper runt getlocalStorage
     axios 
-      .get(localStorage.getItem(API_BASE_URL) + "/prosumersettings/" + localStorage.getItem(CURRENTUSER), {
+      .get(API_BASE_URL + "/prosumersettings/" + localStorage.getItem(CURRENTUSER), {
         withCredentials: true,
       })
       .then(({ data }) => {

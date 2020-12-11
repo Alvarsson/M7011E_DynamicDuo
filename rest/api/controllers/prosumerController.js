@@ -99,7 +99,7 @@ exports.update_prosumer_settings_distr_over = function (req, res) {
     res.statusCode = 400;
     res.send("You sent a bad request MOTHAFUCKA");
   } else {
-    ProsumerSettings.findOneAndUreqpdate(
+    ProsumerSettings.findOneAndUpdate(
       { id: req.params.id },
       {
         $set: {
@@ -243,7 +243,6 @@ exports.add_prosumer_setting = function (req, res) {
 
 exports.add_prosumer_setting_test = function (req) {
     console.log("we made it here")
-    console.log(req)
     //check that the Id doesnt already exist.
     ProsumerSettings.findOne({ id: req.id }, function (err, t) {
       if (t != null) {
@@ -271,10 +270,12 @@ exports.add_prosumer_setting_test = function (req) {
             if (err) {
               console.error(err)
             } else {
+                console.log("print the new prosumer:")
                 console.log(prosumer)
             }
           }
         );
+        console.log(" and added a user");
       }
     });
   

@@ -46,7 +46,6 @@ exports.LoginUser = (req, res) => {
             });
         } else {
             user.comparePassword(req.body.password, (err, isMatch) => {
-                console.log("password == storedPAss: " + isMatch);
                 //isMatch is either true or false
                 if(!isMatch) {
                     return res.status(400).json({
@@ -65,12 +64,11 @@ exports.LoginUser = (req, res) => {
                                 token: user.token
                             }
                             // saves token to cookie
-                            res.cookie('authToken', user.token).status(200).json({
+                            res.status(200).json({
                                 success: true,
                                 message: 'Successfully Logged in!',
                                 userData: data
                             })
-                            console.log(res.cookie.toString())
                         }
                     })
                 } 

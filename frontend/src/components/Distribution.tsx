@@ -7,6 +7,7 @@ import LabelledSlider from "./LabelledSlider";
 import Button from "react-bootstrap/Button";
 
 import Card from "react-bootstrap/esm/Card";
+import {CURRENTUSER} from '../constants/apiConstants';
 
 interface Props {
   initialValueA: number;
@@ -41,7 +42,7 @@ const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
   function postDistribution_Over() {
 
     return axios.put(
-      "http://localhost:3001/prosumersettings/1/distr_over",
+      "http://localhost:3001/prosumersettings/"+ localStorage.getItem(CURRENTUSER)+"/distr_over",
       {
         distribution: {
           sell: (100 - valA) / 100,
@@ -55,7 +56,7 @@ const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
   function postDistribution_under() {
     return axios
       .put(
-        "http://localhost:3001/prosumersettings/1/distr_under",
+        "http://localhost:3001/prosumersettings/"+ localStorage.getItem(CURRENTUSER)+"/distr_under",
         {
           distribution: {
             buy: (100 - valB) / 100,
@@ -69,7 +70,7 @@ const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
 
   return (
     <Container className="p-3">
-      <Card style={{ width: "30vw" }} bg="light">
+      <Card style={{ width: "50vw" }} bg="light">
         <Card.Body>
           <Card.Title>{"For over-production:"}</Card.Title>
 

@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./LoginForm.css";
-import { API_BASE_URL, ACCESS_TOKEN_NAME, CURRENTUSER } from "../../constants/apiConstants";
+import {
+  API_BASE_URL,
+  ACCESS_TOKEN_NAME,
+  CURRENTUSER,
+} from "../../constants/apiConstants";
 import { withRouter } from "react-router-dom";
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+}
 
 function LoginForm(props) {
   const [state, setState] = useState({
@@ -18,7 +28,6 @@ function LoginForm(props) {
       })
       .then(({ data }) => {
         console.log(data);
-        
       });
   };
 
@@ -37,14 +46,15 @@ function LoginForm(props) {
       password: state.password,
     };
     axios
-      .post(API_BASE_URL + "/login", payload,{withCredentials:true})
+      .post(API_BASE_URL + "/login", payload, { withCredentials: true })
       .then(function (response) {
         if (response.status === 200) {
           setState((prevState) => ({
             ...prevState,
             successMessage: "Login successful. Redirecting to home page..",
           }));
-          console.log(response)
+          
+
           localStorage.setItem(ACCESS_TOKEN_NAME, response.data.userData.token);
           localStorage.setItem(CURRENTUSER, response.data.userData.id);
           //fetchShit();
