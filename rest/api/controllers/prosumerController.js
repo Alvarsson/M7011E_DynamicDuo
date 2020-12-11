@@ -159,7 +159,7 @@ exports.update_prosumer_settings_online = function(req,res) {
 
 
 exports.add_prosumer_setting = function (req,res) {
-  var valid = Util.validBody(req, BodyMaps.completeProsumerMap());
+  var valid = Util.validBody(req, BodyMaps.completeProsumerMap()); // TODO: sometimes get "cannot read property 'sell', check it out"
   if(!valid){
     res.statusCode = 400;
     res.send('You sent a bad request MOTHAFUCKA');

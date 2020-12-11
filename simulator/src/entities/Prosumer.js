@@ -24,7 +24,7 @@ class Prosumer {
         this.battery_max = 200;
 
         this.sell_to_market; // SELL amount/tick
-        this.buy_from_market; // BUY amount/tick
+        this.buy_from_market = 0; // BUY amount/tick
 
         this.tick_count_mngr = 0; // wat
         this.pwr_blocked = false;
@@ -34,97 +34,124 @@ class Prosumer {
         this.turbine_broken = false;
     }
 
+    /* This here function will re-calculate errything in the correct fucking order */
+    recalc(){
+        this.calc_all_consumptions();
+        this.calc_production();
+        var batterychange = this.update_battery_level(); // TODO: <- Use the return result of this to set buy/sell from market?
+        if (batterychange <=0){ // under, we buying
+            this.buy_from_market = this.pwr_production - this.total_consumption - batterychange;
+            this.sell_to_market = 0;
+        } else { // over, we sellin
+            this.sell_to_market = this.pwr_production - this.total_consumption - batterychange;
+            this.buy_from_market = 0;
+        }
+
+    }
+
 //----- ID -----
     get_prosumer_id() {
         return this.id;
     }
 
-// ---- weather ----
+// ---- Weather ----
     get_wind_speed(){
         return this.wind_speed;
+    }
+    set_wind_speed(zpeed) {
+        this.wind_speed = zpeed;
     }
     get_temperature(){
         return this.temperature;
     }
-
-//------- TICK COUNTER ------
-    set_pwr_block(bool) { // if true the block is on
-        this.pwr_blocked = bool;
-    }
-    get_pwr_block() {
-        return this.pwr_blocked;
-    }
-    tick_counter_mngr_block(ticks) { 
-        this.set_pwr_block(true); // set as blocked
-        this.return_state.push(get_pwr_to_battery(), get_pwr_to_market());
-        if (this.tick_count_mngr < ticks) {
-            this.tick_count_mngr += 1;
-        }
-        else {
-            this.tick_count_mngr = 0;
-            this.set_pwr_block(false); // unblock selling to market
-            this.set_store_to_battery(this.return_state[0]);
-            this.set_sell_to_market(this.return_state[1]);
-        }
-    }
-    tick_counter_turbine() {
-        this.set_turbine_broken(true); // set at broken 
-        if (this.tick_count_turbine < 6) { // 2 days in 10 second ticks is 17280. For testing set 2 min = 12
-            this.tick_count_turbine += 1;
-        }
-        else {
-            this.tick_count_turbine = 0;
-            this.set_turbine_broken(false); // fixed turbine.
-        }
+    set_temperature(temperature){
+        this.temperature = temperature;
     }
 
-//------ BASE CONSUMPTION -------
-    get_base_consumption() {
-        return this.base_consumption;
+// ---- Production ----
+    calc_production() {
+        this.pwr_production = this.wind_speed*4;
     }
-
-//----- WIND POWER -----
-    set_wind_power(wind_speed) {
-        //lets assume we get 4 pwr for each 1 m/s of wind. So 4 m/s generates 16 pwr/ hour.
-        if (this.get_turbine_broken() == true) {
-            this.pwr_production = 0;
-        }
-        else { 
-            this.pwr_production = wind_speed*4;
-        }
-    }
-    get_wind_power() {
+    get_production(){
         return this.pwr_production;
     }
-    set_turbine_broken(bool) {
-        this.turbine_broken = bool;
-    }
+
+//------- TICK COUNTER ------
+    // set_pwr_block(bool) { // if true the block is on
+    //     this.pwr_blocked = bool;
+    // }
+    // get_pwr_block() {
+    //     return this.pwr_blocked;
+    // }
+    // tick_counter_mngr_block(ticks) { 
+    //     this.set_pwr_block(true); // set as blocked
+    //     this.return_state.push(get_pwr_to_battery(), get_pwr_to_market());
+    //     if (this.tick_count_mngr < ticks) {
+    //         this.tick_count_mngr += 1;
+    //     }
+    //     else {
+    //         this.tick_count_mngr = 0;
+    //         this.set_pwr_block(false); // unblock selling to market
+    //         this.set_store_to_battery(this.return_state[0]);
+    //         this.set_sell_to_market(this.return_state[1]);
+    //     }
+    // }
+    // tick_counter_turbine() {
+    //     this.set_turbine_broken(true); // set at broken 
+    //     if (this.tick_count_turbine < 6) { // 2 days in 10 second ticks is 17280. For testing set 2 min = 12
+    //         this.tick_count_turbine += 1;
+    //     }
+    //     else {
+    //         this.tick_count_turbine = 0;
+    //         this.set_turbine_broken(false); // fixed turbine.
+    //     }
+    // }
+
+//----- WIND POWER -----
+    // set_wind_power(wind_speed) {
+    //     //lets assume we get 4 pwr for each 1 m/s of wind. So 4 m/s generates 16 pwr/ hour.
+    //     if (this.get_turbine_broken() == true) {
+    //         this.pwr_production = 0;
+    //     }
+    //     else { 
+    //         this.pwr_production = wind_speed*4;
+    //     }
+    // }
+    // get_wind_power() {
+    //     return this.pwr_production;
+    // }
+    // set_turbine_broken(bool) {
+    //     this.turbine_broken = bool;
+    // }
     get_turbine_broken() {
         return this.turbine_broken;
     }
-    turbine_break_probability() { // called each tick
-        var break_chance = 0.00115741 // 10 % break chance per day, 0.0005787 for 5%, 0.00011574 for 1 %
-        if (Math.random() <= break_chance) {
-            this.tick_counter_turbine();
-        }
-    }
+    // turbine_break_probability() { // called each tick
+    //     var break_chance = 0.00115741 // 10 % break chance per day, 0.0005787 for 5%, 0.00011574 for 1 %
+    //     if (Math.random() <= break_chance) {
+    //         this.tick_counter_turbine();
+    //     }
+    // }
 
 //----- CALCULATE POWER ------
     // base consumption - house allocated self-produced pwr.
-    warning_low_battery() {
-        if ((this.get_battery_level()/this.get_battery_max()) < 0.2) {
-            this.low_battery = true;
-        } else {
-            this.low_battery = false;
-        }
-    }
+    // warning_low_battery() {
+    //     if ((this.get_battery_level()/this.get_battery_max()) < 0.2) {
+    //         this.low_battery = true;
+    //     } else {
+    //         this.low_battery = false;
+    //     }
+    // }
 // ---- Consumption ----
     calc_all_consumptions() { // to make sure they're calculated in the right order
-        this.calc_temp_consumptions();
+        this.calc_temp_prosumption();
         this.calc_total_consumption();
     }
     calc_total_consumption() {
         this.total_consumption = this.get_base_consumption() + this.get_temp_consumption();
+    }
+    get_base_consumption() {
+        return this.base_consumption;
     }
     get_total_consumption() {
         return this.total_consumption;
@@ -145,6 +172,29 @@ class Prosumer {
     // }
 
     //------ BATTERY POWER -----
+    /* This function will alter battery level and return how much it charged */
+    update_battery_level(){
+        var over = this.total_consumption > this.pwr_production; // true for overprod
+        if (over && this.store_percentage > 0) {
+            var pwr_to_charge = (this.pwr_production - this.total_consumption)*this.store_percentage; // how much of overprod to charge with
+            if(pwr_to_charge+this.battery_level > this.battry_max) { // overcharge
+                this.battery_level = this.battery_max;
+                return this.battery_max - (pwr_to_charge+this.battery_level);
+            } else {
+                return pwr_to_charge;
+            }
+        } else if(!over && this.drain_percentage > 0){
+            var pwr_to_drain = (this.total_consumption - this.pwr_production)*this.drain_percentage; // how much of underprod to drain
+            if(this.battery_level - pwr_to_drain < 0){ // undercharge
+                var temp = this.battery_level;
+                this.battery_level = 0;
+                return temp;
+            } else {
+                return pwr_to_drain;
+            }
+        }
+
+    }
     // set_store_to_battery(store, pwr_left) { // gives the amount
     //     this.store_to_battery = pwr_left * store;
     // }
@@ -242,9 +292,10 @@ class Prosumer {
     // set_buy_from_market(buy, demand_left) { // based on demand?
     //         this.buy_from_market = demand_left * buy;
     // }
-    // get_pwr_from_market() {
-    //     return this.buy_from_market;
-    // }
+    
+    get_pwr_from_market() {
+        return this.buy_from_market;
+    }
 // ---- distribution ----
     get_sell_percentage(){
         return this.sell_percentage;

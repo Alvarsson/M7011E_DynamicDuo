@@ -6,7 +6,6 @@ BodyMaps = require('./bodyMaps'),
 WindSpeed = mongoose.model('WindSpeed');
 
 exports.get_wind_speed = function(req,res) {
-    console.log("wind speed: ", req.params.tick);
     WindSpeed.findOne({tick: req.params.tick}, function(err, wind) {
         if (err) {
             res.statusCode = 400;
@@ -15,7 +14,6 @@ exports.get_wind_speed = function(req,res) {
 
             if (wind != null) {
                 res.statusCode = 200;
-                console.log("binden är ", wind);
                 res.json(wind);
             } else {
                 res.statusCode = 404;

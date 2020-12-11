@@ -8,7 +8,7 @@ class Consumer {
         return this.total_consumption;
     }
     set_consumer_demand() {
-        this.total_consumption = this.base_consumption + this.temp_consumption;
+        return this.base_consumption + this.temp_consumption;
     }
     get_temp_consumption(temp) {
         return this.temp_consumption;

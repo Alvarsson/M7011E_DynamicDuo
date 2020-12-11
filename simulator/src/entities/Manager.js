@@ -1,17 +1,20 @@
 class Manager {
-    constructor() {
-        this.pwr_production;
-        this.plant_status;
-        this.pwr_to_market;
+    constructor(prosumers, consumers) {
+        this.pwr_production = 1000; // Are these reasonable?
+        this.plant_status = 1;
+        this.pwr_to_market = 1000;
 
-        this.pwr_to_buffer;
-        this.pwr_from_buffer;
-        this.buffer_level;
+        this.pwr_to_buffer; // these needed?
+        this.pwr_from_buffer; // these needed?
+        this.buffer_level = 500;
 
-        this.blackout_warning;
+        this.blackout_warning = false;
 
-        this.market_demand;
-        this.pwr_price;
+        this.market_demand = 0;
+        this.pwr_price = 2;
+
+        this.nr_of_prosumers = prosumers;
+        this.nr_of_consumers = consumers;
     }
 
 // TODO: Question, should the amount of prosumers + consumers be sent into the get company price? Going for yes this time.
@@ -52,10 +55,11 @@ class Manager {
     get_pwr_price() {
         return this.pwr_price;
     }
-    get_company_price_rec(demand, con_plus_pros) { // returns the recommended pwr cost this moment. 
+    get_company_price_rec() { // returns the recommended pwr cost this moment. 
         var service_price = 500;
         var multiplier = 2.25;
-        return (multiplier*demand+service_price)/con_plus_pros;// con_plus_pros is the amount of consumers+prosumers.
+        con_plus_pros = this.nr_of_consumers + this.nr_of_prosumers;
+        return (multiplier*this.market_demand+service_price)/con_plus_pros;// con_plus_pros is the amount of consumers+prosumers.
     }
 
 //------ DISTRIBUTION -------
@@ -81,6 +85,9 @@ class Manager {
     }
 
 //----- BUFFER ----
+    get_buffer_level(){
+        return this.buffer_level;
+    }
     set_pwr_to_buffer(production, dist) {
         this.pwr_to_buffer = production * dist;
     }
