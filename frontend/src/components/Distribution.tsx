@@ -7,12 +7,14 @@ import LabelledSlider from "./LabelledSlider";
 import Button from "react-bootstrap/Button";
 
 import Card from "react-bootstrap/esm/Card";
-
+import {CURRENTUSER} from '../constants/apiConstants';
 
 interface Props {
   initialValueA: number;
   initialValueB: number;
 }
+
+
 
 const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
   const [valA, setValA] = useState(initialValueA);
@@ -38,32 +40,37 @@ const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
   }
 
   function postDistribution_Over() {
+
     return axios.put(
-      "http://localhost:3001/prosumersettings/lisa2/distr_over",
+      "http://localhost:3001/prosumersettings/"+ localStorage.getItem(CURRENTUSER)+"/distr_over",
       {
         distribution: {
-          sell: 100 - valA,
-          store: valA,
+          sell: (100 - valA) / 100,
+          store: valA / 100,
         },
-      }
+      },
+      
     );
   }
 
   function postDistribution_under() {
-    return axios.put(
-      "http://localhost:3001/prosumersettings/lisa2/distr_under",
-      {
-        distribution: {
-          buy: 100 - valB,
-          drain: valB,
+    return axios
+      .put(
+        "http://localhost:3001/prosumersettings/"+ localStorage.getItem(CURRENTUSER)+"/distr_under",
+        {
+          distribution: {
+            buy: (100 - valB) / 100,
+            drain: valB / 100,
+          },
         },
-      }
-    );
+        
+      )
+      .then((response) => console.log(response));
   }
 
   return (
     <Container className="p-3">
-      <Card style={{ width: "30vw" }} bg="light">
+      <Card style={{ width: "50vw" }} bg="light">
         <Card.Body>
           <Card.Title>{"For over-production:"}</Card.Title>
 

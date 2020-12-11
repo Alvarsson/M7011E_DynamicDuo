@@ -34,7 +34,7 @@ export default function DashSimple() {
   };
 
   const fetchData = () => {
-    const url = "http://localhost:3001/prosumerlog/lisa2/getlatest";
+    const url = "http://localhost:3001/prosumerlog/1/getlatest";
 
     return axios
       .get(url)
@@ -60,21 +60,21 @@ export default function DashSimple() {
 
           //måste bli bättre än såhär på något sätt, right?
           setProductionArray((oldArray) => {
-            if (oldArray.length > 5) {
+            if (oldArray.length > 9) {
               oldArray.shift();
             }
             return [...oldArray, { tick: res.tick, value: res.production }];
           });
 
           setConsumptionArray((oldArray) => {
-            if (oldArray.length > 5) {
+            if (oldArray.length > 9) {
               oldArray.shift();
             }
             return [...oldArray, { tick: res.tick, value: res.consumption }];
           });
 
           setWindArray((oldArray) => {
-            if (oldArray.length > 5) {
+            if (oldArray.length > 9) {
               oldArray.shift();
             }
             return [
@@ -118,28 +118,3 @@ export default function DashSimple() {
     </Container>
   );
 }
-
-// <Col>
-//           <DashComponent
-//             dataType={"Production"}
-//             display={productionArray}
-//             current={curr[0]}
-//             strokeColor={"#4655f5"}
-//           />
-//         </Col>
-//         <Col>
-//           <DashComponent
-//             dataType={"Consumption"}
-//             display={consumptionArray}
-//             current={curr[1]}
-//             strokeColor={"#1edc00"}
-//           />
-//         </Col>
-//         <Col>
-//           <DashComponent
-//             dataType={"Windspeed"}
-//             display={windArray}
-//             current={curr[2]}
-//             strokeColor={"#ff3c28"}
-//           />
-//         </Col>

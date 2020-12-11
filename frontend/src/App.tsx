@@ -1,56 +1,64 @@
 import React, { useEffect, useState } from "react";
+import './App.css';
+import Header from './components/Header/Header';
+import LoginForm from './components/LoginForm/LoginForm';
+import RegistrationForm from './components/RegistrationForm/RegistrationForm';
+import Home from './components/Home/Home';
+import PrivateRoute from './utils/PrivateRoute';
+import {ACCESS_TOKEN_NAME} from './constants/apiConstants'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
-import Container from "react-bootstrap/Container";
+import AlertComponent from './components/AlertComponent/AlertComponent';  
 
-import Distribution from "./components/Distribution";
+import ProsumerSettings from "./ProsumerSettings";
 
-import axios from "axios";
-import DashSimple from "./components/DashSimple";
-import Row from "react-bootstrap/Row";
+import axios from 'axios';
+
 
 const App: React.FC = () => {
-  const [valA, setValA] = useState(1);
-  const [valB, setValB] = useState(1);
-  const [isLoaded, setLoaded] = useState(false);
+    //adds the jwt to all outgoing request from the client
+    axios.interceptors.request.use(function (config) {
+        const token = localStorage.getItem(ACCESS_TOKEN_NAME);
+        console.log("using the interceptor and setting a auth token")
 
-  useEffect(() => {
-    // Run! Like go get some data from an API.
-    fetchShit();
-  }, []);
-
-  //TODO: nu vill jag bara fetcha data när vi öppnar sidan och sen spara de värdena som defaults
-
-  const fetchShit = () => {
-    axios
-      .get("http://localhost:3001/prosumersettings/lisa2")
-      .then(({ data }) => {
-        console.log(data);
-        const valA = data.distribution.sell;
-        const valB = data.distribution.buy;
-
-        setValA(100 - valA);
-        setValB(100 - valB);
-        setLoaded(true);
-      });
-  };
-
-  return (
-    <Container className="p-3">
-
-      <Row>
-        <DashSimple />
-      </Row>
-
-      <Row>
-      
-        {isLoaded ? (
-          <Distribution initialValueA={valA} initialValueB={valB} />
-        ) : (
-          <p> waiting </p>
-        )}
-      </Row>
-    </Container>
-  );
+        
+        config.headers.Authorization =  token;
+        console.log(config)
+    
+        return config;
+    });
+    
+    const [title, updateTitle] = useState(null);
+    const [errorMessage, updateErrorMessage] = useState(null);
+    return (
+      <Router>
+      <div className="App">
+        <Header title={title}/>
+          <div className="container d-flex align-items-center flex-column">
+            <Switch>
+              <Route path="/" exact={true}>
+                <RegistrationForm showError={updateErrorMessage} updateTitle={updateTitle}/>
+              </Route>
+              <Route path="/register">
+                <RegistrationForm showError={updateErrorMessage} updateTitle={updateTitle}/>
+              </Route>
+              <Route path="/login">
+                <LoginForm showError={updateErrorMessage} updateTitle={updateTitle}/>
+              </Route>
+              <PrivateRoute path="/home">
+                <ProsumerSettings />
+              </PrivateRoute>
+            </Switch>
+            <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage}/>
+          </div>
+      </div>
+      </Router>
+    );
 };
+
 
 export default App;
