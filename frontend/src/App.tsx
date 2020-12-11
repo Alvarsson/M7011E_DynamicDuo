@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import './App.css';
 import Header from './components/Header/Header';
 import LoginForm from './components/LoginForm/LoginForm';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import Home from './components/Home/Home';
 import PrivateRoute from './utils/PrivateRoute';
-import {ACCESS_TOKEN_NAME} from './constants/apiConstants'
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,21 +14,11 @@ import AlertComponent from './components/AlertComponent/AlertComponent';
 
 import ProsumerSettings from "./ProsumerSettings";
 
-import axios from 'axios';
 
 
 const App: React.FC = () => {
     //adds the jwt to all outgoing request from the client
-    axios.interceptors.request.use(function (config) {
-        const token = localStorage.getItem(ACCESS_TOKEN_NAME);
-        console.log("using the interceptor and setting a auth token")
-
-        
-        config.headers.Authorization =  token;
-        console.log(config)
     
-        return config;
-    });
     
     const [title, updateTitle] = useState(null);
     const [errorMessage, updateErrorMessage] = useState(null);

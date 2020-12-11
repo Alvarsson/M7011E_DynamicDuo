@@ -8,6 +8,11 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import CardDeck from "react-bootstrap/CardDeck";
 
+import {
+    API_BASE_URL,
+    CURRENTUSER,
+  } from "../constants/apiConstants";
+
 export default function DashSimple() {
   //const [data, setData] = useState("");
 
@@ -34,7 +39,7 @@ export default function DashSimple() {
   };
 
   const fetchData = () => {
-    const url = "http://localhost:3001/prosumerlog/1/getlatest";
+    const url = localStorage.getItem(API_BASE_URL)+"/prosumerlog/"+localStorage.getItem(CURRENTUSER)+"/getlatest";
 
     return axios
       .get(url)
@@ -86,7 +91,7 @@ export default function DashSimple() {
           console.log("An update occurred.");
         }
       });
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, [tick]); //actually update states when the tick has changed.

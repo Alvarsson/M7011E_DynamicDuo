@@ -193,7 +193,44 @@ exports.add_prosumer_setting = function (req,res) {
       }
     });
   }
-}
+};
+
+exports.add_prosumer_setting_test = function (req) {
+    //check that the Id doesnt already exist.
+    ProsumerSettings.findOne({ id: req.id }, function (err, t) {
+      if (t != null) {
+        console.log("something weird happened here #24511")
+      } else {
+        //insert new prosumer:
+        ProsumerSettings.create(
+          {
+            id: req.id,
+            img_url: "test-atm i add_prosumer_setting_test routen",
+            distribution: {
+              sell: 0.5,
+              store: 0.5,
+              buy: 0.5,
+              drain: 0.5,
+            },
+            battery_warning_threshold: 1337,
+            login_credentials: {
+              password: "behöver vi spara password?<3",
+              online: 0,
+            },
+          },
+          function (err, prosumer) {
+            if (err) {
+              console.error(err)
+            } else {
+                console.log("added a new user with the id: " + prosumer.id)
+                
+            }
+          }
+        );
+      }
+    });
+  
+};
 
 exports.delete_prosumer_settings = function(req,res) {
   ProsumerSettings.deleteOne({id: req.params.id}, function(err, prosumer) {

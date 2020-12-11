@@ -6,6 +6,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from 'axios';
+import {ACCESS_TOKEN_NAME} from './constants/apiConstants'
+
+
+axios.interceptors.request.use(function (config) {
+    const token = localStorage.getItem(ACCESS_TOKEN_NAME);
+    console.log("using the interceptor and setting a auth token")
+    
+    config.headers.Authorization =  token;
+    console.log(config)
+
+    return config;
+});
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./LoginForm.css";
 import {
   API_BASE_URL,
   ACCESS_TOKEN_NAME,
@@ -8,28 +7,12 @@ import {
 } from "../../constants/apiConstants";
 import { withRouter } from "react-router-dom";
 
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-}
-
 function LoginForm(props) {
   const [state, setState] = useState({
     id: "",
     password: "",
     successMessage: null,
   });
-
-  const fetchShit = () => {
-    axios
-      .get("http://localhost:3001/prosumersettings/altzin", {
-        withCredentials: true,
-      })
-      .then(({ data }) => {
-        console.log(data);
-      });
-  };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -53,11 +36,9 @@ function LoginForm(props) {
             ...prevState,
             successMessage: "Login successful. Redirecting to home page..",
           }));
-          
 
           localStorage.setItem(ACCESS_TOKEN_NAME, response.data.userData.token);
           localStorage.setItem(CURRENTUSER, response.data.userData.id);
-          //fetchShit();
           redirectToHome();
           props.showError(null);
         } else if (response.code === 204) {
@@ -91,9 +72,6 @@ function LoginForm(props) {
             value={state.userID}
             onChange={handleChange}
           />
-          <small id="emailHelp" className="form-text text-muted">
-            We'll never share your email with anyone else.
-          </small>
         </div>
         <div className="form-group text-left">
           <label htmlFor="exampleInputPassword1">Password</label>

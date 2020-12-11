@@ -4,10 +4,6 @@ const User = require("../models/user_model");
 const auth = (req, res, next) => {
   let token = req.headers.authorization;
   
-  console.log("authenticate user")
-  console.log(token);
-
-  
   User.findByToken(token, (err, user) => {
     if (err) throw err;
     if (!user) {
