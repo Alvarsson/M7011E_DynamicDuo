@@ -8,10 +8,7 @@ import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import CardDeck from "react-bootstrap/CardDeck";
 
-import {
-    API_BASE_URL,
-    CURRENTUSER,
-  } from "../constants/apiConstants";
+import { API_BASE_URL, CURRENTUSER } from "../constants/apiConstants";
 
 export default function DashSimple() {
   //const [data, setData] = useState("");
@@ -28,18 +25,13 @@ export default function DashSimple() {
   const [consumptionArray, setConsumptionArray] = useState(initialStateArray);
   const [windArray, setWindArray] = useState(initialStateArray);
 
-  const fitChartDataToRules = (oldArray, tick, newData) => {
-    if (oldArray.length > 9) {
-      oldArray.shift();
-    }
-
-    oldArray.push({ tick: tick, value: newData });
-
-    return oldArray;
-  };
-
   const fetchData = () => {
-    const url = localStorage.getItem(API_BASE_URL)+"/prosumerlog/"+localStorage.getItem(CURRENTUSER)+"/getlatest";
+
+    const url =
+      API_BASE_URL +
+      "/prosumerlog/" +
+      localStorage.getItem(CURRENTUSER) +
+      "/getlatest";
 
     return axios
       .get(url)
@@ -91,7 +83,7 @@ export default function DashSimple() {
           console.log("An update occurred.");
         }
       });
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [tick]); //actually update states when the tick has changed.

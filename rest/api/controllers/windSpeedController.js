@@ -6,8 +6,10 @@ BodyMaps = require('./bodyMaps'),
 WindSpeed = mongoose.model('WindSpeed');
 
 exports.get_wind_speed = function(req,res) {
+    console.log(req.params.tick)
     WindSpeed.findOne({tick: req.params.tick}, function(err, wind) {
         if (err) {
+            console.log(err)
             res.statusCode = 400;
             res.send("Could not fetch the wind speed.");
         } else {

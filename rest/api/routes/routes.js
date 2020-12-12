@@ -49,7 +49,7 @@ module.exports = function(app) {
 	app.route('/prosumerlog/:id/getall') // get all specific prosumer logs
 		.get(prosumer_log.get_all_prosumer_logs);
 	app.route('/prosumerlog/:id/getlatest') // get latest specific prosumer log
-		.get(prosumer_log.get_latest_prosumer_log);
+		.get(auth,prosumer_log.get_latest_prosumer_log);
 	app.route('/prosumerlog/:id/delete') // delete all specific prosumer logs
 		.delete(prosumer_log.delete_prosumer_logs);
 	
