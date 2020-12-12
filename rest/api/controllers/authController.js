@@ -69,6 +69,7 @@ exports.LoginUser = (req, res) => {
                                 message: 'Successfully Logged in!',
                                 userData: data
                             })
+                            
                         }
                     })
                 } 

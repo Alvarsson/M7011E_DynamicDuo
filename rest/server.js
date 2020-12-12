@@ -9,8 +9,8 @@ Manager = require('./api/models/manager_settings_model'),
 ManagerLog = require('./api/models/manager_log_model'),
 WindSpeed = require('./api/models/wind_speed_model'),
 Blackout = require('./api/models/blackout_model'),
-ManagerLog = require('./api/models/manager_log_model')
-// manager = require('./api/controllers/managerController')
+ManagerLog = require('./api/models/manager_log_model'),
+manager = require('./api/controllers/authController')
 var cors = require('cors')
 
 app.use(cors({
@@ -45,9 +45,5 @@ app.use(function(req, res) {
 });
 
 app.listen(port);
-
-/* app.post(manager.add_manager_setting, function(){
-
-}) */
 
 console.log('REST API server started on: ' + port)
