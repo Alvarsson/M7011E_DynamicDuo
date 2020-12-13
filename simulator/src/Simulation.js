@@ -259,7 +259,7 @@ class Simulation {
 
   update() {
 
-    console.log("tick at 20 seconds")
+    console.log("tick at 10 seconds")
     // check if new prosumersettings added/removed
     this.update_prosumer_list(this.prosumer_list);
     // get updated distr + weathertick
