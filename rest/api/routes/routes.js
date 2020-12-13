@@ -48,7 +48,7 @@ module.exports = function(app) {
 		.post(prosumer_log.add_prosumer_log);
 	app.route('/prosumerlog/:id/getall') // get all specific prosumer logs
 		.get(prosumer_log.get_all_prosumer_logs);
-	app.route('/prosumerlog/:id/getlatest') // get latest specific prosumer log
+	app.route('/prosumerlog/:id/getlatest/:limit?') // get latest specific prosumer log, with optional limiter
 		.get(auth,prosumer_log.get_latest_prosumer_log);
 	app.route('/prosumerlog/:id/delete') // delete all specific prosumer logs
 		.delete(prosumer_log.delete_prosumer_logs);

@@ -28,21 +28,25 @@ exports.get_all_prosumer_logs = function(req,res) {
 
 // get the latest log for a given prosumer
 exports.get_latest_prosumer_log = function(req, res) {
+    var limit = req.params.limit;
+
     ProsumerLog.find({id:req.params.id}, function(err, prosumer) {
         if (err) {
             res.statusCode = 400;
+            console.log(err)
             res.send("Couldn't fetch the latest log.");
         } else {
             if (prosumer != null) {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
+                //kanske returna objekt om limit är 1? eller kanske inte.
                 res.json(prosumer);
             } else {
                 res.statusCode = 404;
                 res.send();
             }
         }
-    }).sort({_id:"-1"}).limit(1);
+    }).sort({_id:"-1"}).limit(parseInt(limit));
 }
 
 exports.delete_prosumer_logs = function(req,res) {
