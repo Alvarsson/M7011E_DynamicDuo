@@ -13,7 +13,13 @@ import { API_BASE_URL, CURRENTUSER } from "../constants/apiConstants";
 export default function DashSimple() {
   //const [data, setData] = useState("");
 
-  const initialStateArray = [];
+  const initialStateArray = [
+    { tick: -4, value: 0 },
+    { tick: -3, value: 0 },
+    { tick: -2, value: 0 },
+    { tick: -1, value: 0 },
+    { tick: 0, value: 0 },
+  ];
   const [a, setA] = useState(0);
   const [tick, setTick] = useState(0);
   const [curr, setCurrent] = useState([0, 0, 0]);
@@ -42,45 +48,47 @@ export default function DashSimple() {
   };
 
   const setStates = (inData) => {
-
     setProductionArray((oldArray) => {
-        if (oldArray.length > dataLimit) {
-          oldArray.shift();
-        }
-        return [...oldArray, { tick: inData.tick, value: inData.production }];
-      });
+      if (oldArray.length > dataLimit) {
+        oldArray.shift();
+      }
+      return [...oldArray, { tick: inData.tick, value: inData.production }];
+    });
 
-      setConsumptionArray((oldArray) => {
-        if (oldArray.length > dataLimit) {
-          oldArray.shift();
-        }
-        return [
-          ...oldArray,
-          { tick: inData.tick, value: inData.consumption },
-        ];
-      });
+    setConsumptionArray((oldArray) => {
+      if (oldArray.length > dataLimit) {
+        oldArray.shift();
+      }
+      return [...oldArray, { tick: inData.tick, value: inData.consumption }];
+    });
 
-      setWindArray((oldArray) => {
-        if (oldArray.length > dataLimit) {
-          oldArray.shift();
-        }
-        return [
-          ...oldArray,
-          { tick: inData.tick, value: inData.weather.wind_speed },
-        ];
-      });
-
-  }
+    setWindArray((oldArray) => {
+      if (oldArray.length > dataLimit) {
+        oldArray.shift();
+      }
+      return [
+        ...oldArray,
+        { tick: inData.tick, value: inData.weather.wind_speed },
+      ];
+    });
+  };
 
   const initializeData = (latestLogs) => {
     console.log("init data");
+
+    if (typeof latestLogs[0] === "undefined") {
+      console.log("latest logs undefined");
+      setCurrent([0, 0, 0]);
+      //setStates([]);
+      return;
+    }
     setCurrent([
       latestLogs[0].production,
       latestLogs[0].consumption,
       latestLogs[0].weather.wind_speed,
     ]);
-
-    latestLogs.forEach((element) => {
+    
+    latestLogs.reverse().forEach((element) => {
       //måste bli bättre än såhär på något sätt, right?
       setStates(element);
     });
@@ -89,23 +97,26 @@ export default function DashSimple() {
   const updateData = (response) => {
     var res = response[0];
 
-    
-    setTick(res.tick);
+    try {
+      setTick(res.tick);
 
-    if (res.tick === tick) {
-      //same tick? dont change anythin.
-      return null;
-    } else {
-      setCurrent([res.production, res.consumption, res.weather.wind_speed]);
+      if (res.tick === tick) {
+        //same tick? dont change anythin.
+        return null;
+      } else {
+        setCurrent([res.production, res.consumption, res.weather.wind_speed]);
 
-      setStates(res);
+        setStates(res);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   useEffect(() => {
     // maybe move to moveTimeout?
     if (a !== 1) {
-      fetchData(dataLimit).then((latestLogs) => {
+      fetchData(dataLimit+1).then((latestLogs) => {
         initializeData(latestLogs);
       });
       setA(1);
