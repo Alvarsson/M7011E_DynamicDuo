@@ -78,6 +78,11 @@ userSchema.statics.findByToken = function(token, callBack) {
             if(err) {
                 return callBack(err);
             }
+            if (decode != undefined) {
+                console.log(decode._id);
+            }
+            //console.log(decode)
+            //console.log("SENT USER", user);
             callBack(null, user);
         });
     });

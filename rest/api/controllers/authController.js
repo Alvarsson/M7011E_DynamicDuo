@@ -64,6 +64,10 @@ exports.LoginUser = (req, res) => {
                                 token: user.token
                             }
                             // saves token to cookie
+                            //res.setHeader('token', user.token)
+                            //res.setHeader('usrID', user.id)
+                            res.cookie('authToken', user.token)
+                            res.cookie('userID', user.id)
                             res.status(200).json({
                                 success: true,
                                 message: 'Successfully Logged in!',

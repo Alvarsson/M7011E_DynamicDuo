@@ -25,7 +25,7 @@ module.exports = function(app) {
 		.post(prosumer.add_prosumer_setting); // add new prosumer setting
 
 	app.route('/prosumersettings/:id')
-		.get(/*auth,*/prosumer.get_prosumer_setting); // Get prosumer setting for id
+		.get(auth,prosumer.get_prosumer_setting);     //Get prosumer setting for id
 	app.route('/prosumersettings/:id/img_url')
 		.put(auth,prosumer.update_prosumer_settings_img_url); // update img_url for id
 	app.route('/prosumersettings/:id/password')
