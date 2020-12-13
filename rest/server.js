@@ -10,7 +10,9 @@ ManagerLog = require('./api/models/manager_log_model'),
 WindSpeed = require('./api/models/wind_speed_model'),
 Blackout = require('./api/models/blackout_model'),
 ManagerLog = require('./api/models/manager_log_model'),
-manager = require('./api/controllers/authController')
+User = require('./api/models/user_model'),
+manager = require('./api/controllers/authController');
+
 var cors = require('cors')
 
 app.use(cors({
@@ -21,7 +23,7 @@ app.use(cors({
 //app.options(corsOptions,cors())
 
 
-User = require('./api/models/user_model'),
+
 cookieParser = require('cookie-parser'),
 bodyParser = require('body-parser');
 

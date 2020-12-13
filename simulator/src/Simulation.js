@@ -26,7 +26,7 @@ class Simulation {
     // generera wind, into DB
     console.log("Generating wind data");
     this.wm = new WindModule();
-    this.generate_wind_data(); // uncomment this for deployment
+    //this.generate_wind_data(); // uncomment this for deployment
 
     // create prosumers, add to DB, register users
     console.log("Creating Prosumers");

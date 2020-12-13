@@ -86,8 +86,10 @@ export default function DashSimple() {
     });
   };
 
-  const updateData = (res) => {
-    var res = res[0];
+  const updateData = (response) => {
+    var res = response[0];
+
+    
     setTick(res.tick);
 
     if (res.tick === tick) {
@@ -102,7 +104,7 @@ export default function DashSimple() {
 
   useEffect(() => {
     // maybe move to moveTimeout?
-    if (a != 1) {
+    if (a !== 1) {
       fetchData(dataLimit).then((latestLogs) => {
         initializeData(latestLogs);
       });
