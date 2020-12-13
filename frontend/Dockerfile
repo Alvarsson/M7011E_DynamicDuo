@@ -4,9 +4,9 @@ WORKDIR /usr/src/app/frontend
 
 COPY package*.json ./
 
-RUN yarn install
+RUN npm install
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
 
