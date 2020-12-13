@@ -13,77 +13,106 @@ import { API_BASE_URL, CURRENTUSER } from "../constants/apiConstants";
 export default function DashSimple() {
   //const [data, setData] = useState("");
 
-  const initialStateArray = [
-    { tick: -3, value: 0 },
-    { tick: -2, value: 0 },
-    { tick: -1, value: 0 },
-  ];
-
+  const initialStateArray = [];
+  const [a, setA] = useState(0);
   const [tick, setTick] = useState(0);
   const [curr, setCurrent] = useState([0, 0, 0]);
   const [productionArray, setProductionArray] = useState(initialStateArray);
   const [consumptionArray, setConsumptionArray] = useState(initialStateArray);
   const [windArray, setWindArray] = useState(initialStateArray);
 
-  const fetchData = () => {
+  const dataLimit = 9;
 
+  const fetchData = (limit) => {
     const url =
       API_BASE_URL +
       "/prosumerlog/" +
       localStorage.getItem(CURRENTUSER) +
-      "/getlatest";
+      "/getlatest/" +
+      limit;
 
     return axios
       .get(url)
       .then(({ data }) => {
-        return data[0];
+        return data;
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
+  const setStates = (inData) => {
+
+    setProductionArray((oldArray) => {
+        if (oldArray.length > dataLimit) {
+          oldArray.shift();
+        }
+        return [...oldArray, { tick: inData.tick, value: inData.production }];
+      });
+
+      setConsumptionArray((oldArray) => {
+        if (oldArray.length > dataLimit) {
+          oldArray.shift();
+        }
+        return [
+          ...oldArray,
+          { tick: inData.tick, value: inData.consumption },
+        ];
+      });
+
+      setWindArray((oldArray) => {
+        if (oldArray.length > dataLimit) {
+          oldArray.shift();
+        }
+        return [
+          ...oldArray,
+          { tick: inData.tick, value: inData.weather.wind_speed },
+        ];
+      });
+
+  }
+
+  const initializeData = (latestLogs) => {
+    console.log("init data");
+    setCurrent([
+      latestLogs[0].production,
+      latestLogs[0].consumption,
+      latestLogs[0].weather.wind_speed,
+    ]);
+
+    latestLogs.forEach((element) => {
+      //måste bli bättre än såhär på något sätt, right?
+      setStates(element);
+    });
+  };
+
+  const updateData = (res) => {
+    var res = res[0];
+    setTick(res.tick);
+
+    if (res.tick === tick) {
+      //same tick? dont change anythin.
+      return null;
+    } else {
+      setCurrent([res.production, res.consumption, res.weather.wind_speed]);
+
+      setStates(res);
+    }
+  };
+
   useEffect(() => {
     // maybe move to moveTimeout?
-
-    const interval = setInterval(() => {
-      fetchData().then((res) => {
-        setTick(res.tick);
-
-        if (res.tick === tick) {
-          return null;
-        } else {
-          setCurrent([res.production, res.consumption, res.weather.wind_speed]);
-
-          //måste bli bättre än såhär på något sätt, right?
-          setProductionArray((oldArray) => {
-            if (oldArray.length > 9) {
-              oldArray.shift();
-            }
-            return [...oldArray, { tick: res.tick, value: res.production }];
-          });
-
-          setConsumptionArray((oldArray) => {
-            if (oldArray.length > 9) {
-              oldArray.shift();
-            }
-            return [...oldArray, { tick: res.tick, value: res.consumption }];
-          });
-
-          setWindArray((oldArray) => {
-            if (oldArray.length > 9) {
-              oldArray.shift();
-            }
-            return [
-              ...oldArray,
-              { tick: res.tick, value: res.weather.wind_speed },
-            ];
-          });
-
-          console.log("An update occurred.");
-        }
+    if (a != 1) {
+      fetchData(dataLimit).then((latestLogs) => {
+        initializeData(latestLogs);
       });
-    }, 5000);
+      setA(1);
+    }
+    const interval = setInterval(() => {
+      fetchData(1).then((res) => {
+        updateData(res);
+      });
+    }, 10000);
 
     return () => clearInterval(interval);
   }, [tick]); //actually update states when the tick has changed.
