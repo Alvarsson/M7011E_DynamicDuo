@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import Container from "react-bootstrap/Container";
 
-import Distribution from "./components/Distribution";
+import Distribution from "./components/DistributionComponent/Distribution";
 import { ACCESS_TOKEN_NAME, API_BASE_URL, CURRENTUSER } from './constants/apiConstants';
 
 import axios from "axios";
-import DashSimple from "./components/DashSimple";
+import DashSimple from "./components/logsComponent/DashSimple";
 import Row from "react-bootstrap/Row";
 
 const ProsumerSettings: React.FC = () => {
