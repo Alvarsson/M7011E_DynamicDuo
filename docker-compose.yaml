@@ -59,8 +59,7 @@ services:
 
 networks:
   back-tier:
-  app-network:
-    driver: bridge
+  
 
 volumes:
   node_modules:
