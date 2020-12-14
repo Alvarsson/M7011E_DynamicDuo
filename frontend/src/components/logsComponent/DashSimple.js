@@ -20,7 +20,7 @@ export default function DashSimple() {
     { tick: -1, value: 0 },
     { tick: 0, value: 0 },
   ];
-  const [a, setA] = useState(0);
+  const [singleton, setSingleton] = useState(0);
   const [tick, setTick] = useState(0);
   const [curr, setCurrent] = useState([0, 0, 0]);
   const [productionArray, setProductionArray] = useState(initialStateArray);
@@ -115,11 +115,11 @@ export default function DashSimple() {
 
   useEffect(() => {
     // maybe move to moveTimeout?
-    if (a !== 1) {
+    if (singleton !== 1) {
       fetchData(dataLimit+1).then((latestLogs) => {
         initializeData(latestLogs);
       });
-      setA(1);
+      setSingleton(1);
     }
     const interval = setInterval(() => {
       fetchData(1).then((res) => {
