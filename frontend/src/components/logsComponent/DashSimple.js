@@ -98,7 +98,7 @@ export default function DashSimple() {
     var res = response[0];
 
     try {
-      setTick(res.tick);
+      setTick(res.tick); //hmm... nu blir väl tick=res.tick? och sen kollar vi? wat
 
       if (res.tick === tick) {
         //same tick? dont change anythin.

@@ -14,6 +14,8 @@ import AlertComponent from './components/AlertComponent/AlertComponent';
 
 import ProsumerSettings from "./ProsumerSettings";
 
+import ManagerMain from './components/Manager/ManagerMain'
+
 
 
 const App: React.FC = () => {
@@ -22,6 +24,8 @@ const App: React.FC = () => {
     
     const [title, updateTitle] = useState(null);
     const [errorMessage, updateErrorMessage] = useState(null);
+
+    //SE TILL ATT MANAGER HAMNAR I PRIVATE ROUTE
     return (
       <Router>
       <div className="App">
@@ -40,6 +44,9 @@ const App: React.FC = () => {
               <PrivateRoute path="/home">
                 <ProsumerSettings />
               </PrivateRoute>
+              <Route path="/manager">
+                <ManagerMain />
+              </Route>
             </Switch>
             <AlertComponent errorMessage={errorMessage} hideError={updateErrorMessage}/>
           </div>
