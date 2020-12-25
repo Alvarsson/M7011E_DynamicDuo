@@ -192,15 +192,6 @@ You need to input a body on the below format:
 }
 ```
 
-#### Delete prosumer setting <a name="del_pro_set"></a>
-**DELETE** to **/prosumersettings/*id*/delete**
-
-Here, id is the id of the prosumerSetting you want to update.
-You can expect a response as:
-```json
-The prosumer settings are now deleted
-```
-
 #### Update prosumer setting: blocked <a name="upd_pro_block"></a>
 **PUT** to **/prosumersettings/*id*/block**
 
@@ -210,6 +201,15 @@ You need to input a body on the below format:
 {
     "blocked": 0
 }
+```
+
+#### Delete prosumer setting <a name="del_pro_set"></a>
+**DELETE** to **/prosumersettings/*id*/delete**
+
+Here, id is the id of the prosumerSetting you want to update.
+You can expect a response as:
+```json
+The prosumer settings are now deleted
 ```
 
 ### Prosumer Logs <a name="pro_log"></a>
