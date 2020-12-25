@@ -10,6 +10,7 @@
         "drain": 0.7
     },
     "batteryWarningThreshold": 200,
+    "blocked": 0,
     "loginCredentials": {
         "password": "hashatPassword",
         "online": 1
