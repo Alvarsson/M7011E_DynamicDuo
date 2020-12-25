@@ -12,7 +12,8 @@ The base path for these calls will be: **http://SERVER_IP:3001**
     7. [Update prosumer setting: distr_over](#upd_pro_dist_over)
     8. [Update prosumer setting: distr_under](#upd_pro_dist_under)
     9. [Update prosumer setting: battery_warning_threshold](#upd_pro_bat)
-    10. [Delete prosumer setting](#del_pro_set)
+    10. [Update prosumer setting: blocked](#upd_pro_block)
+    11. [Delete prosumer setting](#del_pro_set)
     
 2. [Prosumer Logs](#pro_log)
     1. [Add a prosumer log](#add_pro_log)
@@ -34,6 +35,7 @@ The base path for these calls will be: **http://SERVER_IP:3001**
     3. [Get latest manager log](#man_log_lat)
     4. [Delete all manager logs](#man_log_del)
 
+
 ### Prosumer Settings <a name="pro_settings"></a>
 
 #### Get all prosumer setting <a name="all_pro_settings"></a>
@@ -52,6 +54,7 @@ You will recieve a response on the form:
       "buy": 0.5,
       "drain": 0.5
     },
+    "blocked": 0,
     "battery_warning_threshold": 40,
     "login_credentials": {
       "_id": "geg5ege",
@@ -79,6 +82,7 @@ You will recieve a response on the form:
     "buy": 0.5,
     "drain": 0.5
   },
+  "blocked": 0,
   "battery_warning_threshold": 40,
   "login_credentials": {
     "_id": "geg5ege",
@@ -103,6 +107,7 @@ You need to input a body on the below format:
         "buy": 0.4,
         "drain": 0.6
     },
+    "blocked": 0,
     "battery_warning_threshold": 50,
     "login_credentials": {
         "password": "secretboi",
@@ -143,7 +148,7 @@ You need to input a body on the below format:
 ```json
 {
     "login_credentials":{
-      "online": "2"
+      "online": 2
     }
 }
 ```
@@ -156,8 +161,8 @@ You need to input a body on the below format:
 ```json
 {
     "distribution":{
-      "sell": "0.2",
-      "store": "0.8"
+      "sell": 0.2,
+      "store": 0.8
     }
 }
 ```
@@ -170,8 +175,8 @@ You need to input a body on the below format:
 ```json
 {
     "distribution":{
-      "buy": "0.2",
-      "drain": "0.8"
+      "buy": 0.2,
+      "drain": 0.8
     }
 }
 ```
@@ -183,7 +188,7 @@ Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
 ```json
 {
-    "battery_warning_threshold": "50"
+    "battery_warning_threshold": 50
 }
 ```
 
@@ -196,6 +201,17 @@ You can expect a response as:
 The prosumer settings are now deleted
 ```
 
+#### Update prosumer setting: blocked <a name="upd_pro_block"></a>
+**PUT** to **/prosumersettings/*id*/block**
+
+Here, id is the id of the prosumerSetting you want to update.
+You need to input a body on the below format:
+```json
+{
+    "blocked": 0
+}
+```
+
 ### Prosumer Logs <a name="pro_log"></a>
 
 #### Add a prosumer log <a name="add_pro_log"></a>
@@ -205,14 +221,14 @@ You will need to send a body with the form below:
 ```json
 {
     "id": "Haxel",
-    "consumption": "40",
-    "production": "30",
-    "tick": "10",
-    "battery_level": "110",
-    "broken_turbine": "false",
+    "consumption": 40,
+    "production": 30,
+    "tick": 10,
+    "battery_level": 110,
+    "broken_turbine": false,
     "weather": {
-        "wind_speed": "6",
-        "temperature": "10"
+        "wind_speed": 6,
+        "temperature": 10
     }
 }
 ```
@@ -306,7 +322,7 @@ You need to input a body on the below format:
 ```json
 {
     "img_url": "www.mannen.img",
-    "battery_warning_threshold": "35",
+    "battery_warning_threshold": 35,
     "login_credentials": {
         "password": "secure123",
         "online": "0"
@@ -344,7 +360,7 @@ You need to input a body on the below format:
 ```json
 {
     "login_credentials":{
-      "online": "3"
+      "online": 3
     }
 }
 ```
@@ -355,7 +371,7 @@ You need to input a body on the below format:
 You need to input a body on the below format:
 ```json
 {
-    "battery_warning_threshold": "200"
+    "battery_warning_threshold": 200
 }
 ```
 
@@ -375,13 +391,13 @@ The manager settings are now deleted.
 You will need to send a body with the form below:
 ```json
 {
-    "market_price": "12",
-    "battery_level": "2500",
-    "production": "900",
-    "tick": "14",
-    "total_net_consumption": "1000",
-    "power_plant_consumption": "130",
-    "nr_of_consumers": "8"
+    "market_price": 12,
+    "battery_level": 2500,
+    "production": 900,
+    "tick": 14,
+    "total_net_consumption": 1000,
+    "power_plant_consumption": 130,
+    "nr_of_consumers": 8
 }
 ```
 
