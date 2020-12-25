@@ -157,6 +157,26 @@ exports.update_prosumer_settings_online = function(req,res) {
   }
 }
 
+exports.update_prosumer_settings_blocked = function(req,res) {
+  var valid = Util.validBody(req, BodyMaps.blockedMap());
+  if(!valid){
+    res.statusCode = 400;
+    res.send('You sent a bad request MOTHAFUCKA');
+  } else {
+    ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{"blocked": req.body.blocked}},function(err, prosumer) {
+      if(err) {
+        res.statusCode = 418;
+        res.send("sum ting wong when updating online");
+      } else{
+        res.statusCode = 204;
+        res.send();
+      }
+    });
+  }
+}
+
+
+
 
 exports.add_prosumer_setting = function (req,res) {
   var valid = Util.validBody(req, BodyMaps.completeProsumerMap()); // TODO: sometimes get "cannot read property 'sell', check"
@@ -179,6 +199,7 @@ exports.add_prosumer_setting = function (req,res) {
            store: req.body.distribution.store,
            buy:req.body.distribution.buy,
            drain:req.body.distribution.drain},
+           blocked: req.body.blocked,
            battery_warning_threshold: req.body.battery_warning_threshold,
            login_credentials:{
              password:req.body.login_credentials.password,
@@ -214,7 +235,7 @@ exports.add_prosumer_setting_test = function (req) {
             },
             battery_warning_threshold: 1337,
             login_credentials: {
-              password: "behöver vi spara password?<3",
+              password: "behöver vi spara password?<3", // Nej egentligen inte faktiskt
               online: 0,
             },
           },

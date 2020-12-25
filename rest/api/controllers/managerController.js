@@ -127,25 +127,27 @@ exports.add_manager_setting = function (req, res) {
             if(manager){
                 res.statusCode = 400;
                 res.send("vewy bad wequest");
+            } else {
+                // insert the manager
+                ManagerSettings.create({id: "Manager",
+                img_url: req.body.img_url,
+                battery_warning_threshold: req.body.battery_warning_threshold,
+                login_credentials: {
+                    password: req.body.login_credentials.password,
+                    online: req.body.login_credentials.online
+                }},
+                function(err, manager){
+                    if (err) {
+                        res.statusCode = 418;
+                        res.send("Dis not good, create no goodie");
+                    } else {
+                        res.json("theMan is created");
+                    }
+                });
             }
         });
 
-        // insert the manager
-        ManagerSettings.create({id: "Manager",
-            img_url: req.body.img_url,
-            battery_warning_threshold: req.body.battery_warning_threshold,
-            login_credentials: {
-                password: req.body.login_credentials.password,
-                online: req.body.login_credentials.online
-            }},
-            function(err, manager){
-                if (err) {
-                    res.statusCode = 418;
-                    res.send("Dis not good, create no goodie");
-                } else {
-                    res.json("theMan is created");
-                }
-            });
+        
     }
 }
 

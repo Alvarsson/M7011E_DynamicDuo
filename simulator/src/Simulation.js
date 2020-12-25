@@ -58,7 +58,7 @@ class Simulation {
   }
 
   push_manager_setting(manager){
-    axios.post(`http://rest:3001/prosumersettings/`, {
+    axios.post(`http://rest:3001/managersettings/`, {
       id: "Manager",
       img_url: "http://www.placecage.com/500/600",
       battery_warning_threshold: 20,
@@ -68,14 +68,14 @@ class Simulation {
       }
     })
       .then(response => {
-        console.log("Registered prosumer: " + prosumer.get_prosumer_id());
+        console.log("Registered Manager");
       })
       .catch(error => {
         console.log(error.response.status + " Failed to register prosumer, it probable exists or smth");
       });
   }
 
-  push_prosumer_setting(prosumer) {
+  push_prosumer_setting(prosumer) { 
     axios.post(`http://rest:3001/prosumersettings/`, {
       id: prosumer.get_prosumer_id(),
       img_url: "http://www.placecage.com/500/600",
@@ -85,6 +85,7 @@ class Simulation {
         buy: prosumer.get_buy_percentage(),
         drain: prosumer.get_drain_percentage()
       },
+      blocked: 0,
       battery_warning_threshold: 20,
       login_credentials: {
         password: "supaSecret",
@@ -98,27 +99,31 @@ class Simulation {
         console.log(error.response.status + " Failed to register prosumer, it probable exists or smth");
       });
   }
-  push_prosumer_logs(prosumer_list, tick) {
-    for (var i = 0; i < prosumer_list.length; i++) {
-      axios.post(`http://rest:3001/prosumerlog/`, {
-        id: prosumer_list[i].get_prosumer_id(),
-        consumption: prosumer_list[i].get_total_consumption(),
-        production: prosumer_list[i].get_production(),
-        tick: tick,
-        battery_level: prosumer_list[i].get_battery_level(),
-        broken_turbine: prosumer_list[i].get_turbine_broken(),
-        weather: {
-          wind_speed: prosumer_list[i].get_wind_speed(),
-          temperature: prosumer_list[i].get_temperature()
-        }
-      }).then(response => {
-        console.log("pushed log for prosumer");
-      })
-        .catch(error => {
-          console.log(error);
-        });
 
+  push_prosumer_logs(prosumer_list, tick) {
+    for (var i = 0; i< prosumer_list.length; i++) {
+      this.push_prosumer_log(prosumer_list[i], tick);
     }
+  }
+
+  push_prosumer_log(prosumer, tick) {
+    axios.post(`http://rest:3001/prosumerlog/`, {
+      id: prosumer.get_prosumer_id(),
+      consumption: prosumer.get_total_consumption(),
+      production: prosumer.get_production(),
+      tick: tick,
+      battery_level: prosumer.get_battery_level(),
+      broken_turbine: prosumer.get_turbine_broken(),
+      weather: {
+        wind_speed: prosumer.get_wind_speed(),
+        temperature: prosumer.get_temperature()
+      }
+    }).then(response => {
+      console.log("pushed log for prosumer");
+    })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   push_manager_logs(manager) {
@@ -131,7 +136,7 @@ class Simulation {
         power_plant_consumption: 0, // TODO?
         nr_of_consumers: this.nr_of_consumers
       }).then(response => {
-        console.log("pushed log for prosumer");
+        console.log("pushed log for manager");
       })
         .catch(error => {
           console.log(error);
@@ -157,20 +162,38 @@ class Simulation {
     }
   }
 
-  /* updates distr in all prosumer objects */
-  update_prosumer_distrs(prosumer_list) {
+  update_block_timers(prosumer_list) {
     for (var i = 0; i < prosumer_list.length; i++) {
-      this.update_prosumer_distr(prosumer_list[i]);
+      this.update_block_timer(prosumer_list[i]);
     }
   }
 
-  update_prosumer_distr(prosumer){
+  update_block_timer(prosumer) {
+    axios.put(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}/block`, {
+        blocked: prosumer.get_blocked()
+      }).then(response => {
+      })
+        .catch(error => {
+          console.log(error);
+        });
+  }
+
+  /* updates distr in all prosumer objects */
+  update_prosumers_data(prosumer_list) {
+    for (var i = 0; i < prosumer_list.length; i++) {
+      this.update_prosumer_data(prosumer_list[i]);
+    }
+  }
+
+  update_prosumer_data(prosumer)  {
     axios.get(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}`).
       then(response => {
         prosumer.set_sell_percentage(response.data.distribution.sell);
         prosumer.set_store_percentage(response.data.distribution.store);
         prosumer.set_buy_percentage(response.data.distribution.buy);
         prosumer.set_drain_percentage(response.data.distribution.drain);
+
+        prosumer.set_blocked(response.data.blocked);
       })
         .catch(error => {
           if(error.response.status == 404){
@@ -181,7 +204,6 @@ class Simulation {
           
         });
   }
-
   get_current_wind_speed(tick){
     axios.get(`http://rest:3001/windspeed/${tick}`).
       then(response => {
@@ -202,7 +224,8 @@ class Simulation {
       prosumer_list[i].set_wind_speed(this.wind_speed);
       prosumer_list[i].set_temperature(this.temperature);
       prosumer_list[i].recalc();
-    }// TODO: borken, blocked
+      prosumer_list[i].set_blocked(prosumer_list[i].get_blocked() - 1); // after all calculations are done, decrease blocked tick.
+    }// TODO: borken TODO: decrease blocked time here.
   }
   calculate_new_manager_logs(manager){
     manager.set_market_demand(this.get_total_demand());
@@ -259,16 +282,18 @@ class Simulation {
 
   update() {
 
-    console.log("tick at 10 seconds")
+    console.log("tick at 10 seconds");
     // check if new prosumersettings added/removed
     this.update_prosumer_list(this.prosumer_list);
     // get updated distr + weathertick
-    this.update_prosumer_distrs(this.prosumer_list);
+    this.update_prosumers_data(this.prosumer_list);
     this.get_current_wind_speed(this.tick);
     //calculate prod/con
     this.calculate_new_prosumer_logs(this.prosumer_list);
     //push to log DB for pro and man
     this.push_prosumer_logs(this.prosumer_list, this.tick++);
+    //update block timers for prosumers
+    this.update_block_timers(this.prosumer_list);
     // TODO: re-calculate values for manager.
     this.calculate_new_manager_logs(this.manager);
     // PUSH logs to manager

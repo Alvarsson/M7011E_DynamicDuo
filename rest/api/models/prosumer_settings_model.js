@@ -48,6 +48,9 @@ var ProsumerSettingsSchema = new Schema({
       type: DistributionSchema,
       Required: "Pls distribution"
     },
+    blocked: {
+        type: Number,
+    },
     battery_warning_threshold: {
         type: Number,
         //default: 30

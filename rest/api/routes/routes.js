@@ -38,6 +38,8 @@ module.exports = function(app) {
 		.put(/*auth*,*/prosumer.update_prosumer_settings_distr_under); // update under distr for id
 	app.route('/prosumersettings/:id/battery_warning_threshold')
 		.put(/*auth*,*/prosumer.update_prosumer_settings_battery_warning_threshold); // update battery warn threshold for id
+	app.route('/prosumersettings/:id/block')
+		.put(/*auth*,*/prosumer.update_prosumer_settings_blocked); // update blocked timer for id
 	
 	app.route('/prosumersettings/:id/delete') // delete the specific prosumer  settings
 		.delete(/*auth*,*/prosumer.delete_prosumer_settings);

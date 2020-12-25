@@ -3,8 +3,8 @@ class Prosumer {
         this.id = id;
         this.base_consumption = 20;
         this.pwr_production = 20;
+        this.temperature_consumption = 0;
         this.total_consumption = 20;
-        this.temperature_consumption = 0; // needed?
 
         //initial distribution
         this.store_percentage = 0.5;
@@ -16,15 +16,17 @@ class Prosumer {
         this.wind_speed = 5;
         this.temperature = 20;
 
-        this.wind_pwr_to_house; // needed?
+        //this.wind_pwr_to_house; // needed?
 
         this.store_to_battery; // STORE amount/tick needed?
         this.drain_from_battery; // DRAIN amount/tick needed?
         this.battery_level = 0;
         this.battery_max = 200;
 
-        this.sell_to_market; // SELL amount/tick
+        this.sell_to_market = 0; // SELL amount/tick
         this.buy_from_market = 0; // BUY amount/tick
+
+        this.blocked = 0;
 
         this.tick_count_mngr = 0; // wat
         this.pwr_blocked = false;
@@ -38,15 +40,17 @@ class Prosumer {
     recalc(){
         this.calc_all_consumptions();
         this.calc_production();
-        var batterychange = this.update_battery_level(); // TODO: <- Use the return result of this to set buy/sell from market?
+        var batterychange = this.update_battery_level();
         if (batterychange <=0){ // under, we buying
             this.buy_from_market = this.pwr_production - this.total_consumption - batterychange;
             this.sell_to_market = 0;
-        } else { // over, we sellin
+        } else if (this.blocked > 0){ // over, and blocked
+            this.sell_to_market = 0;
+            this.buy_from_market = 0;
+        } else { // over and we are selling
             this.sell_to_market = this.pwr_production - this.total_consumption - batterychange;
             this.buy_from_market = 0;
         }
-
     }
 
 //----- ID -----
@@ -76,6 +80,14 @@ class Prosumer {
         return this.pwr_production;
     }
 
+// ---- Blocked ----
+    set_blocked(block_time) {
+        
+        this.blocked = Math.max(block_time, 0); // prevents negative block
+    }
+    get_blocked() {
+        return this.blocked;
+    }
 //------- TICK COUNTER ------
     // set_pwr_block(bool) { // if true the block is on
     //     this.pwr_blocked = bool;
@@ -175,6 +187,11 @@ class Prosumer {
     /* This function will alter battery level and return how much it charged */
     update_battery_level(){
         var over = this.total_consumption > this.pwr_production; // true for overprod
+        if (this.blocked > 0 && over) {
+            pwr_to_charge = (this.total_consumption - this.pwr_production); // not multiplied with any distr, ALL excess goes to battery
+            this.battery_level = Math.min(this.battery_max, this.battery_level + pwr_to_charge); // Dis is NaN
+            return pwr_to_charge;
+        }
         if (over && this.store_percentage > 0) {
             var pwr_to_charge = (this.pwr_production - this.total_consumption)*this.store_percentage; // how much of overprod to charge with
             if(pwr_to_charge+this.battery_level > this.battry_max) { // overcharge
