@@ -4,11 +4,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Container from "react-bootstrap/Container";
 import DashComponent from "./DashComponent";
+import LabelCollection from "./LabelCollection";
+
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import CardDeck from "react-bootstrap/CardDeck";
 
 import { API_BASE_URL, CURRENTUSER } from "../../constants/apiConstants";
+import Card from "react-bootstrap/esm/Card";
 
 export default function DashSimple() {
   //const [data, setData] = useState("");
@@ -22,6 +25,7 @@ export default function DashSimple() {
   ];
   const [singleton, setSingleton] = useState(0);
   const [tick, setTick] = useState(0);
+  const [labelsData, setLabelsData] = useState({});
   const [curr, setCurrent] = useState([0, 0, 0]);
   const [productionArray, setProductionArray] = useState(initialStateArray);
   const [consumptionArray, setConsumptionArray] = useState(initialStateArray);
@@ -40,6 +44,7 @@ export default function DashSimple() {
     return axios
       .get(url)
       .then(({ data }) => {
+        console.log(data);
         return data;
       })
       .catch((err) => {
@@ -48,6 +53,11 @@ export default function DashSimple() {
   };
 
   const setStates = (inData) => {
+    
+    setLabelsData({battery_level: inData.battery_level,
+        broken_turbine: inData.broken_turbine
+        })
+
     setProductionArray((oldArray) => {
       if (oldArray.length > dataLimit) {
         oldArray.shift();
@@ -87,7 +97,7 @@ export default function DashSimple() {
       latestLogs[0].consumption,
       latestLogs[0].weather.wind_speed,
     ]);
-    
+
     latestLogs.reverse().forEach((element) => {
       //måste bli bättre än såhär på något sätt, right?
       setStates(element);
@@ -116,7 +126,7 @@ export default function DashSimple() {
   useEffect(() => {
     // maybe move to moveTimeout?
     if (singleton !== 1) {
-      fetchData(dataLimit+1).then((latestLogs) => {
+      fetchData(dataLimit + 1).then((latestLogs) => {
         initializeData(latestLogs);
       });
       setSingleton(1);
@@ -133,6 +143,7 @@ export default function DashSimple() {
   return (
     <Container className="fluid">
       <Row>
+        
         <CardDeck>
           <DashComponent
             dataType={"Production"}
@@ -153,6 +164,12 @@ export default function DashSimple() {
             strokeColor={"#ff3c28"}
           />
         </CardDeck>
+        <Card>
+        <Card.Title>
+          Current Data
+        </Card.Title>
+        <LabelCollection broken_turbine={labelsData.broken_turbine} battery_level={labelsData.battery_level} />
+        </Card>
       </Row>
     </Container>
   );
