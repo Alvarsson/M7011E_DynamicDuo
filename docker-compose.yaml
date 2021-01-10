@@ -56,7 +56,15 @@ services:
       - ./simulator:/app
     networks:
       - back-tier
-
+  web:
+    env_file: .env
+    container_name: web
+    build: ./web
+    
+    ports:
+      - "${WEB_PORT_HOST}:${WEB_PORT_CONTAINER}"
+    networks:
+      - back-tier
 networks:
   back-tier:
   
