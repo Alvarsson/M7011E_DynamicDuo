@@ -53,10 +53,11 @@ export default function DashSimple() {
   };
 
   const setStates = (inData) => {
-    
-    setLabelsData({battery_level: inData.battery_level,
-        broken_turbine: inData.broken_turbine
-        })
+    setLabelsData({
+      battery_level: inData.battery_level,
+      broken_turbine: inData.broken_turbine,
+    });
+
 
     setProductionArray((oldArray) => {
       if (oldArray.length > dataLimit) {
@@ -143,7 +144,6 @@ export default function DashSimple() {
   return (
     <Container className="fluid">
       <Row>
-        
         <CardDeck>
           <DashComponent
             dataType={"Production"}
@@ -165,10 +165,11 @@ export default function DashSimple() {
           />
         </CardDeck>
         <Card>
-        <Card.Title>
-          Current Data
-        </Card.Title>
-        <LabelCollection broken_turbine={labelsData.broken_turbine} battery_level={labelsData.battery_level} />
+          <Card.Title>Current Data</Card.Title>
+          <LabelCollection
+            broken_turbine={labelsData.broken_turbine ? "Broken" : "Working"} //true means Broken, false means Working. TODO: CLean this.
+            battery_level={labelsData.battery_level}
+          />
         </Card>
       </Row>
     </Container>

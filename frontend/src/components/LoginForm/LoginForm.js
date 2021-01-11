@@ -39,7 +39,11 @@ function LoginForm(props) {
 
           localStorage.setItem(ACCESS_TOKEN_NAME, response.data.userData.token);
           localStorage.setItem(CURRENTUSER, response.data.userData.id);
-          redirectToHome();
+          if (response.data.userData.id == "Manager") {
+            redirectToManager();
+          } else {
+            redirectToHome();
+          }
           props.showError(null);
         } else if (response.code === 204) {
           props.showError("Username and password do not match");
@@ -50,6 +54,10 @@ function LoginForm(props) {
       .catch(function (error) {
         console.log(error);
       });
+  };
+  const redirectToManager = () => {
+    props.updateTitle("Manager");
+    props.history.push("/manager");
   };
   const redirectToHome = () => {
     props.updateTitle("Home");

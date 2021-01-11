@@ -4,7 +4,7 @@ import { ACCESS_TOKEN_NAME, API_BASE_URL, CURRENTUSER } from '../../constants/ap
 import axios from 'axios'
 function Home(props) {
     useEffect(() => {
-        console.log(localStorage.getItem(ACCESS_TOKEN_NAME)); // byt 1:an mot när vi i framtiden läger till registrerade user +localStorage.getItem(CURRENTUSER)
+        console.log(localStorage.getItem(ACCESS_TOKEN_NAME));
         axios.get(API_BASE_URL+'/prosumersettings/'+localStorage.getItem(CURRENTUSER), { headers: { authtoken: localStorage.getItem(ACCESS_TOKEN_NAME) }})
         .then(function (response) {
             console.log(response.data)

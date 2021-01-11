@@ -5,7 +5,7 @@ function PrivateRoute({ children, ...rest }) {
     return (
       <Route
         {...rest}
-        render={({ location }) =>
+        render={({ location }) => 
           localStorage.getItem(ACCESS_TOKEN_NAME) ? (
             children
           ) : (
@@ -16,7 +16,7 @@ function PrivateRoute({ children, ...rest }) {
               }}
             />
           )
-        }
+        } // for routes that require login. Force login by redirecting to login.
       />
     );
   }
