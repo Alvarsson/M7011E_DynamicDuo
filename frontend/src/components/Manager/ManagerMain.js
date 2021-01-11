@@ -5,6 +5,7 @@ import axios from "axios";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/esm/Row";
 import { API_BASE_URL } from "../../constants/apiConstants";
+import List from './ProsumerList/List'
 
 import ManagerOutput from './ManagerOutput';
 
@@ -14,8 +15,16 @@ export default function ManagerMain() {
   const [data, setData] = useState({}); //vill man ändra värdet kallar man på setData osv
   //funktionstyperna som har use innan kallas för hooks.
 
+
+  const [prosumers, setProsumers] = useState([
+    { name: "test", status: "yoloing" },
+    { name: "patty", status: "irishing" },
+  ]);
+
   const fetchData = () => {
-    const url = API_BASE_URL + "/managerlog/getlatest/";
+    const currentDataUrl = API_BASE_URL + "/managerlog/getlatest/";
+    const prosumersUrl = API_BASE_URL + "/prosumersettings";
+
 
     return axios
       .get(url)
@@ -57,6 +66,7 @@ export default function ManagerMain() {
   return (
     <div>
       <ManagerOutput data={data} />
+      <List prosumers={prosumers} />
     </div>
   );
 }
