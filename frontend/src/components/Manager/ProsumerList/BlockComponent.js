@@ -41,7 +41,7 @@ function BlockComponent(props) {
             <Form.Control type="text" id="blocked" placeholder="ticks" value={input} onInput={e => setInput(e.target.value)} />
           </Col>
           <Col>
-            <Button variant="primary" onClick={handleSubmitClick}>
+            <Button variant="danger" onClick={handleSubmitClick}>
               Block
             </Button>
           </Col>

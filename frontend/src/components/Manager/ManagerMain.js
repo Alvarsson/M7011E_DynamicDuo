@@ -6,12 +6,13 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/esm/Row";
 import { API_BASE_URL } from "../../constants/apiConstants";
 import ProsumersController from "./ProsumersController";
+import { withRouter } from "react-router-dom";
 
 
 import ManagerOutput from "./ManagerOutput";
 import Overview from "./ProsumerList/Overview";
 
-export default function ManagerMain() {
+function ManagerMain() {
   //useState är bara en funktion som react använder så den vet när den ska rendera
   const [tick, setTick] = useState(0); //vill man använda tick använder man den variabeln
   const [data, setData] = useState({}); //vill man ändra värdet kallar man på setData osv
@@ -71,3 +72,5 @@ export default function ManagerMain() {
     </Container>
   );
 }
+
+export default withRouter(ManagerMain);

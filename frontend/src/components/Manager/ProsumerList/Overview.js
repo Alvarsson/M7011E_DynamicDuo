@@ -48,9 +48,12 @@ function Overview(props) {
   };
 
   useEffect(() => {
-    fetchData(1).then((latestLogs) => {
-      updateData(latestLogs);
-    });
+      if(props.id != ""){
+        fetchData(1).then((latestLogs) => {
+            updateData(latestLogs);
+          });
+      }
+    
   }, [props.id, props.tick,props.settings]); //actually update states when the tick has changed.
 
   return (

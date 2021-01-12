@@ -3,21 +3,21 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
+import { withRouter } from "react-router-dom";
 
+import Button from "react-bootstrap/Button";
 
 import Container from "react-bootstrap/esm/Container";
 
 import BlockComponent from "./BlockComponent";
 
 function ListItem(props) {
+  const [showComponent, setToggle] = useState("");
 
-    const [showComponent, setToggle] = useState("");
-
-  const showOverview = (e) => {
-      e.preventDefault();
-    setToggle(!showComponent);
-  };
+  function editUser(e) {
+    console.log(e.target.id);
+    props.history.push("/edit/" + e.target.id);
+  }
 
   return (
     <div>
@@ -39,8 +39,16 @@ function ListItem(props) {
               </svg>
             </Col>
             <Col>
+              {props.name}:{" "}
               <Button variant="primary" id={props.id} onClick={props.pickUser}>
-                Show {props.name}
+                Show
+              </Button>
+              <Button
+                variant="secondary"
+                id={props.id}
+                onClick={editUser}
+              >
+                Edit
               </Button>
             </Col>
             <Col>
@@ -52,15 +60,10 @@ function ListItem(props) {
             <Col>
               <BlockComponent id={props.name} />
             </Col>
-            
           </Row>
-
-          
-        
-          
         </Container>
       </ListGroup.Item>
     </div>
   );
 }
-export default ListItem;
+export default withRouter(ListItem);
