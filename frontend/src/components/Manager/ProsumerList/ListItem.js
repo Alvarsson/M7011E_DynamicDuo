@@ -3,12 +3,22 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+
 
 import Container from "react-bootstrap/esm/Container";
 
-import BlockComponent from "./BlockComponent"
+import BlockComponent from "./BlockComponent";
 
 function ListItem(props) {
+
+    const [showComponent, setToggle] = useState("");
+
+  const showOverview = (e) => {
+      e.preventDefault();
+    setToggle(!showComponent);
+  };
+
   return (
     <div>
       <ListGroup.Item>
@@ -28,17 +38,26 @@ function ListItem(props) {
                 )}
               </svg>
             </Col>
-            <Col>{props.name}</Col>
             <Col>
-              <Alert variant={props.status > 0 ?  "danger" : "success"}>
+              <Button variant="primary" id={props.id} onClick={props.pickUser}>
+                Show {props.name}
+              </Button>
+            </Col>
+            <Col>
+              <Alert variant={props.status > 0 ? "danger" : "success"}>
                 {props.status == 0 ? "running" : "blocked "}
-                {props.status == 0 ? "":props.status}
+                {props.status == 0 ? "" : props.status}
               </Alert>
             </Col>
             <Col>
-                <BlockComponent id={props.name}/>
+              <BlockComponent id={props.name} />
             </Col>
+            
           </Row>
+
+          
+        
+          
         </Container>
       </ListGroup.Item>
     </div>

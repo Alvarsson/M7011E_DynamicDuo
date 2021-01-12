@@ -5,9 +5,11 @@ import axios from "axios";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/esm/Row";
 import { API_BASE_URL } from "../../constants/apiConstants";
-import List from "./ProsumerList/List";
+import ProsumersController from "./ProsumersController";
+
 
 import ManagerOutput from "./ManagerOutput";
+import Overview from "./ProsumerList/Overview";
 
 export default function ManagerMain() {
   //useState är bara en funktion som react använder så den vet när den ska rendera
@@ -59,10 +61,13 @@ export default function ManagerMain() {
     return () => clearInterval(interval);
   }, [tick]); //actually update states when the tick has changed.
 
+
+  //{showComponent ? <Overview data={props.data} /> : null}
   return (
     <Container>
       <ManagerOutput data={data} />
-      <List prosumers={prosumers} />
+      <ProsumersController prosumers={prosumers} tick={tick} />
+      
     </Container>
   );
 }
