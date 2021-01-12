@@ -102,12 +102,18 @@ class Simulation {
   }
 
   push_prosumer_logs(prosumer_list, tick) {
-    for (var i = 0; i< prosumer_list.length; i++) {
-      this.push_prosumer_log(prosumer_list[i], tick);
-    }
+    var promise = new Promise((resolve, reject) => {
+      var promise_list = [];
+      for (var i = 0; i< prosumer_list.length; i++) {
+        promise_list.push(this.push_prosumer_log(prosumer_list[i], tick));
+      }
+      Promise.all(promise_list).then(resolve());
+    });
+    return promise;
   }
 
   push_prosumer_log(prosumer, tick) {
+    var promise = new Promise((resolve, reject) => {
     axios.post(`http://rest:3001/prosumerlog/`, {
       id: prosumer.get_prosumer_id(),
       consumption: prosumer.get_total_consumption(),
@@ -121,10 +127,14 @@ class Simulation {
       }
     }).then(response => {
       console.log("pushed log for prosumer");
+      resolve();
     })
       .catch(error => {
+        reject();
         console.log(error);
       });
+    });
+    return promise;
   }
 
   push_manager_logs(manager) {
@@ -164,9 +174,14 @@ class Simulation {
   }
 
   update_block_timers(prosumer_list) {
-    for (var i = 0; i < prosumer_list.length; i++) {
-      this.update_block_timer(prosumer_list[i]);
-    }
+    var promise = new Promise((resolve, reject) => {
+      var promise_list = [];
+      for (var i = 0; i < prosumer_list.length; i++) {
+        promise_list.push(this.update_block_timer(prosumer_list[i]));
+      }
+      Promise.all(promise_list).then(resolve());
+    });
+    return promise;
   }
 
   update_block_timer(prosumer) {
@@ -182,54 +197,74 @@ class Simulation {
 
   /* updates distr in all prosumer objects */
   update_prosumers_data(prosumer_list) {
+    var promise = new Promise((resolve, reject) => {
     console.log("updating prosumer data");
+    var promise_list = [];
     for (var i = 0; i < prosumer_list.length; i++) {
-      this.update_prosumer_data(prosumer_list[i]);
+      promise_list.push(this.update_prosumer_data(prosumer_list[i]));
     }
+    Promise.all(promise_list).then(resolve());
+  });
+    return promise;
   }
 
   update_prosumer_data(prosumer)  {
-    axios.get(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}`).
-      then(response => {
-        console.log(response.data.blocked, "is blocked time from settings")
-        prosumer.set_sell_percentage(response.data.distribution.sell);
-        prosumer.set_store_percentage(response.data.distribution.store);
-        prosumer.set_buy_percentage(response.data.distribution.buy);
-        prosumer.set_drain_percentage(response.data.distribution.drain);
+    var promise = new Promise((resolve, reject) => {
+      console.log("swag is run");
+      axios.get(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}`).
+        then(response => {
+          console.log(response.data.blocked, "is blocked time from settings")
+          prosumer.set_sell_percentage(response.data.distribution.sell);
+          prosumer.set_store_percentage(response.data.distribution.store);
+          prosumer.set_buy_percentage(response.data.distribution.buy);
+          prosumer.set_drain_percentage(response.data.distribution.drain);
 
-        prosumer.set_blocked(response.data.blocked);
-      })
-        .catch(error => {
-          if(error.response.status == 404){
-            console.log("404: Unable to find prosumersettings for", prosumer.get_prosumer_id());
-          } else {
-            console.log(error);
-          }
-          
-        });
+          prosumer.set_blocked(response.data.blocked);
+          resolve();
+        })
+          .catch(error => {
+            console.log("ärror");
+            reject(error);
+            if(error.response.status == 404){
+              console.log("404: Unable to find prosumersettings for", prosumer.get_prosumer_id());
+            } else {
+              console.log("undefined error", error);
+            }
+          });
+      });
+        return promise;
   }
   get_current_wind_speed(tick){
+    var promise = new Promise((resolve, reject) => {
     axios.get(`http://rest:3001/windspeed/${tick}`).
       then(response => {
         this.wind_speed = response.data.wind_speed;
+        resolve();
       })
         .catch(error => {
+          reject();
           if (error.response.status == 404){
             console.log("Windspeed not found, check that you have wind data in DB");
           } else{
             console.log(error);
           }
         });
+      });
+      return promise;
   }
 
   calculate_new_prosumer_logs(prosumer_list){
+    var promise = new Promise((resolve, reject) => {
     var i = 0;
     for(i = 0; i < prosumer_list.length; i++) {
       prosumer_list[i].set_wind_speed(this.wind_speed);
       prosumer_list[i].set_temperature(this.temperature);
       prosumer_list[i].recalc();
       prosumer_list[i].set_blocked(prosumer_list[i].get_blocked() - 1); // after all calculations are done, decrease blocked tick.
-    }// TODO: borken TODO: decrease blocked time here.
+    }// TODO: borken TODO: decrease borken time here.
+    resolve();
+    });
+    return promise;
   }
   calculate_new_manager_logs(manager){
     manager.set_market_demand(this.get_total_demand());
@@ -258,6 +293,7 @@ class Simulation {
   It does so by matching the simulators prosumer_list with prosumerSettings.
   Will add/delete any prosumers not matched. */
   update_prosumer_list(){
+    var promise = new Promise((resolve, reject) => {
     axios.get(`http://rest:3001/prosumersettings`).
       then(response => {
         // TODO: Should be able to optimize this with a combined loop
@@ -278,26 +314,43 @@ class Simulation {
           }
         }
         this.prosumer_list = new_list;
+        resolve();
       })
         .catch(error => {
           console.log(error);
+          reject();
         });
+      });
+      return promise;
   }
 
   update() {
 
     console.log("tick at 10 seconds");
     // check if new prosumersettings added/removed
-    this.update_prosumer_list(this.prosumer_list);
+    this.update_prosumer_list(this.prosumer_list)
     // get updated distr + weathertick
-    this.update_prosumers_data(this.prosumer_list);
-    this.get_current_wind_speed(this.tick);
+    .then( () => { 
+      this.update_prosumers_data(this.prosumer_list).then( () => {
+        this.get_current_wind_speed(this.tick).then( () => {
+          this.calculate_new_prosumer_logs(this.prosumer_list).then( () => { 
+            this.calculate_new_prosumer_logs(this.prosumer_list).then( () => { 
+              this.push_prosumer_logs(this.prosumer_list, this.tick++).then( () => {
+                this.update_block_timers(this.prosumer_list).then( () => {
+                  console.log("swaaaaaaaaaaaaaaaaag");
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+    
     //calculate prod/con
-    this.calculate_new_prosumer_logs(this.prosumer_list);
-    //push to log DB for pro and man
-    this.push_prosumer_logs(this.prosumer_list, this.tick++);
-    //update block timers for prosumers
-    this.update_block_timers(this.prosumer_list);
+    
+    //push to log DB for prosumer, update block timers for prosumers
+    
+
     // TODO: re-calculate values for manager.
     this.calculate_new_manager_logs(this.manager);
     // PUSH logs to manager

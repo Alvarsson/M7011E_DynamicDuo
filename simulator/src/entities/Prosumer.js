@@ -138,12 +138,12 @@ class Prosumer {
     get_turbine_broken() {
         return this.turbine_broken;
     }
-    // turbine_break_probability() { // called each tick
-    //     var break_chance = 0.00115741 // 10 % break chance per day, 0.0005787 for 5%, 0.00011574 for 1 %
-    //     if (Math.random() <= break_chance) {
-    //         this.tick_counter_turbine();
-    //     }
-    // }
+    turbine_break_probability() { // called each tick
+        var break_chance = 0.00115741 // 10 % break chance per day, 0.0005787 for 5%, 0.00011574 for 1 %
+        if (Math.random() <= break_chance) {
+            // TODO: he sönder skiten
+        }
+    }
 
 //----- CALCULATE POWER ------
     // base consumption - house allocated self-produced pwr.
