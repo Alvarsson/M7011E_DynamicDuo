@@ -32,6 +32,7 @@ class Simulation {
     console.log("Creating Prosumers");
     this.prosumer_list = new Array();
     this.create_prosumers(int_pros);
+    //console.log("PROSUMERS ARE:", this.prosumer_list);
     console.log("Pushing prosumers to DB");
     this.register_prosumers(this.prosumer_list);
 
@@ -57,7 +58,7 @@ class Simulation {
     }
   }
 
-  push_manager_setting(manager){
+  push_manager_setting(){
     axios.post(`http://rest:3001/managersettings/`, {
       id: "Manager",
       img_url: "http://www.placecage.com/500/600",
@@ -169,6 +170,7 @@ class Simulation {
   }
 
   update_block_timer(prosumer) {
+    console.log(prosumer.get_blocked()," is prsumer blocked in sim.")
     axios.put(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}/block`, {
         blocked: prosumer.get_blocked()
       }).then(response => {
@@ -180,6 +182,7 @@ class Simulation {
 
   /* updates distr in all prosumer objects */
   update_prosumers_data(prosumer_list) {
+    console.log("updating prosumer data");
     for (var i = 0; i < prosumer_list.length; i++) {
       this.update_prosumer_data(prosumer_list[i]);
     }
@@ -188,6 +191,7 @@ class Simulation {
   update_prosumer_data(prosumer)  {
     axios.get(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}`).
       then(response => {
+        console.log(response.data.blocked, "is blocked time from settings")
         prosumer.set_sell_percentage(response.data.distribution.sell);
         prosumer.set_store_percentage(response.data.distribution.store);
         prosumer.set_buy_percentage(response.data.distribution.buy);

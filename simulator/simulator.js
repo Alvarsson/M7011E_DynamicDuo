@@ -6,7 +6,7 @@ const Simulation = require("./src/Simulation");
 
 
 const days = 60;
-const nrOfProsumers = 2;
+const nrOfProsumers = 1;
 const nrOfconsumers = 44;
 
 

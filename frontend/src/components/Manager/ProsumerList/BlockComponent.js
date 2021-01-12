@@ -16,7 +16,7 @@ function BlockComponent(props) {
 
   const handleSubmitClick = (e) => {
     const payload = {
-      blocked: input,
+      blocked: parseInt(input),
     };
     const request = API_BASE_URL + "/prosumersettings/"+ props.id +"/block"
     console.log(request)
