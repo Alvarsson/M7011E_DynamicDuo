@@ -7,9 +7,8 @@
 
  - Clone this repository. 
  - `cd` into root folder, you should be in the same directory as the docker-compose.yaml file.
- - Run `docker-compose up --build` to build the containers defined in the docker-compose.yaml file.
- - Then running `docker-compose up` to run the system.
- - Navigate to http://localhost:8080
+ - Run `docker-compose up` to start the system.
+ - Navigate to http://localhost:8080.
 
 
 # Running the backend (locally)
