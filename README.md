@@ -2,13 +2,14 @@
 
 
 
+# Deploy the system (Docker-compose)
+ - Requirements: Download and install Docker. See links for Docker below.
 
-
-# Running the backend (Docker-compose)
- - Clone the Repo and `cd` into it. Make sure you are in the same folder as the docker-compose.yaml 
- - `docker-compose up --build` to build the containers defined in the docker-compose.yaml file.
- - `docker-compose up` works if you arent changing any of the Dockerfiles
- - navigate to http://localhost:8080/graphql
+ - Clone this repository. 
+ - `cd` into root folder, you should be in the same directory as the docker-compose.yaml file.
+ - Run `docker-compose up --build` to build the containers defined in the docker-compose.yaml file.
+ - Then running `docker-compose up` to run the system.
+ - Navigate to http://electric-avenue.xyz
 
 
 # Running the backend (locally)
