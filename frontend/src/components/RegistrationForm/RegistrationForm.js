@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import {API_BASE_URL, ACCESS_TOKEN_NAME} from '../../constants/apiConstants';
 import { withRouter } from "react-router-dom";
+import Button from "react-bootstrap/Button"
 
 function RegistrationForm(props) {
     const [state , setState] = useState({ //        confirmPassword: "",
@@ -109,7 +110,7 @@ function RegistrationForm(props) {
             </div>
             <div className="mt-2">
                 <span>Already have an account? </span>
-                <span className="loginText" onClick={() => redirectToLogin()}>Login here</span> 
+                <Button className="loginText" onClick={() => redirectToLogin()}>Login here</Button> 
             </div>
             
         </div>
