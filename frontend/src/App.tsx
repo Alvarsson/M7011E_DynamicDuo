@@ -4,6 +4,8 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
 import Home from "./components/Home/Home";
 import Upload from "./components/UploadComponent/Form"
+import EditUserProfile from "./components/Manager/EditUserProfile"
+
 import PrivateRoute from "./utils/PrivateRoute";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -53,6 +55,9 @@ const App: React.FC = () => {
             </PrivateRoute>
             <PrivateRoute path="/manager">
               <ManagerMain />
+            </PrivateRoute>
+            <PrivateRoute path="/edit/:id">
+              <EditUserProfile />
             </PrivateRoute>
           </Switch>
           <AlertComponent
