@@ -16,7 +16,7 @@ exports.fillWeatherDataOnce = (data) => {
   }
   
   axios
-    .post(`http://rest:3001/windspeed/many`, windspeeds)
+    .post(`http://rest:3001/api/windspeed/many`, windspeeds)
     .then(() => {
       console.log("i posted weatherspeed boi");
     })

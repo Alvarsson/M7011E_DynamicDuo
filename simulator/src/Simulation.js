@@ -59,7 +59,7 @@ class Simulation {
   }
 
   push_manager_setting(){
-    axios.post(`http://rest:3001/managersettings/`, {
+    axios.post(`http://rest:3001/api/managersettings/`, {
       id: "Manager",
       img_url: "http://www.placecage.com/500/600",
       battery_warning_threshold: 20,
@@ -77,7 +77,7 @@ class Simulation {
   }
 
   push_prosumer_setting(prosumer) { 
-    axios.post(`http://rest:3001/prosumersettings/`, {
+    axios.post(`http://rest:3001/api/prosumersettings/`, {
       id: prosumer.get_prosumer_id(),
       img_url: "http://www.placecage.com/500/600",
       distribution: {
@@ -108,7 +108,7 @@ class Simulation {
   }
 
   push_prosumer_log(prosumer, tick) {
-    axios.post(`http://rest:3001/prosumerlog/`, {
+    axios.post(`http://rest:3001/api/prosumerlog/`, {
       id: prosumer.get_prosumer_id(),
       consumption: prosumer.get_total_consumption(),
       production: prosumer.get_production(),
@@ -128,7 +128,7 @@ class Simulation {
   }
 
   push_manager_logs(manager) {
-    axios.post(`http://rest:3001/managerlog/`, {
+    axios.post(`http://rest:3001/api/managerlog/`, {
         market_price: manager.get_pwr_price(),
         battery_level: manager.get_buffer_level(),
         production: manager.get_pwr_production(),
@@ -145,7 +145,7 @@ class Simulation {
   }
 
   add_user(id){
-    axios.post(`http://rest:3001/register/`, {
+    axios.post(`http://rest:3001/api/register/`, {
         id: id,
         password: "supaSecret"
       }).then(response => {
@@ -171,7 +171,7 @@ class Simulation {
 
   update_block_timer(prosumer) {
     console.log(prosumer.get_blocked()," is prsumer blocked in sim.")
-    axios.put(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}/block`, {
+    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/block`, {
         blocked: prosumer.get_blocked()
       }).then(response => {
       })
@@ -189,7 +189,7 @@ class Simulation {
   }
 
   update_prosumer_data(prosumer)  {
-    axios.get(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}`).
+    axios.get(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}`).
       then(response => {
         console.log(response.data.blocked, "is blocked time from settings")
         prosumer.set_sell_percentage(response.data.distribution.sell);
@@ -209,7 +209,7 @@ class Simulation {
         });
   }
   get_current_wind_speed(tick){
-    axios.get(`http://rest:3001/windspeed/${tick}`).
+    axios.get(`http://rest:3001/api/windspeed/${tick}`).
       then(response => {
         this.wind_speed = response.data.wind_speed;
       })
@@ -258,7 +258,7 @@ class Simulation {
   It does so by matching the simulators prosumer_list with prosumerSettings.
   Will add/delete any prosumers not matched. */
   update_prosumer_list(){
-    axios.get(`http://rest:3001/prosumersettings`).
+    axios.get(`http://rest:3001/api/prosumersettings`).
       then(response => {
         // TODO: Should be able to optimize this with a combined loop
         // Check for new prosumers
