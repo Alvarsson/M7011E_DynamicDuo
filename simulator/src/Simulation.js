@@ -59,7 +59,7 @@ class Simulation {
   }
 
   push_manager_setting(){
-    axios.post(`http://rest:3001/managersettings/`, {
+    axios.post(`http://rest:3001/api/managersettings/`, {
       id: "Manager",
       img_url: "http://www.placecage.com/500/600",
       battery_warning_threshold: 20,
@@ -77,7 +77,7 @@ class Simulation {
   }
 
   push_prosumer_setting(prosumer) { 
-    axios.post(`http://rest:3001/prosumersettings/`, {
+    axios.post(`http://rest:3001/api/prosumersettings/`, {
       id: prosumer.get_prosumer_id(),
       img_url: "http://www.placecage.com/500/600",
       distribution: {
@@ -113,8 +113,12 @@ class Simulation {
   }
 
   push_prosumer_log(prosumer, tick) {
+<<<<<<< HEAD
     var promise = new Promise((resolve, reject) => {
     axios.post(`http://rest:3001/prosumerlog/`, {
+=======
+    axios.post(`http://rest:3001/api/prosumerlog/`, {
+>>>>>>> f87e55c8d64f62531432b73dea9e3699ae0f0e20
       id: prosumer.get_prosumer_id(),
       consumption: prosumer.get_total_consumption(),
       production: prosumer.get_production(),
@@ -138,7 +142,7 @@ class Simulation {
   }
 
   push_manager_logs(manager) {
-    axios.post(`http://rest:3001/managerlog/`, {
+    axios.post(`http://rest:3001/api/managerlog/`, {
         market_price: manager.get_pwr_price(),
         battery_level: manager.get_buffer_level(),
         production: manager.get_pwr_production(),
@@ -155,7 +159,7 @@ class Simulation {
   }
 
   add_user(id){
-    axios.post(`http://rest:3001/register/`, {
+    axios.post(`http://rest:3001/api/register/`, {
         id: id,
         password: "supaSecret"
       }).then(response => {
@@ -186,7 +190,7 @@ class Simulation {
 
   update_block_timer(prosumer) {
     console.log(prosumer.get_blocked()," is prsumer blocked in sim.")
-    axios.put(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}/block`, {
+    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/block`, {
         blocked: prosumer.get_blocked()
       }).then(response => {
       })
@@ -209,6 +213,7 @@ class Simulation {
   }
 
   update_prosumer_data(prosumer)  {
+<<<<<<< HEAD
     var promise = new Promise((resolve, reject) => {
       console.log("swag is run");
       axios.get(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}`).
@@ -218,6 +223,15 @@ class Simulation {
           prosumer.set_store_percentage(response.data.distribution.store);
           prosumer.set_buy_percentage(response.data.distribution.buy);
           prosumer.set_drain_percentage(response.data.distribution.drain);
+=======
+    axios.get(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}`).
+      then(response => {
+        console.log(response.data.blocked, "is blocked time from settings")
+        prosumer.set_sell_percentage(response.data.distribution.sell);
+        prosumer.set_store_percentage(response.data.distribution.store);
+        prosumer.set_buy_percentage(response.data.distribution.buy);
+        prosumer.set_drain_percentage(response.data.distribution.drain);
+>>>>>>> f87e55c8d64f62531432b73dea9e3699ae0f0e20
 
           prosumer.set_blocked(response.data.blocked);
           resolve();
@@ -235,8 +249,12 @@ class Simulation {
         return promise;
   }
   get_current_wind_speed(tick){
+<<<<<<< HEAD
     var promise = new Promise((resolve, reject) => {
     axios.get(`http://rest:3001/windspeed/${tick}`).
+=======
+    axios.get(`http://rest:3001/api/windspeed/${tick}`).
+>>>>>>> f87e55c8d64f62531432b73dea9e3699ae0f0e20
       then(response => {
         this.wind_speed = response.data.wind_speed;
         resolve();
@@ -293,8 +311,12 @@ class Simulation {
   It does so by matching the simulators prosumer_list with prosumerSettings.
   Will add/delete any prosumers not matched. */
   update_prosumer_list(){
+<<<<<<< HEAD
     var promise = new Promise((resolve, reject) => {
     axios.get(`http://rest:3001/prosumersettings`).
+=======
+    axios.get(`http://rest:3001/api/prosumersettings`).
+>>>>>>> f87e55c8d64f62531432b73dea9e3699ae0f0e20
       then(response => {
         // TODO: Should be able to optimize this with a combined loop
         // Check for new prosumers

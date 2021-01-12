@@ -239,6 +239,7 @@ exports.add_prosumer_setting_test = function (req) {
               password: "behöver vi spara password?<3", // Nej egentligen inte faktiskt
               online: 0,
             },
+            blocked: 0
           },
           function (err, prosumer) {
             if (err) {
