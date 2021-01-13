@@ -9,6 +9,15 @@ var ManagerLogSchema = new Schema({
         Unique: false,
         Required: "Need a manager ID"
     },
+    PP_status: {
+        type: Number
+    },
+    recommended_market_price: {
+        type: Number
+    },
+    market_demand: {
+        type: Number
+    },
     market_price: {
         type: Number
     },

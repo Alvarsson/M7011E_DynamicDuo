@@ -421,6 +421,7 @@ class Simulation {
     // PUSH logs to manager
     this.push_manager_logs(this.manager);
     // calculate & push to blackout
+    // TODO: set blackout on prosumer_settings, similarly to blocked/broken
     var pwr_missing = this.manager.get_pwr_missing();
     var blackout_prosumer_list = [];
     var nr_of_blocked_consumers = this.get_nr_of_blackout_consumers(pwr_missing);

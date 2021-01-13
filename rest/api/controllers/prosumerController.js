@@ -244,6 +244,29 @@ exports.update_prosumer_settings_broken = function (req, res) {
   }
 };
 
+exports.update_prosumer_settings_blackout = function (req, res) {
+  console.log(req.body);
+  var valid = Util.validBody(req, BodyMaps.blackoutMap());
+  if (!valid) {
+    res.statusCode = 400;
+    res.send("You sent a bad request MOTHAFUCKA");
+  } else {
+    ProsumerSettings.findOneAndUpdate(
+      { id: req.params.id },
+      { $set: { blackout: req.body.blackout } },
+      function (err, prosumer) {
+        if (err) {
+          res.statusCode = 418;
+          res.send("sum ting wong when updating blackout");
+        } else {
+          res.statusCode = 204;
+          res.send();
+        }
+      }
+    );
+  }
+};
+
 exports.add_prosumer_setting = function (req, res) {
   var valid = Util.validBody(req, BodyMaps.completeProsumerMap()); // TODO: sometimes get "cannot read property 'sell', check"
   if (!valid) {
@@ -269,6 +292,7 @@ exports.add_prosumer_setting = function (req, res) {
             },
             blocked: req.body.blocked,
             broken: req.body.broken,
+            blackout: req.body.blackout,
             battery_warning_threshold: req.body.battery_warning_threshold,
             login_credentials: {
               password: req.body.login_credentials.password,

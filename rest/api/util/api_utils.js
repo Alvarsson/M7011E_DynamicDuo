@@ -21,11 +21,3 @@ module.exports.validBody = function(req, check){
     }
     return true;
   }
-
-  module.exports.isManager = function(req) {
-    if (req.body.id != "Manager") {
-      return false;
-    } else {
-      return true;
-    }
-  }

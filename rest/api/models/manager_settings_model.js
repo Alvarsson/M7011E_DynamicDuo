@@ -23,11 +23,44 @@ var DistributionSchema = new Schema({
     }
 });
 
+var IncProdSchema = new Schema({
+    timer: {
+        type: Number
+    },
+    new_prod: {
+        type: Number
+    }
+});
+
+var IncStatusSchema = new Schema({
+    timer: {
+        type: Number
+    },
+    new_status: {
+        type: Number
+    }
+});
+
 var ManagerSettingsSchema = new Schema ({
     id: {
         type: String,
         Unique: true,
         Required: 'Kindly enter the manager id'
+    },
+    market_price: {
+        type: Number
+    },
+    production: {
+        type: Number
+    },
+    PP_status: {
+        type: Number
+    },
+    inc_status_change: {
+        type: IncStatusSchema
+    },
+    inc_prod_change: {
+        type: IncProdSchema
     },
     img_url: {
         type: String,

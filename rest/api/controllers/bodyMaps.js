@@ -17,6 +17,7 @@ module.exports.completeProsumerMap = function(){
     body.set('id', 0);
     body.set('blocked', 0);
     body.set('broken', 0);
+    body.set('blackout', 0);
     body.set('battery_warning_threshold', 0);
     root.set('body', body);
     return root;
@@ -104,6 +105,14 @@ module.exports.brokenMap = function(){
     return root;
 }
 
+// prosumer turbine broken
+module.exports.blackoutMap = function(){
+    var root = new Map();
+    var body = new Map();
+    body.set('blackout', 0);
+    root.set('body', body);
+    return root;
+}
 
 module.exports.add_prosumer_logMap = function() {
     var root = new Map();
@@ -130,10 +139,21 @@ module.exports.completeManagerMap = function(){
     var body = new Map();
     var login = new Map();
     var distribution = new Map();
+    var inc_status_change = new Map();
+    var inc_prod_change = new Map();
+    inc_prod_change.set('timer', 0);
+    inc_prod_change.set('new_prod', 0);
+    inc_status_change.set('timer', 0);
+    inc_status_change.set('new_status', 0);
     login.set('password', 0);
     login.set('online', 0);
     distribution.set('sell', 0);
     distribution.set('store', 0);
+    body.set('market_price', 0);
+    body.set('production', 0);
+    body.set('PP_status', 0);
+    body.set('inc_status_change', inc_status_change);
+    body.set('inc_prod_change', inc_prod_change);
     body.set('login_credentials', login);
     body.set('img_url', 0);
     body.set('battery_warning_threshold', 0);
@@ -146,11 +166,14 @@ module.exports.add_manager_logMap = function(){
     var root = new Map();
     var body = new Map();
     body.set('market_price', 0);
+    body.set('PP_status', 0);
+    body.set('market_demand', 0);
     body.set('battery_level', 0);
     body.set('production', 0);
     body.set('tick', 0);
     body.set('total_net_consumption', 0);
     body.set('power_plant_consumption', 0);
+    body.set('recommended_market_price', 0);
     body.set('nr_of_consumers', 0);
     root.set('body', body);
     return root;

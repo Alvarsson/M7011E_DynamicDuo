@@ -64,6 +64,9 @@ exports.add_manager_log = function(req,res) {
         res.send('Bad request, no manager log added');
     } else {
         ManagerLog.create({id: "Manager",
+        PP_status: req.body.PP_status,
+        market_demand: req.body.market_demand,
+        recommended_market_price: req.body.recommended_market_price,
         market_price: req.body.market_price,
         battery_level: req.body.battery_level,
         production: req.body.production,

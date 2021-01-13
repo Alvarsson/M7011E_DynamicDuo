@@ -150,6 +150,17 @@ exports.add_manager_setting = function (req, res) {
             } else {
                 // insert the manager
                 ManagerSettings.create({id: "Manager",
+                market_price: req.body.market_price,
+                production: req.body.production,
+                PP_status: req.body.PP_status,
+                inc_status_change: {
+                    timer: req.body.inc_status_change.timer,
+                    new_status: req.body.inc_status_change.new_status
+                },
+                inc_prod_change: {
+                    timer: req.body.inc_prod_change.timer,
+                    new_prod: req.body.inc_prod_change.new_prod
+                },
                 img_url: req.body.img_url,
                 battery_warning_threshold: req.body.battery_warning_threshold,
                 distribution: {

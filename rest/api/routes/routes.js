@@ -42,6 +42,8 @@ module.exports = function(app) {
 		.put(/*auth*,*/prosumer.update_prosumer_settings_blocked); // update blocked timer for id
 	app.route('/api/prosumersettings/:id/broken')
 		.put(/*auth*,*/prosumer.update_prosumer_settings_broken); // update blocked timer for id
+	app.route('/api/prosumersettings/:id/blackout')
+		.put(/*auth*,*/prosumer.update_prosumer_settings_blackout); // update blocked timer for id
 	
 	app.route('/api/prosumersettings/:id/delete') // delete the specific prosumer  settings
 		.delete(/*auth*,*/prosumer.delete_prosumer_settings);
