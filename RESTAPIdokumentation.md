@@ -39,7 +39,7 @@ The base path for these calls will be: **http://SERVER_IP:3001**
 ### Prosumer Settings <a name="pro_settings"></a>
 
 #### Get all prosumer setting <a name="all_pro_settings"></a>
-**GET** to **/prosumersettings**
+**GET** to **/api/prosumersettings**
 
 You will recieve a response on the form:
 ```json
@@ -66,7 +66,7 @@ You will recieve a response on the form:
 
 
 #### Get a prosumer setting <a name="a_pro_settings"></a>
-**GET** to **/prosumersettings/*id***
+**GET** to **/api/prosumersettings/*id***
 
 Here, id is the id of the prosumerSetting you want to get.
 You will recieve a response on the form:
@@ -93,7 +93,7 @@ You will recieve a response on the form:
 ```
 
 #### Add a new prosumer setting <a name="new_pro_setting"></a>
-**POST** to **/prosumersettings**
+**POST** to **/api/prosumersettings**
 
 
 You need to input a body on the below format:
@@ -117,7 +117,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: img_url <a name="upd_pro_img"></a>
-**PUT** to **/prosumersettings/*id*/img_url**
+**PUT** to **/api/prosumersettings/*id*/img_url**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -128,7 +128,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: password <a name="upd_pro_pw"></a>
-**PUT** to **/prosumersettings/*id*/password**
+**PUT** to **/api/prosumersettings/*id*/password**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -141,7 +141,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: online <a name="upd_pro_online"></a>
-**PUT** to **/prosumersettings/*id*/online**
+**PUT** to **/api/prosumersettings/*id*/online**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -154,7 +154,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: distr_over <a name="upd_pro_dist_over"></a>
-**PUT** to **/prosumersettings/*id*/distr_over**
+**PUT** to **/api/prosumersettings/*id*/distr_over**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -168,7 +168,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: distr_under <a name="upd_pro_dist_under"></a>
-**PUT** to **/prosumersettings/*id*/distr_under**
+**PUT** to **/api/prosumersettings/*id*/distr_under**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -182,7 +182,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: battery_warning_threshold <a name="upd_pro_bat"></a>
-**PUT** to **/prosumersettings/*id*/battery_warning_threshold**
+**PUT** to **/api/prosumersettings/*id*/battery_warning_threshold**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -193,7 +193,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: blocked <a name="upd_pro_block"></a>
-**PUT** to **/prosumersettings/*id*/block**
+**PUT** to **/api/prosumersettings/*id*/block**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -204,7 +204,7 @@ You need to input a body on the below format:
 ```
 
 #### Delete prosumer setting <a name="del_pro_set"></a>
-**DELETE** to **/prosumersettings/*id*/delete**
+**DELETE** to **/api/prosumersettings/*id*/delete**
 
 Here, id is the id of the prosumerSetting you want to update.
 You can expect a response as:
@@ -215,7 +215,7 @@ The prosumer settings are now deleted
 ### Prosumer Logs <a name="pro_log"></a>
 
 #### Add a prosumer log <a name="add_pro_log"></a>
-**POST** to **/prosumerlog**
+**POST** to **/api/prosumerlog**
 
 You will need to send a body with the form below:
 ```json
@@ -234,7 +234,7 @@ You will need to send a body with the form below:
 ```
 
 #### Get all logs from specific prosumer <a name="get_all_pro_log"></a>
-**GET** to **/prosumerlog/:id/getall**
+**GET** to **/api/prosumerlog/:id/getall**
 
 Here the id is the id of the prosumer you want to get logs from.
 You will get a response in the form of:
@@ -259,7 +259,7 @@ You will get a response in the form of:
 ```
 
 #### Get the latest log from specific prosumer <a name="get_lat_pro_log"></a>
-**GET** to **/prosumerlog/:id/getlatest**
+**GET** to **/api/prosumerlog/:id/getlatest**
 
 Here the id is the id of the prosumer you want to get the latest log from.
 You will get a response in the form of:
@@ -284,7 +284,7 @@ You will get a response in the form of:
 ```
 
 #### Delete all logs from a specific prosumer <a name="del_pro_log"></a>
-**DELETE** to **/prosumerlog/:id/delete**
+**DELETE** to **/api/prosumerlog/:id/delete**
 
 Here the id is the id of the prosumer you want to delete logs from.
 You will get a response in the form below:
@@ -296,7 +296,7 @@ The prosumer logs are deleted
 ### Manager Settings <a name="man_set"></a>
 
 #### Get all manager settings <a name="man_set_all"></a>
-**GET** to **/managersettings/get**
+**GET** to **/api/managersettings/get**
 
 You will recieve a response on the form:
 ```json
@@ -315,7 +315,7 @@ You will recieve a response on the form:
 ```
 
 #### Add a new manager setting <a name="man_set_add_new"></a>
-**POST** to **/managersettings**
+**POST** to **/api/managersettings**
 
 The manager has a set id "Manager" since there will only be one.
 You need to input a body on the below format:
@@ -331,7 +331,7 @@ You need to input a body on the below format:
 ```
 
 #### Update manager setting: img_url <a name="man_set_upd_img"></a>
-**PUT** to **/managersettings/img_url**
+**PUT** to **/api/managersettings/img_url**
 
 The id is already set for the manager.
 You only need to input a body with the format below:
@@ -342,7 +342,7 @@ You only need to input a body with the format below:
 ```
 
 #### Update manager setting: password <a name="man_set_upd_pw"></a>
-**PUT** to **/managersettings/password**
+**PUT** to **/api/managersettings/password**
 
 You need to input a body with the format below:
 ```json
@@ -354,7 +354,7 @@ You need to input a body with the format below:
 ```
 
 #### Update manager setting: online <a name="man_set_upd_onl"></a>
-**PUT** to **/managersettings/online**
+**PUT** to **/api/managersettings/online**
 
 You need to input a body on the below format:
 ```json
@@ -366,7 +366,7 @@ You need to input a body on the below format:
 ```
 
 #### Update manager setting: battery_warning_threshold <a name="man_set_upd_bat"></a>
-**PUT** to **/managersettings/battery_warning_threshold**
+**PUT** to **/api/managersettings/battery_warning_threshold**
 
 You need to input a body on the below format:
 ```json
@@ -376,7 +376,7 @@ You need to input a body on the below format:
 ```
 
 #### Delete manager setting <a name="man_set_del"></a>
-**DELETE** to **/managersettings/delete**
+**DELETE** to **/api/managersettings/delete**
 
 You can expect a response as:
 ```json
@@ -386,7 +386,7 @@ The manager settings are now deleted.
 ### Manager Logs <a name="man_log"></a>
 
 #### Add a manager log <a name="man_log_add"></a>
-**POST** to **/managerlog**
+**POST** to **/api/managerlog**
 
 You will need to send a body with the form below:
 ```json
@@ -402,7 +402,7 @@ You will need to send a body with the form below:
 ```
 
 #### Get all manager logs <a name="man_log_all"></a>
-**GET** to **/managerlog/getall**
+**GET** to **/api/managerlog/getall**
 
 You will get a response with the form:
 ```json
@@ -423,7 +423,7 @@ You will get a response with the form:
 ```
 
 #### Get latest manager log <a name="man_log_lat"></a>
-**GET** to **/managerlog/getlatest**
+**GET** to **/api/managerlog/getlatest**
 
 You will get a response with the form:
 ```json
@@ -444,7 +444,7 @@ You will get a response with the form:
 ```
 
 #### Delete all manager logs <a name="man_log_del"></a>
-**DELETE** to **/managerlog/delete**
+**DELETE** to **/api/managerlog/delete**
 
 You will get a response as:
 ```json
