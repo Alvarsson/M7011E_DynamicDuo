@@ -167,7 +167,26 @@ exports.update_prosumer_settings_blocked = function(req,res) {
     ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{"blocked": req.body.blocked}},function(err, prosumer) {
       if(err) {
         res.statusCode = 418;
-        res.send("sum ting wong when updating online");
+        res.send("sum ting wong when updating blocked");
+      } else{
+        res.statusCode = 204;
+        res.send();
+      }
+    });
+  }
+}
+
+exports.update_prosumer_settings_broken = function(req,res) {
+  console.log(req.body)
+  var valid = Util.validBody(req, BodyMaps.brokenMap());
+  if(!valid){
+    res.statusCode = 400;
+    res.send('You sent a bad request MOTHAFUCKA');
+  } else {
+    ProsumerSettings.findOneAndUpdate({id: req.params.id}, {$set:{"broken": req.body.broken}},function(err, prosumer) {
+      if(err) {
+        res.statusCode = 418;
+        res.send("sum ting wong when updating broken");
       } else{
         res.statusCode = 204;
         res.send();
@@ -201,6 +220,7 @@ exports.add_prosumer_setting = function (req,res) {
            buy:req.body.distribution.buy,
            drain:req.body.distribution.drain},
            blocked: req.body.blocked,
+           broken: req.body.broken,
            battery_warning_threshold: req.body.battery_warning_threshold,
            login_credentials:{
              password:req.body.login_credentials.password,

@@ -16,6 +16,7 @@ module.exports.completeProsumerMap = function(){
     body.set('img_url', 0);
     body.set('id', 0);
     body.set('blocked', 0);
+    body.set('broken', 0);
     body.set('battery_warning_threshold', 0);
     root.set('body', body);
     return root;
@@ -90,6 +91,15 @@ module.exports.blockedMap = function(){
     var root = new Map();
     var body = new Map();
     body.set('blocked', 0);
+    root.set('body', body);
+    return root;
+}
+
+// prosumer turbine broken
+module.exports.brokenMap = function(){
+    var root = new Map();
+    var body = new Map();
+    body.set('broken', 0);
     root.set('body', body);
     return root;
 }

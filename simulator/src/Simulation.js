@@ -184,10 +184,32 @@ class Simulation {
     return promise;
   }
 
+  update_break_timers(prosumer_list) {
+    var promise = new Promise((resolve, reject) => {
+      var promise_list = [];
+      for (var i = 0; i < prosumer_list.length; i++) {
+        promise_list.push(this.update_break_timer(prosumer_list[i]));
+      }
+      Promise.all(promise_list).then(resolve());
+    });
+    return promise;
+  }
+
   update_block_timer(prosumer) {
     console.log(prosumer.get_blocked()," is prsumer blocked in sim.")
     axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/block`, {
         blocked: prosumer.get_blocked()
+      }).then(response => {
+      })
+        .catch(error => {
+          console.log(error);
+        });
+  }
+
+  update_block_timer(prosumer) {
+    console.log(prosumer.get_turbine_broken()," is prsumer broken in sim.")
+    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/break`, {
+        blocked: prosumer.get_turbine_broken()
       }).then(response => {
       })
         .catch(error => {
@@ -259,7 +281,6 @@ class Simulation {
       prosumer_list[i].set_wind_speed(this.wind_speed);
       prosumer_list[i].set_temperature(this.temperature);
       prosumer_list[i].recalc();
-      prosumer_list[i].set_blocked(prosumer_list[i].get_blocked() - 1); // after all calculations are done, decrease blocked tick.
     }// TODO: borken TODO: decrease borken time here.
     resolve();
     });
@@ -335,7 +356,9 @@ class Simulation {
           this.calculate_new_prosumer_logs(this.prosumer_list).then( () => { 
             this.push_prosumer_logs(this.prosumer_list, this.tick++).then( () => {
               this.update_block_timers(this.prosumer_list).then( () => {
-                console.log("swaaaaaaaaaaaaaaaaag");
+                this.update_break_timers(this.prosumer_list).then( () => {
+                  console.log("swaaaaaaaaaaaaaaaaag");
+                });
               });
             });
           });

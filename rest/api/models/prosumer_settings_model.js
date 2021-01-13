@@ -51,6 +51,9 @@ var ProsumerSettingsSchema = new Schema({
     blocked: {
         type: Number,
     },
+    broken: {
+        type: Number,
+    },
     battery_warning_threshold: {
         type: Number,
         //default: 30
