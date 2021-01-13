@@ -24,6 +24,9 @@ var ProsumerLogSchema = new Schema ({
     production: {
         type: Number
     },
+    net_production: {
+        type:Number
+    },
     tick: {
         type: Number
     },
@@ -31,7 +34,7 @@ var ProsumerLogSchema = new Schema ({
         type: Number
     },
     broken_turbine: {
-        type: Boolean
+        type: Number
     },
     weather: {
         type: WeatherSchema,

@@ -71,6 +71,7 @@ exports.add_prosumer_log = function(req,res) {
         ProsumerLog.create({id: req.body.id,
         consumption: req.body.consumption,
         production: req.body.production,
+        net_production: req.body.net_production,
         tick: req.body.tick,
         battery_level: req.body.battery_level,
         broken_turbine: req.body.broken_turbine,

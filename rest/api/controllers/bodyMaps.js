@@ -115,6 +115,7 @@ module.exports.add_prosumer_logMap = function() {
     body.set('weather', weather);
     body.set('consumption', 0);
     body.set('production', 0);
+    body.set('net_production', 0);
     body.set('tick', 0);
     body.set('battery_level', 0);
     body.set('broken_turbine', 0);

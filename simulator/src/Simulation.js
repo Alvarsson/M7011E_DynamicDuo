@@ -87,6 +87,7 @@ class Simulation {
         drain: prosumer.get_drain_percentage()
       },
       blocked: 0,
+      broken: 0,
       battery_warning_threshold: 20,
       login_credentials: {
         password: "supaSecret",
@@ -118,6 +119,7 @@ class Simulation {
       id: prosumer.get_prosumer_id(),
       consumption: prosumer.get_total_consumption(),
       production: prosumer.get_production(),
+      net_production: prosumer.get_net_production(),
       tick: tick,
       battery_level: prosumer.get_battery_level(),
       broken_turbine: prosumer.get_turbine_broken(),
@@ -196,7 +198,6 @@ class Simulation {
   }
 
   update_block_timer(prosumer) {
-    console.log(prosumer.get_blocked()," is prsumer blocked in sim.")
     axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/block`, {
         blocked: prosumer.get_blocked()
       }).then(response => {
@@ -206,14 +207,14 @@ class Simulation {
         });
   }
 
-  update_block_timer(prosumer) {
-    console.log(prosumer.get_turbine_broken()," is prsumer broken in sim.")
-    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/break`, {
-        blocked: prosumer.get_turbine_broken()
+  update_break_timer(prosumer) {
+    console.log("updating break to ", prosumer.get_turbine_broken());
+    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/broken`, {
+        broken: prosumer.get_turbine_broken()
       }).then(response => {
       })
         .catch(error => {
-          console.log(error);
+          console.log(error)
         });
   }
 
@@ -234,13 +235,12 @@ class Simulation {
     var promise = new Promise((resolve, reject) => {
     axios.get(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}`).
       then(response => {
-        console.log(response.data.blocked, "is blocked time from settings")
         prosumer.set_sell_percentage(response.data.distribution.sell);
         prosumer.set_store_percentage(response.data.distribution.store);
         prosumer.set_buy_percentage(response.data.distribution.buy);
         prosumer.set_drain_percentage(response.data.distribution.drain);
-
         prosumer.set_blocked(response.data.blocked);
+        prosumer.set_turbine_broken(response.data.broken);
         resolve();
         })
           .catch(error => {
@@ -346,7 +346,7 @@ class Simulation {
 
   update() {
 
-    console.log("tick at 10 seconds");
+    console.log("tick ", this.tick);
     // check if new prosumersettings added/removed
     this.update_prosumer_list(this.prosumer_list)
     // get updated distr + weathertick
@@ -357,7 +357,7 @@ class Simulation {
             this.push_prosumer_logs(this.prosumer_list, this.tick++).then( () => {
               this.update_block_timers(this.prosumer_list).then( () => {
                 this.update_break_timers(this.prosumer_list).then( () => {
-                  console.log("swaaaaaaaaaaaaaaaaag");
+                  console.log("Finished update for tick", this.tick);
                 });
               });
             });

@@ -158,7 +158,7 @@ exports.update_prosumer_settings_online = function(req,res) {
 }
 
 exports.update_prosumer_settings_blocked = function(req,res) {
-  console.log(req.body)
+  console.log(req.body);
   var valid = Util.validBody(req, BodyMaps.blockedMap());
   if(!valid){
     res.statusCode = 400;
@@ -177,7 +177,7 @@ exports.update_prosumer_settings_blocked = function(req,res) {
 }
 
 exports.update_prosumer_settings_broken = function(req,res) {
-  console.log(req.body)
+  console.log(req.body);
   var valid = Util.validBody(req, BodyMaps.brokenMap());
   if(!valid){
     res.statusCode = 400;
