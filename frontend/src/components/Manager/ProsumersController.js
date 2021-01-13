@@ -32,7 +32,7 @@ export default function ProsumerController(props) {
         tick={props.tick}
         settings={selectedUserSettings}
       />
-      <List prosumers={props.prosumers} pickUser={selectNewUser} />
+      <List tick={props.tick} prosumers={props.prosumers} pickUser={selectNewUser} />
     </Container>
   );
 }

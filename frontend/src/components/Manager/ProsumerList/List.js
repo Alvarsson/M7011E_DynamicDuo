@@ -13,7 +13,7 @@ function List(props) {
   useEffect(() => {
     console.log("did the use effect");
     props.pickUser(currentUser);
-  }, [currentUser]); //actually update states when the tick has changed.
+  }, [props.tick,currentUser]); //actually update states when the tick has changed.
 
   return (
     <div>

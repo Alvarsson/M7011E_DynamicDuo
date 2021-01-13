@@ -8,7 +8,6 @@ import { API_BASE_URL } from "../../constants/apiConstants";
 import ProsumersController from "./ProsumersController";
 import { withRouter } from "react-router-dom";
 
-
 import ManagerOutput from "./ManagerOutput";
 import Overview from "./ProsumerList/Overview";
 
@@ -18,10 +17,7 @@ function ManagerMain() {
   const [data, setData] = useState({}); //vill man ändra värdet kallar man på setData osv
   //funktionstyperna som har use innan kallas för hooks.
 
-  const [prosumers, setProsumers] = useState([
-    { name: "test", status: "yoloing" },
-    { name: "patty", status: "irishing" },
-  ]);
+  const [prosumers, setProsumers] = useState([]);
 
   const fetchData = () => {
     const currentDataUrl = API_BASE_URL + "/managerlog/getlatest/";
@@ -29,17 +25,13 @@ function ManagerMain() {
 
     axios.all([axios.get(currentDataUrl), axios.get(prosumersUrl)]).then(
       axios.spread((current, prosumerList) => {
-
-        updateData(current.data[0]);
-        
-        setProsumers(prosumerList.data) //flytta in i updatedata i framtiden kanske
-        console.log(prosumers)
-    })
-
+        console.log(prosumerList.data);
+        updateData(current.data[0], prosumerList.data);
+      })
     );
   };
 
-  const updateData = (res) => {
+  const updateData = (res, prosumerlist) => {
     try {
       if (res.tick === tick) {
         //same tick? dont change anythin.
@@ -47,6 +39,7 @@ function ManagerMain() {
         return null;
       } else {
         setTick(res.tick);
+        setProsumers(prosumerlist); //flytta in i updatedata i framtiden kanske
         setData(res);
       }
     } catch (error) {
@@ -57,18 +50,17 @@ function ManagerMain() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData();
+      console.log(prosumers);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [tick]); //actually update states when the tick has changed.
-
+  }, []); //actually update states when the tick has changed.
 
   //{showComponent ? <Overview data={props.data} /> : null}
   return (
     <Container>
       <ManagerOutput data={data} />
       <ProsumersController prosumers={prosumers} tick={tick} />
-      
     </Container>
   );
 }
