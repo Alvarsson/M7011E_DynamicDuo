@@ -102,14 +102,10 @@ module.exports = function(app) {
 
 	// ----------- BLACK OUT ------------
 
-	app.route('/api/prosumer_blackout') // add prosumer blackout data
-		.post(blackout.add_prosumer_blackout);
-	app.route('/api/prosumer_blackout/get') // get prosumer blackout data
-		.get(blackout.get_prosumer_blackout);
-	app.route('/api/consumer_blackout')// add consumer blackout data
-		.post(blackout.add_consumer_blackout);
-	app.route('/api/consumer_blackout/get')// get consumer blackout data
-		.get(blackout.get_consumer_blackout);	
+	app.route('/api/blackouts') // add blackout data
+		.post(blackout.add_blackout);
+	app.route('/api/blackouts') // get blackout data
+		.get(blackout.get_all_blackouts);
 	
 	// ---------- AUTHENTICATION -------------
 	app.route('/api/login')

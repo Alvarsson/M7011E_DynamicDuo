@@ -212,7 +212,6 @@ class Simulation {
   }
 
   update_break_timer(prosumer) {
-    console.log("updating break to ", prosumer.get_broken());
     axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/broken`, {
         broken: prosumer.get_broken()
       }).then(response => {
@@ -292,14 +291,17 @@ class Simulation {
   }
   calculate_new_manager_logs(manager){
     manager.set_market_demand(this.get_total_demand());
+    manager.recalc();
+
     //TODO: finish these
   }
 
-  get_total_demand(){
+  get_total_demand(){ // WARNING: Handle this if it is negative (prosumers are providing for more than whole net. Add to manager buffer?)
     var result = 0;
     result += this.nr_of_consumers*this.consumer.get_consumer_demand();
     for(var i = 0; i < this.prosumer_list.length; i++){
-      result += this.prosumer_list[i].get_pwr_from_market();
+      result += Math.abs(this.prosumer_list[i].get_pwr_from_market()); // remove prosumer buying
+      result -= this.prosumer_list[i].get_pwr_to_market(); // add prosumer selling
     }
     return result;
   }
@@ -348,8 +350,49 @@ class Simulation {
       return promise;
   }
 
-  update() {
+  get_nr_of_blackout_consumers(pwr_missing) {
+    var consumer_demand = this.consumer.get_consumer_demand();
+    // black out consumers:
+    return Math.ceil(pwr_missing/consumer_demand);
+  }
 
+  blackout_prosumers(pwr_missing, prosumer_list) {
+    var list = [];
+    for(var i = 0; i < prosumer_list.length; i++) {
+      list.push(prosumer_list[i]); // add prosumer to blocked
+      pwr_missing -= prosumer_list[i].get_pwr_from_market();
+      if(pwr_missing <= 0){
+        break;
+      }
+    }
+    return list;
+  }
+
+  push_blackout_consumers(num) {
+    axios.post(`http://rest:3001/api/blackouts`, {
+        id: "consumer",
+        tick: this.tick,
+        amount: num
+      }).then(response => {
+      })
+        .catch(error => {
+          console.log(error);
+        });
+  }
+  push_blackout_prosumer(id) {
+    axios.post(`http://rest:3001/api/blackouts`, {
+        id: id,
+        tick: this.tick,
+        amount: 1
+      }).then(response => {
+      })
+        .catch(error => {
+          console.log(error);
+        });
+  }
+
+
+  update() {
     console.log("tick ", this.tick);
     // check if new prosumersettings added/removed
     this.update_prosumer_list(this.prosumer_list)
@@ -370,16 +413,30 @@ class Simulation {
       });
     });
     
-    //calculate prod/con
     
-    //push to log DB for prosumer, update block timers for prosumers
-    
-
+    // TODO: Update managers values from settings
+    // BRUH
     // TODO: re-calculate values for manager.
     this.calculate_new_manager_logs(this.manager);
     // PUSH logs to manager
     this.push_manager_logs(this.manager);
-    //TODO:push to blackout
+    // calculate & push to blackout
+    var pwr_missing = this.manager.get_pwr_missing();
+    var blackout_prosumer_list = [];
+    var nr_of_blocked_consumers = this.get_nr_of_blackout_consumers(pwr_missing);
+
+    pwr_missing -= this.nr_of_consumers*this.consumer.get_consumer_demand();
+    if(nr_of_blocked_consumers > this.nr_of_consumers){ // prosumers will be affected
+      pwr_missing -= this.consumer.get_consumer_demand()*this.nr_of_consumers;
+      blackout_prosumer_list = this.blackout_prosumers(pwr_missing, this.prosumer_list);
+    }
+    if(nr_of_blocked_consumers > 0) {
+      this.push_blackout_consumers(nr_of_blocked_consumers);
+    }
+    for(var i = 0; i < blackout_prosumer_list.length; i++){
+      this.push_blackout_prosumer(blackout_prosumer_list[i].get_prosumer_id());
+    }
+
 
     // Collection of all functions that should
     //SimController.create();

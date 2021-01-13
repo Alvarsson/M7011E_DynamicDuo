@@ -1,20 +1,38 @@
 class Manager {
     constructor(prosumers, consumers) {
-        this.pwr_production = 1000; // Are these reasonable?
-        this.plant_status = 1;
-        this.pwr_to_market = 1000;
+        this.pwr_production = 0; // Are these reasonable?
+        this.plant_status = 1; // 1 for running, 2 for starting, 3 for stopped.
+        this.pwr_to_market = 0;
 
-        this.pwr_to_buffer; // these needed?
-        this.pwr_from_buffer; // these needed?
-        this.buffer_level = 500;
+        this.store = 0;
+        this.sell = 1;
 
-        this.blackout_warning = false;
+        this.pwr_to_buffer;
+        this.pwr_from_buffer;
+        this.buffer_level = 0;
+        this.pwr_missing = 0; // During a blackout, how much power is missing i.e., how many will be blacked out.
+
 
         this.market_demand = 0;
         this.pwr_price = 2;
 
         this.nr_of_prosumers = prosumers;
         this.nr_of_consumers = consumers;
+    }
+
+    recalc() {
+        //recom_market price <- done directly to logs
+        // recalc pwr flows according to distr
+        this.calc_pwr_to_buffer();
+        this.calc_pwr_to_market();
+        // charge battery
+        this.charge_buffer(this.pwr_to_buffer);
+        // blackout?
+        var net_prod = this.pwr_to_market - this.market_demand;
+        if(net_prod < 0) { // if too little prod
+            this.pwr_missing = this.drain_buffer(Math.abs(net_prod));
+        }
+        //uppdatera batterier baserat på store/drain. Ifall drain: dra allt du behöver
     }
 
 // TODO: Question, should the amount of prosumers + consumers be sent into the get company price? Going for yes this time.
@@ -29,13 +47,10 @@ class Manager {
 
 // ----- PRODUCTION -----
     set_pwr_production(pwr) {
-        this.pwr_production = pwr;
+        this.pwr_production = Math.max(pwr,0);
     }
     get_pwr_production() {
         return this.pwr_production;
-    }
-    set_stop_production() {
-        this.pwr_production = 0;
     }
 
 //-----POWER PLANT STATUS ------
@@ -65,20 +80,22 @@ class Manager {
 //------ DISTRIBUTION -------
 // When producing, control a ratio of electricity being sent to the buffer and 
 //to the market (when stopped the buffer should be used to supply the market demand)
-    set_plant_dist(buffer, market) { // producing over market demand
-        production = this.get_pwr_production();
-        this.set_pwr_to_market(production, market);
-        this.set_pwr_to_buffer(production, buffer);
+    set_plant_dist(store, sell) { // producing over market demand
+        this.store = store;
+        this.sell = sell;
+        //production = this.get_pwr_production();
+        //this.set_pwr_to_market(production, sell);
+        //this.set_pwr_to_buffer(production, store);
     }
-    check_plant_stopped() { // check if plant is stopped then change dist. called each tick
+    /*check_plant_stopped() { // check if plant is stopped then change dist. called each tick
         var market_demand = this.get_market_demand();
         if (this.get_plant_status() == 3) {
             this.set_pwr_to_market(0, market_demand)
             this.set_pwr_from_buffer(1, market_demand)
         }
-    }
-    set_pwr_to_market(production, dist) { // sets an amount of pwr to market for each tick i guess.
-        this.pwr_to_market = production * dist;
+    }*/
+    calc_pwr_to_market() { // sets an amount of pwr to market for each tick i guess.
+        this.pwr_to_market = this.pwr_production * this.sell;
     }
     get_pwr_to_market() {
         return this.pwr_to_market;
@@ -88,33 +105,32 @@ class Manager {
     get_buffer_level(){
         return this.buffer_level;
     }
-    set_pwr_to_buffer(production, dist) {
-        this.pwr_to_buffer = production * dist;
+    calc_pwr_to_buffer() {
+        this.pwr_to_buffer = this.pwr_production * this.store;
     }
     get_pwr_to_buffer() {
         return this.pwr_to_buffer;
     }
-    set_pwr_from_buffer() {
-        this.pwr_from_buffer 
-    }
-    get_pwr_from_buffer() {
-        return this.pwr_from_buffer;
-    }
-    charge_buffer(pwr_amount) { // Called each tick
+    
+    charge_buffer(pwr_amount) {
         this.buffer_level += pwr_amount;
     }
-    discharge_buffer(pwr_amount) {
-        if (this.buffer_level - pwr_amount < 0) {
+    // this method returns the power missing (in case pwr_amount is larger than buffer level)
+    drain_buffer(pwr_amount){
+        if(pwr_amount > this.buffer_level){ // attempting to drain more than buffer has
+            var under = pwr_amount - this.buffer_level;
             this.buffer_level = 0;
-        } 
-        else {
-            this.buffer_level -= pwr_amount
-        } 
+            return under;
+        } else {
+            this.buffer_level -= pwr_amount;
+            return 0;
+        }
+
     }
 
 // ----- BLACKOUT-----
-    set_blackout_warning(bool) {
-        this.blackout_warning = bool; // flag this as event so that prosumer can make descision.
+    get_pwr_missing() {
+        return this.pwr_missing;// flag this as event so that prosumer can make descision.
     }
 }
 module.exports = Manager;
