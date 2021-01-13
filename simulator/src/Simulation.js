@@ -63,6 +63,10 @@ class Simulation {
       id: "Manager",
       img_url: "http://www.placecage.com/500/600",
       battery_warning_threshold: 20,
+      distribution: {
+        store: 0,
+        sell: 1
+      },
       login_credentials: {
         password: "supaSecret",
         online: 0

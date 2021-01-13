@@ -75,6 +75,8 @@ module.exports = function(app) {
 		.put(/*auth*,*/ manager.update_manager_settings_online);
 	app.route('/api/managersettings/battery_warning_threshold') // set the manager battery threshold warning
 		.put(/*auth*,*/ manager.update_manager_settings_battery_warning_threshold);
+	app.route('/api/managersettings/distribution') // set the manager battery threshold warning
+		.put(/*auth*,*/ manager.update_manager_settings_distribution);
 	app.route('/api/managersettings/delete') // delete the manager settings
 		.delete(/*auth*,*/ manager.delete_manager_settings);
 

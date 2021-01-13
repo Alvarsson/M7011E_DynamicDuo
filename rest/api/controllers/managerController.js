@@ -96,6 +96,35 @@ exports.update_manager_settings_battery_warning_threshold = function(req,res) {
     }   
 }
 
+
+exports.update_manager_settings_distribution = function (req, res) {
+    var isManager = Util.isManager(req);
+    var valid = Util.validBody(req, BodyMaps.distr_overMap());
+    if (!valid || !isManager) {
+      res.statusCode = 400;
+      res.send("You sent a bad request MOTHAFUCKA");
+    } else {
+      ProsumerSettings.findOneAndUpdate(
+        { id: req.params.id },
+        {
+          $set: {
+            "distribution.sell": req.body.distribution.sell,
+            "distribution.store": req.body.distribution.store,
+          },
+        },
+        function (err, prosumer) {
+          if (err) {
+            res.statusCode = 418;
+            res.send("sum ting wong when updating manager distribution");
+          } else {
+            res.statusCode = 204;
+            res.send();
+          }
+        }
+      );
+    }
+  };
+
 exports.update_manager_settings_online = function(req,res) {
     var isManager = Util.isManager(req);
     var valid = Util.validBody(req, BodyMaps.onlineMap());
@@ -132,6 +161,10 @@ exports.add_manager_setting = function (req, res) {
                 ManagerSettings.create({id: "Manager",
                 img_url: req.body.img_url,
                 battery_warning_threshold: req.body.battery_warning_threshold,
+                distribution: {
+                    store: req.body.distribution.store,
+                    sell: req.body.distribution.sell
+                },
                 login_credentials: {
                     password: req.body.login_credentials.password,
                     online: req.body.login_credentials.online

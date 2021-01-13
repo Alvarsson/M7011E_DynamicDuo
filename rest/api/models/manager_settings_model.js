@@ -12,6 +12,17 @@ var LoginCredentialsSchema = new Schema({
     }
 });
 
+var DistributionSchema = new Schema({
+    sell: {
+        type: Number,
+        //default: 0
+    },
+    store: {
+        type: Number,
+        //default: 1
+    }
+});
+
 var ManagerSettingsSchema = new Schema ({
     id: {
         type: String,
@@ -25,6 +36,10 @@ var ManagerSettingsSchema = new Schema ({
     battery_warning_threshold: {
         type: Number,
         //default 200 of sumfing
+    },
+    distribution: {
+        type: DistributionSchema,
+        Required: "Pls distribution"
     },
     login_credentials: {
         type: LoginCredentialsSchema,

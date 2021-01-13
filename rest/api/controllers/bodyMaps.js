@@ -129,11 +129,15 @@ module.exports.completeManagerMap = function(){
     var root = new Map();
     var body = new Map();
     var login = new Map();
+    var distribution = new Map();
     login.set('password', 0);
     login.set('online', 0);
+    distribution.set('sell', 0);
+    distribution.set('store', 0);
     body.set('login_credentials', login);
     body.set('img_url', 0);
     body.set('battery_warning_threshold', 0);
+    body.set('distribution', distribution);
     root.set('body', body);
     return root;
 }
