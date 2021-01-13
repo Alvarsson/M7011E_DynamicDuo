@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ProsumerBlackoutSchema = new Schema({
+var BlackoutSchema = new Schema({
     id: {
         type: String,
         Unique: false,
@@ -16,18 +16,4 @@ var ProsumerBlackoutSchema = new Schema({
         type: Number
     }
 })
-module.exports = mongoose.model('ProsumerBlackout', ProsumerBlackoutSchema);
-
-var ConsumerBlackoutSchema = new Schema({
-    id: {
-        type: String,
-        Unique: false,
-    },
-    tick: {
-        type: Number
-    },
-    amount: {
-        type: Number
-    }
-})
-module.exports = mongoose.model('ConsumerBlackout', ConsumerBlackoutSchema);
+module.exports = mongoose.model('Blackout', BlackoutSchema);
