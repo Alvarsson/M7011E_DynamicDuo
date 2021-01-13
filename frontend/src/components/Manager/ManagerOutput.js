@@ -11,6 +11,8 @@ import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import Row from "react-bootstrap/esm/Row";
 
+import ControlPanel from "./ControlPanel"
+
 export default function ManagerOutput(props) {
   return (
     <Container>
@@ -42,11 +44,10 @@ export default function ManagerOutput(props) {
             </ListGroup>
           </Row>
         </Col>
-        
       </Row>
       <Row>
-          <Image src="/logo192.png"></Image>
-        </Row>
+        <ControlPanel dist={4} />
+      </Row>
     </Container>
   );
 }

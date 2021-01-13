@@ -18,20 +18,28 @@ function ManagerMain() {
   //funktionstyperna som har use innan kallas för hooks.
 
   const [prosumers, setProsumers] = useState([]);
+  const [managersettings, setManagerSettings] = useState();
 
   const fetchData = () => {
     const currentDataUrl = API_BASE_URL + "/managerlog/getlatest/";
     const prosumersUrl = API_BASE_URL + "/prosumersettings";
+    const managersettingsurl = API_BASE_URL + "/managersettings/get";
 
-    axios.all([axios.get(currentDataUrl), axios.get(prosumersUrl)]).then(
-      axios.spread((current, prosumerList) => {
-        console.log(prosumerList.data);
-        updateData(current.data[0], prosumerList.data);
-      })
-    );
+    axios
+      .all([
+        axios.get(currentDataUrl),
+        axios.get(prosumersUrl),
+        axios.get(managersettingsurl),
+      ])
+      .then(
+        axios.spread((current, prosumerList, managerSettings) => {
+          console.log(managerSettings);
+          updateData(current.data[0], prosumerList.data, managerSettings);
+        })
+      );
   };
 
-  const updateData = (res, prosumerlist) => {
+  const updateData = (res, prosumerlist, managerSettings) => {
     try {
       if (res.tick === tick) {
         //same tick? dont change anythin.
@@ -39,7 +47,8 @@ function ManagerMain() {
         return null;
       } else {
         setTick(res.tick);
-        setProsumers(prosumerlist); //flytta in i updatedata i framtiden kanske
+        setProsumers(prosumerlist); 
+        setManagerSettings(managerSettings);
         setData(res);
       }
     } catch (error) {
@@ -48,7 +57,6 @@ function ManagerMain() {
   };
 
   useEffect(() => {
-      
     const interval = setInterval(() => {
       fetchData();
       console.log(prosumers);
@@ -60,9 +68,18 @@ function ManagerMain() {
   //{showComponent ? <Overview data={props.data} /> : null}
   return (
     <Container>
-      <ManagerOutput data={data} />
-      {prosumers.length>0 ? <ProsumersController prosumers={prosumers} tick={tick} /> : ""}
-      
+
+      {managersettings ? (
+        <ManagerOutput settings={managersettings} data={data} />
+      ) : (
+        ""
+      )}
+
+      {prosumers.length > 0 ? (
+        <ProsumersController prosumers={prosumers} tick={tick} />
+      ) : (
+        ""
+      )}
     </Container>
   );
 }

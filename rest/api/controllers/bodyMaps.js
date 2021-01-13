@@ -118,7 +118,7 @@ module.exports.add_prosumer_logMap = function() {
     body.set('net_production', 0);
     body.set('tick', 0);
     body.set('battery_level', 0);
-    body.set('broken_turbine', 0);
+    body.set('broken', 0);
     root.set('body', body);
     return root;
 }
