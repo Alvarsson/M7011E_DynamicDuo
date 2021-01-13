@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+//import uploadFile from "../../../../rest/api/upload_pic";
 import {
   API_BASE_URL,
   ACCESS_TOKEN_NAME,
@@ -10,11 +11,12 @@ import { withRouter } from "react-router-dom";
 function Form(props) {
   
   const handleSubmitClick = (e) => {
-   
+    e.preventDefault();
+    console.log(e);
     axios
-      .post(API_BASE_URL + "/upload", { withCredentials: true })
+      .post(API_BASE_URL + "/api/prosumersettings/:id/img_url", { withCredentials: true })
       .then(function (response) {
-
+        //uploadFile()
         //upload the image to the backend.
         //redirect to /home.
        
