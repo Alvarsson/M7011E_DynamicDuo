@@ -54,7 +54,7 @@ function ListItem(props) {
             <Col>
               <Alert variant={props.status > 0 ? "danger" : "success"}>
                 {props.status == 0 ? "running" : "blocked "}
-                {props.status == 0 ? "" : props.status}
+                {props.status == 0 ?  "" : props.status}
               </Alert>
             </Col>
             <Col>

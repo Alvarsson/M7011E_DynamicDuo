@@ -210,6 +210,7 @@ class Simulation {
 
   update_prosumer_data(prosumer)  {
     var promise = new Promise((resolve, reject) => {
+<<<<<<< HEAD
     axios.get(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}`).
       then(response => {
         console.log(response.data.blocked, "is blocked time from settings")
@@ -217,6 +218,16 @@ class Simulation {
         prosumer.set_store_percentage(response.data.distribution.store);
         prosumer.set_buy_percentage(response.data.distribution.buy);
         prosumer.set_drain_percentage(response.data.distribution.drain);
+=======
+      console.log("swag is run");
+      axios.get(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}`).
+        then(response => {
+          console.log(response.data.blocked, "is blocked time from settings")
+          prosumer.set_sell_percentage(response.data.distribution.sell);
+          prosumer.set_store_percentage(response.data.distribution.store);
+          prosumer.set_buy_percentage(response.data.distribution.buy);
+          prosumer.set_drain_percentage(response.data.distribution.drain);
+>>>>>>> 2d03eb680a3d25293f237b198e6958c9abde20f0
 
         prosumer.set_blocked(response.data.blocked);
         resolve();
