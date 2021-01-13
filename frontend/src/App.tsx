@@ -3,7 +3,7 @@ import Header from "./components/Header/Header";
 import LoginForm from "./components/LoginForm/LoginForm";
 import RegistrationForm from "./components/RegistrationForm/RegistrationForm";
 import Home from "./components/Home/Home";
-import Upload from "./components/UploadComponent/Form"
+import Upload from "./components/UploadComponent/UploadForm"
 import EditUserProfile from "./components/Manager/EditUserProfile"
 
 import PrivateRoute from "./utils/PrivateRoute";
