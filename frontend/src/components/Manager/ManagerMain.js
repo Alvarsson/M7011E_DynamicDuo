@@ -48,6 +48,7 @@ function ManagerMain() {
   };
 
   useEffect(() => {
+      
     const interval = setInterval(() => {
       fetchData();
       console.log(prosumers);
@@ -60,7 +61,8 @@ function ManagerMain() {
   return (
     <Container>
       <ManagerOutput data={data} />
-      <ProsumersController prosumers={prosumers} tick={tick} />
+      {prosumers.length>0 ? <ProsumersController prosumers={prosumers} tick={tick} /> : ""}
+      
     </Container>
   );
 }

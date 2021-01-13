@@ -18,21 +18,30 @@ export default function ProsumerController(props) {
     setUser(newName);
 
     var userSettings = props.prosumers.filter((obj) => {
-        
       return obj.id === newName;
     });
-    console.log(userSettings)
-    setUserSettings(userSettings);
+
+    console.log(userSettings);
+    setUserSettings(userSettings[0]);
   };
 
   return (
     <Container>
-      <Overview
-        id={selectedUser}
+      {selectedUser != "" ? (
+        <Overview
+          id={selectedUser}
+          tick={props.tick}
+          settings={selectedUserSettings}
+        />
+      ) : (
+        ""
+      )}
+
+      <List
         tick={props.tick}
-        settings={selectedUserSettings}
+        prosumers={props.prosumers}
+        pickUser={selectNewUser}
       />
-      <List tick={props.tick} prosumers={props.prosumers} pickUser={selectNewUser} />
     </Container>
   );
 }
