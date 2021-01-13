@@ -113,12 +113,8 @@ class Simulation {
   }
 
   push_prosumer_log(prosumer, tick) {
-<<<<<<< HEAD
     var promise = new Promise((resolve, reject) => {
-    axios.post(`http://rest:3001/prosumerlog/`, {
-=======
     axios.post(`http://rest:3001/api/prosumerlog/`, {
->>>>>>> f87e55c8d64f62531432b73dea9e3699ae0f0e20
       id: prosumer.get_prosumer_id(),
       consumption: prosumer.get_total_consumption(),
       production: prosumer.get_production(),
@@ -213,17 +209,7 @@ class Simulation {
   }
 
   update_prosumer_data(prosumer)  {
-<<<<<<< HEAD
     var promise = new Promise((resolve, reject) => {
-      console.log("swag is run");
-      axios.get(`http://rest:3001/prosumersettings/${prosumer.get_prosumer_id()}`).
-        then(response => {
-          console.log(response.data.blocked, "is blocked time from settings")
-          prosumer.set_sell_percentage(response.data.distribution.sell);
-          prosumer.set_store_percentage(response.data.distribution.store);
-          prosumer.set_buy_percentage(response.data.distribution.buy);
-          prosumer.set_drain_percentage(response.data.distribution.drain);
-=======
     axios.get(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}`).
       then(response => {
         console.log(response.data.blocked, "is blocked time from settings")
@@ -231,10 +217,9 @@ class Simulation {
         prosumer.set_store_percentage(response.data.distribution.store);
         prosumer.set_buy_percentage(response.data.distribution.buy);
         prosumer.set_drain_percentage(response.data.distribution.drain);
->>>>>>> f87e55c8d64f62531432b73dea9e3699ae0f0e20
 
-          prosumer.set_blocked(response.data.blocked);
-          resolve();
+        prosumer.set_blocked(response.data.blocked);
+        resolve();
         })
           .catch(error => {
             console.log("ärror");
@@ -249,12 +234,8 @@ class Simulation {
         return promise;
   }
   get_current_wind_speed(tick){
-<<<<<<< HEAD
     var promise = new Promise((resolve, reject) => {
-    axios.get(`http://rest:3001/windspeed/${tick}`).
-=======
     axios.get(`http://rest:3001/api/windspeed/${tick}`).
->>>>>>> f87e55c8d64f62531432b73dea9e3699ae0f0e20
       then(response => {
         this.wind_speed = response.data.wind_speed;
         resolve();
@@ -311,12 +292,8 @@ class Simulation {
   It does so by matching the simulators prosumer_list with prosumerSettings.
   Will add/delete any prosumers not matched. */
   update_prosumer_list(){
-<<<<<<< HEAD
     var promise = new Promise((resolve, reject) => {
-    axios.get(`http://rest:3001/prosumersettings`).
-=======
     axios.get(`http://rest:3001/api/prosumersettings`).
->>>>>>> f87e55c8d64f62531432b73dea9e3699ae0f0e20
       then(response => {
         // TODO: Should be able to optimize this with a combined loop
         // Check for new prosumers
