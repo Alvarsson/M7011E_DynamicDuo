@@ -74,7 +74,7 @@ exports.add_prosumer_log = function(req,res) {
         net_production: req.body.net_production,
         tick: req.body.tick,
         battery_level: req.body.battery_level,
-        broken_turbine: req.body.broken_turbine,
+        broken: req.body.broken_turbine,
         weather: {
             wind_speed: req.body.weather.wind_speed,
             temperature: req.body.weather.temperature

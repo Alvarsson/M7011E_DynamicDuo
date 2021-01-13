@@ -33,7 +33,7 @@ var ProsumerLogSchema = new Schema ({
     battery_level: {
         type: Number
     },
-    broken_turbine: {
+    broken: {
         type: Number
     },
     weather: {

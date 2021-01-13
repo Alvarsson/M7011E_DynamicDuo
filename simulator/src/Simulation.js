@@ -122,7 +122,7 @@ class Simulation {
       net_production: prosumer.get_net_production(),
       tick: tick,
       battery_level: prosumer.get_battery_level(),
-      broken_turbine: prosumer.get_turbine_broken(),
+      broken: prosumer.get_broken(),
       weather: {
         wind_speed: prosumer.get_wind_speed(),
         temperature: prosumer.get_temperature()
@@ -208,9 +208,9 @@ class Simulation {
   }
 
   update_break_timer(prosumer) {
-    console.log("updating break to ", prosumer.get_turbine_broken());
+    console.log("updating break to ", prosumer.get_broken());
     axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/broken`, {
-        broken: prosumer.get_turbine_broken()
+        broken: prosumer.get_broken()
       }).then(response => {
       })
         .catch(error => {
@@ -240,7 +240,7 @@ class Simulation {
         prosumer.set_buy_percentage(response.data.distribution.buy);
         prosumer.set_drain_percentage(response.data.distribution.drain);
         prosumer.set_blocked(response.data.blocked);
-        prosumer.set_turbine_broken(response.data.broken);
+        prosumer.set_broken(response.data.broken);
         resolve();
         })
           .catch(error => {

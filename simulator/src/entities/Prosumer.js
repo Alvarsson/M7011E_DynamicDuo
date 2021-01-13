@@ -28,14 +28,14 @@ class Prosumer {
         this.buy_from_market = 0; // BUY amount/tick
 
         this.blocked = 0;
-        this.turbine_broken = 0;
+        this.broken = 0;
 
         this.return_state = []; // used to store distr while blocked/broken
     }
 
     /* This here function will re-calculate errythang in the correct fucking order, i hope */
     recalc(){
-        if(this.turbine_broken == 0){ // If not already broken, chance to break turbine
+        if(this.broken == 0){ // If not already broken, chance to break turbine
             this.turbine_break();
         }
         this.calc_all_consumptions();
@@ -54,7 +54,7 @@ class Prosumer {
         }
         // after all calculations are done, decrease blocked & broken tick.
         this.set_blocked(this.get_blocked() - 1);
-        this.set_turbine_broken(this.get_turbine_broken() -1); 
+        this.set_broken(this.get_broken() -1); 
 
     }
 
@@ -87,7 +87,7 @@ class Prosumer {
 
 // ---- Production ----
     calc_production() {
-        if(this.turbine_broken == 0){
+        if(this.broken == 0){
             this.pwr_production = this.wind_speed*4;
         } else {
             this.pwr_production = 0;
@@ -110,18 +110,18 @@ class Prosumer {
         return this.blocked;
     }
 
-    get_turbine_broken() {
-        return this.turbine_broken;
+    get_broken() {
+        return this.broken;
     }
-    set_turbine_broken(broken_time) {
-        this.turbine_broken = Math.max(broken_time, 0); // prevents negative block
+    set_broken(broken_time) {
+        this.broken = Math.max(broken_time, 0); // prevents negative block
     }
     turbine_break() { // Called each tick, will break turbine with probability of break_chance each day.
         var break_chance = 0.00115741 // 10 % break chance per day, 0.0005787 for 5%, 0.00011574 for 1 %
         var break_time = 21;
         if (Math.random() <= break_chance) {
             console.log(this.get_prosumer_id(), " got BROKD!");
-            this.turbine_broken = break_time;
+            this.broken = break_time;
         }
     }
 
