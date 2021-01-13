@@ -1,8 +1,8 @@
 class Manager {
     constructor(prosumers, consumers) {
-        this.pwr_production = 0; // Are these reasonable?
+        this.pwr_production = 1000; // Are these reasonable?
         this.plant_status = 1; // 1 for running, 2 for starting, 3 for stopped.
-        this.pwr_to_market = 0;
+        this.pwr_to_market = 1000;
 
         this.store = 0;
         this.sell = 1;
