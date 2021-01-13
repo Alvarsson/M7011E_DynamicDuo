@@ -17,20 +17,34 @@ import { withRouter } from "react-router-dom";
 function UploadForm(props) {
   const handleSubmitClick = (e) => {
     e.preventDefault();
-    console.log(document.getElementById("exampleFormControlFile1").value);
-    
-    // axios
-    //   .post(API_BASE_URL + "/api/prosumersettings/:id/img_url", {
-    //     withCredentials: true,
-    //   })
-    //   .then(function (response) {
-    //     //uploadFile()
-    //     //upload the image to the backend.
-    //     //redirect to /home.
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    //console.log(document.getElementById("exampleFormControlFile1").value);
+    var formData = new FormData(); 
+    var imagefile = document.querySelector('#exampleFormControlFile1');
+
+    formData.append("image", imagefile.files[0]);
+    console.log(imagefile.files[0]);
+    let path = "";
+    const usr = localStorage.getItem(CURRENTUSER);
+    if (usr != "Manager") {
+      path = "/prosumersettings/"+usr+"/img_url";
+    } else {
+      path = "/managersettings/img_url";
+    }
+    axios
+      .post(API_BASE_URL + path, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+      })
+      .then(function (response) {
+        //uploadFile()
+        //upload the image to the backend.
+        //redirect to /home.
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (

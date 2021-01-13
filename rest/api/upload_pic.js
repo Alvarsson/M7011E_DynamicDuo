@@ -2,8 +2,12 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 
 // Enter copied or downloaded access ID and secret key here
-const ID = 'AKIAI5HBNX76ZXLLPUEQ';
-const SECRET = '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';
+const readAWS = fs.readFileSync("awskey.json");
+const parseAWS = JSON.parse(readAWS);
+
+//console.log(parseAWS.AWSKey);
+const ID = parseAWS.AWSKey;
+const SECRET = parseAWS.AWSSecretKey;
 
 // The name of the bucket that you have created
 const BUCKET_NAME = 'electric-avenue';
@@ -13,15 +17,15 @@ const s3 = new AWS.S3({
     secretAccessKey: SECRET
 });
 
-export const uploadFile = (fileName) => {
+exports.uploadFile = (fileName, data, callback) => {
     // Read content from the file
-    const fileContent = fs.readFileSync(fileName);
+    //const fileContent = fs.readFileSync(fileName);
 
     // Setting up S3 upload parameters
     const params = {
         Bucket: BUCKET_NAME,
         Key: fileName, // File name you want to save as in S3
-        Body: fileContent
+        Body: data
     };
 
     // Uploading files to the bucket
@@ -30,6 +34,7 @@ export const uploadFile = (fileName) => {
             throw err;
         }
         console.log(`File uploaded successfully. ${data.Location}`);
+        callback(data.Location);
     });
 };
 

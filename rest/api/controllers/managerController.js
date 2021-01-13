@@ -3,6 +3,8 @@
 var mongoose = require('mongoose'),
 Util = require('../util/api_utils'),
 BodyMaps = require('./bodyMaps'),
+upload = require("../upload_pic"),
+path = require('path'),
 ManagerSettings = mongoose.model('ManagerSettings');
 
 //  Always get the manager from the only id existing once created.
@@ -33,23 +35,26 @@ exports.get_manager_setting = function(req, res) {
 
 // We don't really need to update via id so should just send update directly.
 exports.update_manager_setting_img_url = function(req, res) {
-    var isManager = Util.isManager(req);
+    /* var isManager = Util.isManager(req);
     var valid = Util.validBody(req, BodyMaps.img_urlMap());
     if(!valid || !isManager) {
         res.statusCode = 400;
         res.send('Bad request, veri bad');
-    } else {
-        ManagerSettings.findOneAndUpdate({id: "Manager"}, {$set: {img_url:req.body.img_url}}, function(err, manager) {
-            if(err) {
-                res.statusCode = 418;
-                res.send("roh row, shaggy, cant update dat");
-            }
-            console.log("update complete, over and out")
-            res.statusCode = 204;
-            res.send();
+    } else { */
+        const fileName = "Manager" + path.extname(req.files.image.name);
+        upload.uploadFile(fileName, req.files.image.data, (img_url) => {
+            ManagerSettings.findOneAndUpdate({id: "Manager"}, {$set: {img_url:req.body.img_url}}, function(err, manager) {
+                if(err) {
+                    res.statusCode = 418;
+                    res.send("roh row, shaggy, cant update dat");
+                }
+                console.log("update complete, over and out")
+                res.statusCode = 204;
+                res.send();
+            });
         });
-    }
-    
+        
+    //}
     
 }
 
