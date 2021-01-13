@@ -11,24 +11,26 @@ exports.get_manager_setting = function(req, res) {
     if(!isManager) {
         res.statusCode = 404;
         res.send("Must be logged in as Manager.");
-    }
-    ManagerSettings.findOne({id: "Manager"}, function(err, manager) {
-        if(err) {
-            res.send("roh row, shaggy");
-        } else {
-            if(manager != null) {
-                console.log(manager)
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            manager.login_credentials.password = "PaSSwoRd ProTEctIOr 90o0";
-            res.json(manager);
+    }else {
+        ManagerSettings.findOne({id: "Manager"}, function(err, manager) {
+            if(err) {
+                res.send("roh row, shaggy");
             } else {
-                res.statusCode = 404;
-                res.send("Could not find the manager settings.");
+                if(manager != null) {
+                    console.log(manager);
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    manager.login_credentials.password = "PaSSwoRd ProTEctIOr 90o0";
+                    res.json(manager);
+                } else {
+                    res.statusCode = 404;
+                    res.send("Could not find the manager settings.");
+                }
+                
             }
-            
-        }
-    });
+        });
+    }
+    
 }
 
 // We don't really need to update via id so should just send update directly.
