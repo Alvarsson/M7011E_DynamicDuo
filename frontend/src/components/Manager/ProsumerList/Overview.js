@@ -56,11 +56,11 @@ function Overview(props) {
   }, [props.id, props.tick, props.settings]); //actually update states when the tick has changed.
 
   return (
-    <Container fluid>
-      <Row>
-        <CardDeck>
+    <Container >
+      <Row w-100>
+        <CardDeck w-100>
           
-            <Card>
+            <Card w-100>
               <Card.Body>
                 <Card.Title>{data.id}</Card.Title>
                 <Card.Text>
@@ -81,7 +81,7 @@ function Overview(props) {
               </Card.Body>
             </Card>
            
-            <Card>
+            <Card w-100>
               <Card.Body>
                 <Card.Title>Distribution</Card.Title>
                 <Card.Text>
@@ -108,7 +108,7 @@ function Overview(props) {
             </Card>
           
             {data.weather ? (
-              <Card>
+              <Card w-100>
                 <Card.Body>
                   <Card.Title>Variables</Card.Title>
                   <Card.Text>
@@ -120,7 +120,7 @@ function Overview(props) {
                         Consumption: {data.consumption}
                       </ListGroup.Item>
                       <ListGroup.Item>
-                        Net production: {data.production - data.consumption}
+                        Net production: {data.net_production}
                       </ListGroup.Item>
                       <ListGroup.Item>
                         Wind speed: {data.weather.wind_speed}
