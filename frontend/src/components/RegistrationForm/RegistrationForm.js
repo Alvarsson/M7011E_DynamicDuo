@@ -20,6 +20,8 @@ function RegistrationForm(props) {
     const sendDetailsToServer = () => {
         if(state.userID.length && state.password.length) {
             props.showError(null);
+            const url = API_BASE_URL+'/register';
+            console.log(url);
             const payload={
                 "id":state.userID,
                 "password":state.password,
