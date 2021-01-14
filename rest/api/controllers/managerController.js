@@ -173,7 +173,7 @@ exports.update_manager_setting_img_url = function(req, res) {
     } else {  */
         const fileName = "Manager" + path.extname(req.files.image.name);
         upload.uploadFile(fileName, req.files.image.data, (img_url) => {
-            ManagerSettings.findOneAndUpdate({id: "Manager"}, {$set: {img_url:req.body.img_url}}, function(err, manager) {
+            ManagerSettings.findOneAndUpdate({id: "Manager"}, {$set: {img_url: img_url}}, function(err, manager) {
                 if(err) {
                     res.statusCode = 418;
                     res.send("roh row, shaggy, cant update dat");

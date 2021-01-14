@@ -26,7 +26,7 @@ export default function ProsumerController(props) {
   };
 
   return (
-    <Container>
+    <Container style={{margin: "20px"}}>
       {selectedUser != "" ? (
         <Overview
           id={selectedUser}

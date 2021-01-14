@@ -15,10 +15,10 @@ import ControlPanel from "./ControlPanel"
 
 export default function ManagerOutput(props) {
   return (
-    <Container>
+    <Container style={{margin: "20px"}}>
       <Row>
         <Col>
-          <Image src="/logo192.png" fluid></Image>
+          <Image src={props.settings.data.img_url} fluid></Image>
         </Col>
         <Col>
           <Row>

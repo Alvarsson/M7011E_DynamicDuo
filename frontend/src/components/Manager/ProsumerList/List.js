@@ -16,7 +16,7 @@ function List(props) {
   }, [props.tick,currentUser,props.prosumers]); //run useEffect when these values change..
 
   return (
-    <div>
+    <div style={{margin: "20px 0px 20px 0px"}}>
       <ListGroup>
         {props.prosumers.map(function (item) {
           return (

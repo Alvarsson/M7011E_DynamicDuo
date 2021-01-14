@@ -49,6 +49,7 @@ function ManagerMain() {
         setTick(res.tick);
         setProsumers(prosumerlist); 
         setManagerSettings(managerSettings);
+        console.log(managerSettings);
         setData(res);
       }
     } catch (error) {

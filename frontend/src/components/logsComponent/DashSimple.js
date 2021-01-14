@@ -5,7 +5,7 @@ import axios from "axios";
 import Container from "react-bootstrap/Container";
 import DashComponent from "./DashComponent";
 import LabelCollection from "./LabelCollection";
-
+import MultiLine from "./MulitLineGraph"
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import CardDeck from "react-bootstrap/CardDeck";
@@ -26,9 +26,11 @@ export default function DashSimple() {
   const [singleton, setSingleton] = useState(0);
   const [tick, setTick] = useState(0);
   const [labelsData, setLabelsData] = useState({});
-  const [curr, setCurrent] = useState([0, 0, 0]);
-  const [productionArray, setProductionArray] = useState(initialStateArray);
-  const [consumptionArray, setConsumptionArray] = useState(initialStateArray);
+  const [curr, setCurrent] = useState([0, 0]);
+  const [netProductionArray, setNetProductionArray] = useState(
+    initialStateArray
+  );
+  const [consumptionArray, setConsumptionArray] = useState([{}]);
   const [windArray, setWindArray] = useState(initialStateArray);
 
   const dataLimit = 9;
@@ -58,19 +60,22 @@ export default function DashSimple() {
       broken_turbine: inData.broken_turbine,
     });
 
-
-    setProductionArray((oldArray) => {
+    setNetProductionArray((oldArray) => {
       if (oldArray.length > dataLimit) {
         oldArray.shift();
       }
       return [...oldArray, { tick: inData.tick, value: inData.production }];
     });
 
+    
+    
     setConsumptionArray((oldArray) => {
       if (oldArray.length > dataLimit) {
         oldArray.shift();
+        
       }
-      return [...oldArray, { tick: inData.tick, value: inData.consumption }];
+      console.log(oldArray)
+      return [...oldArray, { tick: inData.tick, production: inData.production, consumption:inData.consumption }];
     });
 
     setWindArray((oldArray) => {
@@ -89,18 +94,18 @@ export default function DashSimple() {
 
     if (typeof latestLogs[0] === "undefined") {
       console.log("latest logs undefined");
-      setCurrent([0, 0, 0]);
+      setCurrent([0, 0]);
       //setStates([]);
       return;
     }
     setCurrent([
       latestLogs[0].production,
-      latestLogs[0].consumption,
       latestLogs[0].weather.wind_speed,
     ]);
 
     latestLogs.reverse().forEach((element) => {
       //måste bli bättre än såhär på något sätt, right?
+
       setStates(element);
     });
   };
@@ -115,7 +120,9 @@ export default function DashSimple() {
         //same tick? dont change anythin.
         return null;
       } else {
-        setCurrent([res.production, res.consumption, res.weather.wind_speed]);
+        
+        
+        setCurrent([res.net_production, res.weather.wind_speed]);
 
         setStates(res);
       }
@@ -146,13 +153,13 @@ export default function DashSimple() {
       <Row>
         <CardDeck>
           <DashComponent
-            dataType={"Production"}
-            display={productionArray}
+            dataType={"Net-Production"}
+            display={netProductionArray}
             current={curr[0]}
             strokeColor={"#4655f5"}
           />
-          <DashComponent
-            dataType={"Consumption"}
+          <MultiLine
+            dataType={"Production and Consumption"}
             display={consumptionArray}
             current={curr[1]}
             strokeColor={"#1edc00"}
@@ -160,7 +167,7 @@ export default function DashSimple() {
           <DashComponent
             dataType={"Windspeed"}
             display={windArray}
-            current={curr[2]}
+            current={curr[1]}
             strokeColor={"#ff3c28"}
           />
         </CardDeck>
