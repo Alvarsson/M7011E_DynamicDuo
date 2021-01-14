@@ -10,31 +10,31 @@ exports.RegisterUser = function (req, res) {
     if (req.body.id == null || req.body.password == null) {
         res.statusCode = 404;
         res.send("Need a user ID and Password.");
-    }
-    User.findOne({id: req.body.id}, function(err, usr) {
+    }else {
+        User.findOne({id: req.body.id}, function(err, usr) {
 
-        if (usr) {
-            return res.status(400).json("Id already claimed.")
-        } else {
-            user.save((err, dock) => {
-                if (err) {
-                    return res.status(422).json({errors:err})
-                } else {
-                    const userData = {
-                        id: dock.id
+            if (usr) {
+                return res.status(400).json("Id already claimed.")
+            } else {
+                user.save((err, dock) => {
+                    if (err) {
+                        return res.status(422).json({errors:err})
+                    } else {
+                        const userData = {
+                            id: dock.id
+                        }
+                        prosumerController.add_prosumer_setting_test(userData)
+                        return res.status(200).json({
+                            success: true,
+                            message: 'Successfully Signed Up',
+                            userData,
+                        })
                     }
-
-                    prosumerController.add_prosumer_setting_test(userData)
-
-                    return res.status(200).json({
-                        success: true,
-                        message: 'Successfully Signed Up',
-                        userData,
-                    })
-                }
-            });
-        }
-    }); 
+                });
+            }
+        });
+    }
+    
 }
 
 exports.LoginUser = (req, res) => {

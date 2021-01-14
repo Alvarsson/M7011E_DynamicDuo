@@ -1,12 +1,20 @@
+const fs = require('fs');
 const Prosumer = require("./entities/Prosumer.js");
 const Consumer = require("./entities/Consumer.js");
 const Manager = require("./entities/Manager.js");
 const WindModule = require("./wind_module");
 const axios = require("axios");
 
+// Get simkey
+const readKey = fs.readFileSync("simkey.json");
+const parseKey = JSON.parse(readKey);
+const sim_key = parseKey.simKey;
+console.log(sim_key);
+axios.defaults.headers.common['sim'] = sim_key // for all requests
 
 const SimController = require("./Simulation_controller");
 const { set } = require("mongoose");
+
 
 /* Thoughts 
     - Do we really need to instansiate the consumers. They are as static as they come for objects.
@@ -45,6 +53,8 @@ class Simulation {
     this.manager = new Manager(int_cons, int_pros);
     this.push_manager_setting();
     this.add_user("Manager");
+
+    // REgga simulator som user?? req.headers.sim header, ska hämtas från simkey.json
 
     this.update_temperature(); // get current temperature
   }
@@ -171,7 +181,7 @@ class Simulation {
         power_plant_consumption: 0, // TODO, or ignore it?
         nr_of_consumers: this.nr_of_consumers
       }
-      axios.post(`http://rest:3001/api/managerlog/`, payload).then(response => {
+      axios.post(`http://rest:3001/api/managerlog/`,  payload).then(response => {
         console.log("pushed log for manager");
         resolve();
       })
@@ -184,7 +194,7 @@ class Simulation {
   }
 
   add_user(id) {
-    axios.post(`http://rest:3001/api/register/`, {
+    axios.post(`http://rest:3001/api/register/`,  {
       id: id,
       password: "supaSecret"
     }).then(response => {
@@ -236,7 +246,7 @@ class Simulation {
   }
 
   update_blackout(prosumer) {
-    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/blackout`, {
+    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/blackout`,  {
       blackout: prosumer.get_blackout()
     }).then(response => {
     })
@@ -246,7 +256,7 @@ class Simulation {
   }
 
   update_block_timer(prosumer) {
-    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/block`, {
+    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/block`,  {
       blocked: prosumer.get_blocked()
     }).then(response => {
     })
@@ -256,7 +266,7 @@ class Simulation {
   }
 
   update_break_timer(prosumer) {
-    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/broken`, {
+    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/broken`,  {
       broken: prosumer.get_broken()
     }).then(response => {
     })
@@ -266,7 +276,7 @@ class Simulation {
   }
   update_inc_status_change(manager) {
     var promise = new Promise((resolve, reject) => {
-      axios.put(`http://rest:3001/api/managersettings/inc_status_change`, {
+      axios.put(`http://rest:3001/api/managersettings/inc_status_change`,  {
         inc_status_change: {
           timer: manager.get_inc_status_change_timer(),
           new_status: manager.get_inc_status_change()
@@ -284,7 +294,7 @@ class Simulation {
 
   update_inc_prod_change(manager) {
     var promise = new Promise((resolve, reject) => {
-      axios.put(`http://rest:3001/api/managersettings/inc_prod_change`, {
+      axios.put(`http://rest:3001/api/managersettings/inc_prod_change`,  {
         inc_prod_change: {
           timer: manager.get_inc_prod_change_timer(),
           new_prod: manager.get_inc_prod_change()
@@ -481,7 +491,7 @@ class Simulation {
   }
 
   push_blackout_consumers(num) {
-    axios.post(`http://rest:3001/api/blackouts`, {
+    axios.post(`http://rest:3001/api/blackouts`,  {
       id: "consumer",
       tick: this.tick,
       amount: num
@@ -492,7 +502,7 @@ class Simulation {
       });
   }
   push_blackout_prosumer(id) {
-    axios.post(`http://rest:3001/api/blackouts`, {
+    axios.post(`http://rest:3001/api/blackouts`,  {
       id: id,
       tick: this.tick,
       amount: 1
@@ -553,7 +563,7 @@ class Simulation {
   }
 
   update() {
-    console.log("tick ", ++this.tick);
+    console.log("tick ", this.tick);
 
     // Get new weather data
     if (this.tick - this.last_temp_update_tick >= 3) {
@@ -567,14 +577,14 @@ class Simulation {
             this.calculate_new_prosumer_logs(this.prosumer_list).then(() => {
               this.calculate_new_manager_state(this.manager).then(() => {
                 this.blackout_check_push(this.nr_of_consumers, this.consumer, this.manager, this.prosumer_list).then(() => {
-                  this.push_prosumer_logs(this.prosumer_list, this.tick++).then(() => {
+                  this.push_prosumer_logs(this.prosumer_list, this.tick).then(() => {
                     this.push_manager_logs(this.manager).then(() => {
                       this.update_block_timers(this.prosumer_list).then(() => {
                         this.update_break_timers(this.prosumer_list).then(() => {
                           this.update_blackouts(this.prosumer_list).then(() => {
                             this.update_inc_prod_change(this.manager).then(() => {
                               this.update_inc_status_change(this.manager).then(() => {
-                                console.log("Finished update for tick", this.tick);
+                                console.log("Finished update for tick", this.tick++);
                               });
                             });
                           });
