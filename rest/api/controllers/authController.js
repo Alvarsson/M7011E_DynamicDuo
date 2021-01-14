@@ -99,7 +99,7 @@ exports.LogoutUser = (req, res) => {
 }
 
 
-//get authenticated user details
+//get authenticated user details, used in testing mostly
 exports.getUserDetails = (req, res) => {
     return res.status(200).json({
         isAuthenticated: true,
