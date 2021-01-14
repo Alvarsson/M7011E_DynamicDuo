@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import Card from "react-bootstrap/Card";
 
-export default function DashComponent(props) {
+export default function MultiLineGraph(props) {
   return (
     <Card style={{ width: "30vw" }} bg="light">
       <Card.Body>
@@ -27,11 +27,16 @@ export default function DashComponent(props) {
             <CartesianGrid stroke="#eee" />
             <Line
               type="monotone"
-              dataKey="value"
+              dataKey="consumption"
               isAnimationActive={false}
-              stroke={props.strokeColor}
+              stroke="#228B22"
             />
-           
+           <Line
+              type="monotone"
+              dataKey="production"
+              isAnimationActive={false}
+              stroke="#FF8C00"
+            />
           </LineChart>
         </ResponsiveContainer>
 
