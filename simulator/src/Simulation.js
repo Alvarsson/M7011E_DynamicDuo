@@ -59,6 +59,7 @@ class Simulation {
   }
 
   push_manager_setting(){
+    console.log("YYYYYYYAAAAYOOOOOT");
     axios.post(`http://rest:3001/api/managersettings/`, {
       id: "Manager",
       img_url: "http://www.placecage.com/500/600",
@@ -76,7 +77,7 @@ class Simulation {
         console.log("Registered Manager");
       })
       .catch(error => {
-        console.log(error.response.status + " Failed to register prosumer, it probable exists or smth");
+        console.log(error.response.status + " Failed to register manager, it probable exists or smth");
       });
   }
 
