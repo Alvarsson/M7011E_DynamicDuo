@@ -66,10 +66,10 @@ function Overview(props) {
                 <Card.Text>
                   <Alert
                     variant={
-                      data.broken_turbine == false ? "success" : "danger"
+                        props.settings.broken == false ? "success" : "danger"
                     }
                   >
-                    {data.broken_turbine == false ? "Working" : "Broken "}
+                    {props.settings.broken == false ? "Working" : "Broken "}
                   </Alert>
 
                   <Alert
