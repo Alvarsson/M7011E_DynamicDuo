@@ -17,7 +17,7 @@ export default function ControlPanel(props) {
   return (
     <Container>
       <Row>
-
+        <Distribution initialValueA={props.dist}/>       
       </Row>
     </Container>
   );
