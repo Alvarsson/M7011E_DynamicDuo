@@ -21,6 +21,7 @@ class Simulation {
   constructor(sim_time, int_pros, int_cons) {
     this.wind_speed = 5;
     this.temperature = 20;
+    this.last_temp_update_tick = 0;
     this.tick = 0;
     console.log("SETTING UP SIMULATOR");
     // generera wind, into DB
@@ -44,6 +45,8 @@ class Simulation {
     this.manager = new Manager(int_cons, int_pros);
     this.push_manager_setting();
     this.add_user("Manager");
+
+    this.update_temperature(); // get current temperature
   }
 
 
@@ -58,7 +61,7 @@ class Simulation {
     }
   }
 
-  push_manager_setting(){
+  push_manager_setting() {
     axios.post(`http://rest:3001/api/managersettings/`, {
       id: "Manager",
       market_price: this.manager.get_pwr_price(),
@@ -169,7 +172,7 @@ class Simulation {
         nr_of_consumers: this.nr_of_consumers
       }
       axios.post(`http://rest:3001/api/managerlog/`, payload).then(response => {
-        console.log("pushed log for manager", resolve());
+        console.log("pushed log for manager");
         resolve();
       })
         .catch(error => {
@@ -531,29 +534,44 @@ class Simulation {
     });
     return promise;
   }
-
+  // Updates temperature from SMHI.
+  update_temperature() {
+    axios.get(`https://opendata-download-metobs.smhi.se/api/version/latest/parameter/1/station/162860/period/latest-hour/data.json`).
+      then(response => {
+        console.log("SMHI temp updated:", response.data.value[0].value);
+        this.temperature = response.data.value[0].value;
+        this.last_temp_update_tick = this.tick;
+        // TODO: check if empty value
+      })
+      .catch(error => {
+        console.log("Something went wrong at SMHI API, keeping the last data.");
+        reject();
+      });
+  }
 
   update() {
     console.log("tick ", ++this.tick);
-    // check if new prosumersettings added/removed
-    this.update_prosumer_list(this.prosumer_list)
-      // get updated distr + weathertick
-      .then(() => {
-        this.update_prosumers_data(this.prosumer_list).then(() => {
-          this.update_manager_data(this.manager).then(() => {
-            this.get_current_wind_speed(this.tick).then(() => {
-              this.calculate_new_prosumer_logs(this.prosumer_list).then(() => {
-                this.calculate_new_manager_state(this.manager).then(() => {
-                  this.blackout_check_push(this.nr_of_consumers, this.consumer, this.manager, this.prosumer_list).then(() => {
-                    this.push_prosumer_logs(this.prosumer_list, this.tick++).then(() => {
-                      this.push_manager_logs(this.manager).then(() => {
-                        this.update_block_timers(this.prosumer_list).then(() => {
-                          this.update_break_timers(this.prosumer_list).then(() => {
-                            this.update_blackouts(this.prosumer_list).then(() => {
-                              this.update_inc_prod_change(this.manager).then(() => {
-                                this.update_inc_status_change(this.manager).then(() => {
-                                  console.log("Finished update for tick", this.tick);
-                                });
+
+    // Get new weather data
+    if (this.tick - this.last_temp_update_tick >= 3) {
+      this.update_temperature();
+    }
+
+    this.update_prosumer_list(this.prosumer_list).then(() => {
+      this.update_prosumers_data(this.prosumer_list).then(() => {
+        this.update_manager_data(this.manager).then(() => {
+          this.get_current_wind_speed(this.tick).then(() => {
+            this.calculate_new_prosumer_logs(this.prosumer_list).then(() => {
+              this.calculate_new_manager_state(this.manager).then(() => {
+                this.blackout_check_push(this.nr_of_consumers, this.consumer, this.manager, this.prosumer_list).then(() => {
+                  this.push_prosumer_logs(this.prosumer_list, this.tick++).then(() => {
+                    this.push_manager_logs(this.manager).then(() => {
+                      this.update_block_timers(this.prosumer_list).then(() => {
+                        this.update_break_timers(this.prosumer_list).then(() => {
+                          this.update_blackouts(this.prosumer_list).then(() => {
+                            this.update_inc_prod_change(this.manager).then(() => {
+                              this.update_inc_status_change(this.manager).then(() => {
+                                console.log("Finished update for tick", this.tick);
                               });
                             });
                           });
@@ -567,6 +585,7 @@ class Simulation {
           });
         });
       });
+    });
 
     //TODO: fix order, all recalc first, then push logs, settings.
 

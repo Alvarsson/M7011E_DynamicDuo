@@ -3,7 +3,6 @@ const Prosumer = require('../entities/Prosumer');
 
 describe('Prosumer', function() {
     
-
   describe('Get prosumer id', function() {
     it('should return prosumer id 0.', function() {
       const prosumer = new Prosumer(0);
