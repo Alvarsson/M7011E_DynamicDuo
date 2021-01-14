@@ -538,10 +538,13 @@ class Simulation {
   update_temperature() {
     axios.get(`https://opendata-download-metobs.smhi.se/api/version/latest/parameter/1/station/162860/period/latest-hour/data.json`).
       then(response => {
-        console.log("SMHI temp updated:", response.data.value[0].value);
-        this.temperature = response.data.value[0].value;
-        this.last_temp_update_tick = this.tick;
-        // TODO: check if empty value
+        try {
+          console.log("SMHI temp updated:", response.data.value[0].value);
+          this.temperature = response.data.value[0].value;
+          this.last_temp_update_tick = this.tick;
+        } catch (error) {
+          console.log("SMHI value probably empty, retrying next tick");
+        }
       })
       .catch(error => {
         console.log("Something went wrong at SMHI API, keeping the last data.");
