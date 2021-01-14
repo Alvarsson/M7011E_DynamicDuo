@@ -566,7 +566,7 @@ class Simulation {
     console.log("tick ", this.tick);
 
     // Get new weather data
-    if (this.tick - this.last_temp_update_tick >= 3) {
+    if (this.tick - this.last_temp_update_tick >= 360) {
       this.update_temperature();
     }
 

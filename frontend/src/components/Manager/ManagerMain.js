@@ -33,7 +33,7 @@ function ManagerMain() {
       ])
       .then(
         axios.spread((current, prosumerList, managerSettings) => {
-          console.log(managerSettings);
+          console.log(current.data[0]);
           updateData(current.data[0], prosumerList.data, managerSettings);
         })
       );
@@ -58,6 +58,7 @@ function ManagerMain() {
   };
 
   useEffect(() => {
+    fetchData();
     const interval = setInterval(() => {
       fetchData();
       console.log(prosumers);

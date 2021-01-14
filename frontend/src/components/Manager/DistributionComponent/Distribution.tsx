@@ -40,7 +40,7 @@ const Distribution: React.FC<Props> = ({ initialValueA }) => {
 
   return (
     <Container className="p-3">
-      <Card style={{ width: "50vw" }} bg="light">
+      <Card style={{ width: "40vw" }} bg="light">
         <Card.Body>
           <Card.Title>For over-production:</Card.Title>
 

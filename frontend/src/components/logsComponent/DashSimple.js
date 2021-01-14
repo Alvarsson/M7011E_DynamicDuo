@@ -5,15 +5,16 @@ import axios from "axios";
 import Container from "react-bootstrap/Container";
 import DashComponent from "./DashComponent";
 import LabelCollection from "./LabelCollection";
-import MultiLine from "./MulitLineGraph"
+import MultiLine from "./MulitLineGraph";
 import Col from "react-bootstrap/esm/Col";
 import Row from "react-bootstrap/esm/Row";
 import CardDeck from "react-bootstrap/CardDeck";
+import Image from "react-bootstrap/Image";
 
 import { API_BASE_URL, CURRENTUSER } from "../../constants/apiConstants";
 import Card from "react-bootstrap/esm/Card";
 
-export default function DashSimple() {
+export default function DashSimple(props) {
   //const [data, setData] = useState("");
 
   const initialStateArray = [
@@ -30,6 +31,7 @@ export default function DashSimple() {
   const [netProductionArray, setNetProductionArray] = useState(
     initialStateArray
   );
+  const [img_url, setImgUrl] = useState("");
   const [consumptionArray, setConsumptionArray] = useState([{}]);
   const [windArray, setWindArray] = useState(initialStateArray);
 
@@ -55,10 +57,13 @@ export default function DashSimple() {
   };
 
   const setStates = (inData) => {
+    console.log(inData);
     setLabelsData({
       battery_level: inData.battery_level,
       broken_turbine: inData.broken_turbine,
     });
+
+    setImgUrl(inData.img_url);
 
     setNetProductionArray((oldArray) => {
       if (oldArray.length > dataLimit) {
@@ -67,15 +72,19 @@ export default function DashSimple() {
       return [...oldArray, { tick: inData.tick, value: inData.net_production }];
     });
 
-    
-    
     setConsumptionArray((oldArray) => {
       if (oldArray.length > dataLimit) {
         oldArray.shift();
-        
       }
-      console.log(oldArray)
-      return [...oldArray, { tick: inData.tick, production: inData.production, consumption:inData.consumption }];
+      console.log(oldArray);
+      return [
+        ...oldArray,
+        {
+          tick: inData.tick,
+          production: inData.production,
+          consumption: inData.consumption,
+        },
+      ];
     });
 
     setWindArray((oldArray) => {
@@ -119,8 +128,6 @@ export default function DashSimple() {
         //same tick? dont change anythin.
         return null;
       } else {
-        
-        
         setCurrent([res.net_production, res.weather.wind_speed]);
 
         setStates(res);
@@ -170,13 +177,27 @@ export default function DashSimple() {
             strokeColor={"#ff3c28"}
           />
         </CardDeck>
-        <Card>
-          <Card.Title>Current Data</Card.Title>
-          <LabelCollection
-            broken_turbine={labelsData.broken_turbine ? "Broken" : "Working"} //true means Broken, false means Working. TODO: CLean this.
-            battery_level={labelsData.battery_level}
-          />
-        </Card>
+
+        <Container style={{ margin: "20px 0px 10px 0px" }}>
+          <Row>
+            <Col>
+              <CardDeck>
+                <Card style={{ width: "30vw" }} bg="light">
+                  <Card.Title>Current Data</Card.Title>
+                  <LabelCollection
+                    broken_turbine={
+                      labelsData.broken_turbine ? "Broken" : "Working"
+                    } //true means Broken, false means Working. TODO: CLean this.
+                    battery_level={labelsData.battery_level}
+                  />
+                </Card>
+              </CardDeck>
+            </Col>
+            <Col>
+              <Image src={props.img_url} fluid></Image>
+            </Col>
+          </Row>
+        </Container>
       </Row>
     </Container>
   );

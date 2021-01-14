@@ -57,10 +57,10 @@ function Overview(props) {
 
   return (
     <Container >
-      <Row w-100>
-        <CardDeck w-100>
+      <Row >
+        <CardDeck >
           
-            <Card w-100>
+            <Card >
               <Card.Body>
                 <Card.Title>{data.id}</Card.Title>
                 <Card.Text>
@@ -81,7 +81,7 @@ function Overview(props) {
               </Card.Body>
             </Card>
            
-            <Card w-100>
+            <Card >
               <Card.Body>
                 <Card.Title>Distribution</Card.Title>
                 <Card.Text>
@@ -108,7 +108,7 @@ function Overview(props) {
             </Card>
           
             {data.weather ? (
-              <Card w-100>
+              <Card >
                 <Card.Body>
                   <Card.Title>Variables</Card.Title>
                   <Card.Text>
