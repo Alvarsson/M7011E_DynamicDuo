@@ -9,6 +9,7 @@ import {
   XAxis,
   Tooltip,
   YAxis,
+  Legend,
 } from "recharts";
 import Card from "react-bootstrap/Card";
 
@@ -24,6 +25,7 @@ export default function MultiLineGraph(props) {
             <XAxis dataKey="tick" tick={false} />
             <YAxis />
             <Tooltip />
+            <Legend />
             <CartesianGrid stroke="#eee" />
             <Line
               type="monotone"
@@ -40,9 +42,6 @@ export default function MultiLineGraph(props) {
           </LineChart>
         </ResponsiveContainer>
 
-        <Card.Title>
-          {props.dataType}: {props.current}
-        </Card.Title>
       </Card.Body>
     </Card>
   ); ///*<Tooltip />*/

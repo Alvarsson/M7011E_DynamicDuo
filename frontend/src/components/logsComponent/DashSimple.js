@@ -64,7 +64,7 @@ export default function DashSimple() {
       if (oldArray.length > dataLimit) {
         oldArray.shift();
       }
-      return [...oldArray, { tick: inData.tick, value: inData.production }];
+      return [...oldArray, { tick: inData.tick, value: inData.net_production }];
     });
 
     
@@ -95,11 +95,10 @@ export default function DashSimple() {
     if (typeof latestLogs[0] === "undefined") {
       console.log("latest logs undefined");
       setCurrent([0, 0]);
-      //setStates([]);
       return;
     }
     setCurrent([
-      latestLogs[0].production,
+      latestLogs[0].net_production,
       latestLogs[0].weather.wind_speed,
     ]);
 
@@ -161,7 +160,7 @@ export default function DashSimple() {
           <MultiLine
             dataType={"Production and Consumption"}
             display={consumptionArray}
-            current={curr[1]}
+            current="wat"
             strokeColor={"#1edc00"}
           />
           <DashComponent
