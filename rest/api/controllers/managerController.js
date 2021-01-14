@@ -134,7 +134,6 @@ exports.update_inc_status_change = function (req, res) {
   };
 
   exports.update_inc_prod_change = function (req, res) {
-      console.log(req.body);
     var valid = Util.validBody(req, BodyMaps.inc_prod_changeMap());
     if (!valid) {
       res.statusCode = 400;
@@ -230,7 +229,6 @@ exports.update_manager_settings_battery_warning_threshold = function(req,res) {
 
 
 exports.update_manager_settings_distribution = function (req, res) {
-    console.log(req.body);
     var valid = Util.validBody(req, BodyMaps.distr_overMap());
     if (!valid) {
       res.statusCode = 400;

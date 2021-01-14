@@ -38,7 +38,6 @@ class Manager {
             this.pwr_missing = this.drain_buffer(Math.abs(net_prod));
         }
         this.recalc_inc_changes();
-        console.log("timers:", this.inc_prod_change_timer, this.inc_status_change_timer);
     }
 
     recalc_inc_changes() {

@@ -59,7 +59,6 @@ class Simulation {
   }
 
   push_manager_setting(){
-    console.log("YYYYYYYAAAAYOOOOOT");
     axios.post(`http://rest:3001/api/managersettings/`, {
       id: "Manager",
       market_price: this.manager.get_pwr_price(),
@@ -158,7 +157,7 @@ class Simulation {
 
   push_manager_logs(manager) {
     var promise = new Promise((resolve, reject) => {
-      var stuff = {
+      var payload = {
         PP_status: manager.get_plant_status(),
         recommended_market_price: manager.get_company_price_rec(),
         market_price: manager.get_pwr_price(),
@@ -169,15 +168,15 @@ class Simulation {
         power_plant_consumption: 0, // TODO, or ignore it?
         nr_of_consumers: this.nr_of_consumers
       }
-      axios.post(`http://rest:3001/api/managerlog/`, stuff).then(response => {
-        console.log("pushed log for manager");
+      axios.post(`http://rest:3001/api/managerlog/`, payload).then(response => {
+        console.log("pushed log for manager", resolve());
         resolve();
       })
         .catch(error => {
           reject();
+          console.log(error);
         });
     });
-    console.log(promise);
     return promise;
   }
 
@@ -201,7 +200,6 @@ class Simulation {
   }
 
   update_block_timers(prosumer_list) {
-    console.log("böck");
     var promise = new Promise((resolve, reject) => {
       var promise_list = [];
       for (var i = 0; i < prosumer_list.length; i++) {
@@ -213,21 +211,17 @@ class Simulation {
   }
 
   update_break_timers(prosumer_list) {
-    console.log("breaktimer1");
     var promise = new Promise((resolve, reject) => {
       var promise_list = [];
-      console.log("breaktimer2");
       for (var i = 0; i < prosumer_list.length; i++) {
         promise_list.push(this.update_break_timer(prosumer_list[i]));
       }
-      console.log("breaktimer3");
       Promise.all(promise_list).then(resolve());
     });
     return promise;
   }
 
   update_blackouts(prosumer_list) {
-    console.log("bo, bitch");
     var promise = new Promise((resolve, reject) => {
       var promise_list = [];
       for (var i = 0; i < prosumer_list.length; i++) {
@@ -287,7 +281,6 @@ class Simulation {
 
   update_inc_prod_change(manager) {
     var promise = new Promise((resolve, reject) => {
-      console.log("timer before req:", manager.get_inc_prod_change_timer());
       axios.put(`http://rest:3001/api/managersettings/inc_prod_change`, {
         inc_prod_change: {
           timer: manager.get_inc_prod_change_timer(),
@@ -534,6 +527,7 @@ class Simulation {
         this.push_blackout_prosumer(blackout_prosumer_list[i].get_prosumer_id());
         blackout_prosumer_list[i].set_blackout(true);
       }
+      resolve();
     });
     return promise;
   }
@@ -582,7 +576,7 @@ class Simulation {
     // TODO: re-calculate values for manager.
     //this.calculate_new_manager_state(this.manager);
     // PUSH logs to manager
-    this.push_manager_logs(this.manager); // TODO: update managersettings, then we do SMHI and test => DONE
+    //this.push_manager_logs(this.manager); // TODO: update managersettings, then we do SMHI and test => DONE
     // calculate & push to blackout
     //this.blackout_check_push(this.nr_of_consumers, this.consumer, this.manager, this.prosumer_list);
 
