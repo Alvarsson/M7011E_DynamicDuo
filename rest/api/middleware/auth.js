@@ -9,28 +9,32 @@ const auth = (req, res, next) => {
   let token = req.headers.token;
   let simToken = req.headers.sim;
   let cookieToken = req.cookies.authToken;
+
+  if(simToken){
+    cookieToken = simToken;
+  }
+
   //console.log("TOKEN IS:", cookieToken)
   let usrid = req.originalUrl;
   const idCheck = ezParser(usrid);
 
-  const verifyToken = fs.readFileSync("../../../simulator/src/simkey.json");
+  const verifyToken = fs.readFileSync("simkey.json");
   const parseToken = JSON.parse(verifyToken);
   const checkToken = parseToken.simKey;
-
   //console.log("USER ID IS: ", idCheck)
-  
+  let i = 1;
   User.findByToken(cookieToken, (err, user) => {
+    
     if (err) throw err;
 
-    if(!user && simToken == checkToken) {
-      req.token = simToken;
-      req.user = "simulator";
+    if(user == "simulator" && cookieToken == checkToken) {
+      req.token = cookieToken;
+      req.user = user;
       next();
-    }
-    else if(!user) {
+      return;
+    } else if(!user) {
       return res.json({ isAuth: false, error: true });
-    }
-    else if(user.id != idCheck) {
+    } else if(user.id != idCheck) {
       return res.json({ isAuth: false, error: true });
     }
     

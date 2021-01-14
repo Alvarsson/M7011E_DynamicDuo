@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const process = require('process');
 const SALT = 10;
 const fs = require('fs');
 
@@ -74,12 +75,11 @@ userSchema.methods.generateToken = function (callBack) {
 userSchema.statics.findByToken = function(token, callBack) {
     var user = this;
 
-    const verifyToken = fs.readFileSync("../../../simulator/src/simkey.json");
+    const verifyToken = fs.readFileSync("simkey.json");
     const parseToken = JSON.parse(verifyToken);
     const checkToken = parseToken.simKey;
-
-    if (token.user == "simulator" && token.token == checkToken){
-        callBack(null, user)
+    if (token == checkToken){
+        return callBack(null, "simulator");
     }
 
     jwt.verify(token, process.env.SECRET, function(err, decode) {
