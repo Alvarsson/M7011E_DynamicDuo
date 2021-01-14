@@ -34,7 +34,7 @@ export default function ManagerOutput(props) {
                 Production: {props.data.production}
               </ListGroup.Item>
               <ListGroup.Item>
-                Plant Consumption:{props.settings.power_plant_consumption}
+                Plant Consumption:{props.data.power_plant_consumption}
               </ListGroup.Item>
 
               <ListGroup.Item>
