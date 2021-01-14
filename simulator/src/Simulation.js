@@ -540,7 +540,7 @@ class Simulation {
 
 
   update() {
-    console.log("tick ", this.tick);
+    console.log("tick ", ++this.tick);
     // check if new prosumersettings added/removed
     this.update_prosumer_list(this.prosumer_list)
       // get updated distr + weathertick

@@ -14,7 +14,6 @@ exports.get_manager_setting = function(req, res) {
             res.send("roh row, shaggy");
         } else {
             if(manager != null) {
-                console.log(manager);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 manager.login_credentials.password = "PaSSwoRd ProTEctIOr 90o0";
