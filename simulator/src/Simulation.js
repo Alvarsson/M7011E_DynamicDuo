@@ -58,12 +58,8 @@ class Simulation {
     }
   }
 
-<<<<<<< HEAD
-  push_manager_setting() {
-=======
   push_manager_setting(){
     console.log("YYYYYYYAAAAYOOOOOT");
->>>>>>> 97c89f7c740b5d903383f07f11d2b0265efe35ac
     axios.post(`http://rest:3001/api/managersettings/`, {
       id: "Manager",
       market_price: this.manager.get_pwr_price(),

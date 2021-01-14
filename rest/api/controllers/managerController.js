@@ -238,7 +238,7 @@ exports.update_manager_settings_distribution = function (req, res) {
       res.send("You sent a bad request MOTHAFUCKA");
     } else {
         ManagerSettings.findOneAndUpdate(
-        { id: req.params.id },
+        { id: "Manager" },
         {
           $set: {
             "distribution.sell": req.body.distribution.sell,
