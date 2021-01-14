@@ -10,16 +10,19 @@ import { API_BASE_URL } from "../../constants/apiConstants";
 import Container from "react-bootstrap/esm/Container";
 import FormGroup from "react-bootstrap/esm/FormGroup";
 
-function PriceChanger(props) {
+function ProductionChanger(props) {
   const [input, setInput] = useState("");
 
   
 
   const handleSubmitClick = (e) => {
     const payload = {
-      market_price: parseInt(input),
+        inc_prod_change: {
+            timer: 3,
+            new_prod: parseInt(input),
+        }
     };
-    const request = API_BASE_URL + "/marketprice"
+    const request = API_BASE_URL + "/managersettings/inc_prod_change"
     console.log(request)
 
     axios
@@ -39,13 +42,13 @@ function PriceChanger(props) {
       <Form.Group>
         <Row>
           <Col xs={2} lg="2">
-            <Form.Label>Price:</Form.Label>
+            <Form.Label>Production:</Form.Label>
             </Col>
           <Col xs={6}>
-            <Form.Control type="text" id="market_price" placeholder="Marketprice" value={input} onInput={e => setInput(e.target.value)} />
+            <Form.Control type="text" id="production" placeholder="Production" value={input} onInput={e => setInput(e.target.value)} />
           </Col>
           <Col>
-            <Button variant="danger" onClick={handleSubmitClick}>
+            <Button variant="secondary" onClick={handleSubmitClick}>
               Set
             </Button>
           </Col>
@@ -56,4 +59,4 @@ function PriceChanger(props) {
 }
 
 
-export default PriceChanger;
+export default ProductionChanger;

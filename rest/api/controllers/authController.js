@@ -24,7 +24,7 @@ exports.RegisterUser = function (req, res) {
                         id: dock.id
                     }
 
-                    prosumerController.add_prosumer_setting_test(userData)
+                    prosumerController.add_prosumer_setting(userData)
 
                     return res.status(200).json({
                         success: true,
