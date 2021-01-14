@@ -84,7 +84,7 @@ class Manager {
     }
 
 //-----POWER PLANT STATUS ------
-    set_plant_status(numb) { // 1 for running, 2 for starting, 3 for stopped.
+    set_plant_status(numb) { // 1 for running, 2 for stopped.
         if (numb < 4 && numb > 0) {
             this.plant_status = numb;
         }
