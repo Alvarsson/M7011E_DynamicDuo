@@ -44,7 +44,6 @@ module.exports = function(app) {
 		.put(/*auth*,*/prosumer.update_prosumer_settings_broken); // update blocked timer for id
 	app.route('/api/prosumersettings/:id/blackout')
 		.put(/*auth*,*/prosumer.update_prosumer_settings_blackout); // update blocked timer for id
-	
 	app.route('/api/prosumersettings/:id/delete') // delete the specific prosumer  settings
 		.delete(/*auth*,*/prosumer.delete_prosumer_settings);
 	
@@ -79,6 +78,14 @@ module.exports = function(app) {
 		.put(/*auth*,*/ manager.update_manager_settings_battery_warning_threshold);
 	app.route('/api/managersettings/distribution') // set the manager battery threshold warning
 		.put(/*auth*,*/ manager.update_manager_settings_distribution);
+	app.route('/api/managersettings/pp_status') // set the manager PP_status
+		.put(/*auth*,*/ manager.update_PP_status);
+	app.route('/api/managersettings/production') // set the manager production
+		.put(/*auth*,*/ manager.update_production);
+	app.route('/api/managersettings/inc_status_change') // set the manager inc_status_change
+		.put(/*auth*,*/ manager.update_inc_status_change);
+	app.route('/api/managersettings/inc_prod_change') // set the manager inc_prod_change
+		.put(/*auth*,*/ manager.update_inc_prod_change);
 	app.route('/api/managersettings/delete') // delete the manager settings
 		.delete(/*auth*,*/ manager.delete_manager_settings);
 
@@ -92,8 +99,14 @@ module.exports = function(app) {
 	app.route('/api/managerlog/delete') // delete all manager logs
 		.delete(manager_log.delete_manager_logs);
 
-	// ----------- WIND SPEED -----------
 
+	// ---------- MARKET PRICE ---------
+
+	app.route('/api/marketprice')
+		.get(manager.get_market_price)
+		.put(manager.update_market_price);
+
+	// ----------- WIND SPEED -----------
 
 	app.route('/api/windspeed')	// add wind speed data
 		.post(wind_speed.add_wind_speed);

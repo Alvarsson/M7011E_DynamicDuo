@@ -87,6 +87,55 @@ module.exports.battery_warning_thresholdMap = function(){
     return root;
 }
 
+// marketprice
+module.exports.market_priceMap = function(){
+    var root = new Map();
+    var body = new Map();
+    body.set('market_price', 0);
+    root.set('body', body);
+    return root;
+}
+
+// PP_status
+module.exports.PP_statusMap = function(){
+    var root = new Map();
+    var body = new Map();
+    body.set('PP_status', 0);
+    root.set('body', body);
+    return root;
+}
+// inc_status_change
+module.exports.inc_status_changeMap = function(){
+    var root = new Map();
+    var body = new Map();
+    var inc = new Map();
+    inc.set('timer', 0);
+    inc.set('new_status', 0);
+    body.set('inc_status_change', inc);
+    root.set('body', body);
+    return root;
+}
+// inc_prod_change
+module.exports.inc_prod_changeMap = function(){
+    var root = new Map();
+    var body = new Map();
+    var inc = new Map();
+    inc.set('timer', 0);
+    inc.set('new_prod', 0);
+    body.set('inc_prod_change', inc);
+    root.set('body', body);
+    return root;
+}
+
+// production
+module.exports.productionMap = function(){
+    var root = new Map();
+    var body = new Map();
+    body.set('production', 0);
+    root.set('body', body);
+    return root;
+}
+
 // prosumer blocked
 module.exports.blockedMap = function(){
     var root = new Map();
@@ -171,7 +220,6 @@ module.exports.add_manager_logMap = function(){
     body.set('battery_level', 0);
     body.set('production', 0);
     body.set('tick', 0);
-    body.set('total_net_consumption', 0);
     body.set('power_plant_consumption', 0);
     body.set('recommended_market_price', 0);
     body.set('nr_of_consumers', 0);

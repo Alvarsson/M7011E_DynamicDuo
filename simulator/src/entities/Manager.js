@@ -12,6 +12,11 @@ class Manager {
         this.buffer_level = 0;
         this.pwr_missing = 0; // During a blackout, how much power is missing i.e., how many will be blacked out.
 
+        this.inc_status_change_timer = -1;
+        this.inc_status_change = -1;
+        this.inc_prod_change_timer = -1;
+        this.inc_prod_change = -1;
+
 
         this.market_demand = 0;
         this.pwr_price = 2;
@@ -32,7 +37,33 @@ class Manager {
         if(net_prod < 0) { // if too little prod
             this.pwr_missing = this.drain_buffer(Math.abs(net_prod));
         }
-        //uppdatera batterier baserat på store/drain. Ifall drain: dra allt du behöver
+        this.recalc_inc_changes();
+        console.log("timers:", this.inc_prod_change_timer, this.inc_status_change_timer);
+    }
+
+    recalc_inc_changes() {
+        // check if we need to change values
+        if(this.inc_prod_change_timer == 0){ // at 0 we commit the change
+            this.pwr_production = this.inc_prod_change;
+            this.inc_prod_change = -1; // reset
+            this.inc_prod_change_timer = -1;
+        }
+        if(this.inc_status_change_timer == 0) {
+            this.plant_status = this.inc_status_change;
+            this.inc_status_change = -1;
+            this.inc_status_change_timer = -1;
+        }
+        //countdown
+        if (this.inc_status_change_timer > 0) {
+            this.inc_status_change_timer -= 1;
+        }
+        if (this.inc_prod_change_timer > 0) {
+            this.inc_prod_change_timer -= 1;
+        }
+    }
+// ----- NR of Prosumers ----
+    set_nr_prosumers(num) {
+        this.nr_of_prosumers = num;
     }
 
 // TODO: Question, should the amount of prosumers + consumers be sent into the get company price? Going for yes this time.
@@ -63,6 +94,29 @@ class Manager {
         return this.plant_status;
     }
 
+// ----- INCOMING CHANGES  -----
+    set_inc_status_change(timer, status_change){
+        this.inc_status_change_timer = timer;
+        this.inc_status_change = status_change;
+    }
+    get_inc_status_change_timer(){
+        return this.inc_status_change_timer;
+    }
+    get_inc_status_change(){
+        return this.inc_status_change;
+    }
+    set_inc_prod_change(timer, prod_change){
+        this.inc_prod_change_timer = timer;
+        this.inc_prod_change = prod_change;
+    }
+    get_inc_prod_change_timer(){
+        return this.inc_prod_change_timer;
+    }
+    get_inc_prod_change(){
+        return this.inc_prod_change;
+    }
+
+
 // ----- PRICE -----
     set_pwr_price(price) { // Depending on current demand.
         this.pwr_price = price;
@@ -73,14 +127,14 @@ class Manager {
     get_company_price_rec() { // returns the recommended pwr cost this moment. 
         var service_price = 500;
         var multiplier = 2.25;
-        con_plus_pros = this.nr_of_consumers + this.nr_of_prosumers;
+        var con_plus_pros = this.nr_of_consumers + this.nr_of_prosumers;
         return (multiplier*this.market_demand+service_price)/con_plus_pros;// con_plus_pros is the amount of consumers+prosumers.
     }
 
 //------ DISTRIBUTION -------
 // When producing, control a ratio of electricity being sent to the buffer and 
 //to the market (when stopped the buffer should be used to supply the market demand)
-    set_plant_dist(store, sell) { // producing over market demand
+    set_plant_distribution(store, sell) { // producing over market demand
         this.store = store;
         this.sell = sell;
         //production = this.get_pwr_production();

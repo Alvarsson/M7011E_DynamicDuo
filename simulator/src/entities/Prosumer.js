@@ -29,6 +29,7 @@ class Prosumer {
 
         this.blocked = 0;
         this.broken = 0;
+        this.blackout = false;
 
         this.return_state = []; // used to store distr while blocked/broken
     }
@@ -109,7 +110,7 @@ class Prosumer {
     get_blocked() {
         return this.blocked;
     }
-
+// ---- Broken ----
     get_broken() {
         return this.broken;
     }
@@ -124,6 +125,14 @@ class Prosumer {
             this.broken = break_time;
         }
     }
+// ---- Blackout ----
+    get_blackout(){
+        return this.blackout;
+    }
+    set_blackout(blackout){
+        this.blackout = blackout;
+    }
+
 
 // ---- Consumption ----
     calc_all_consumptions() { // to make sure they're calculated in the right order

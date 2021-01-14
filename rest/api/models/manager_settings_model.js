@@ -68,7 +68,7 @@ var ManagerSettingsSchema = new Schema ({
     },
     battery_warning_threshold: {
         type: Number,
-        //default 200 of sumfing
+        //default 200 or sumfing
     },
     distribution: {
         type: DistributionSchema,

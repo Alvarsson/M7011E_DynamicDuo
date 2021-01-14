@@ -71,7 +71,6 @@ exports.add_manager_log = function(req,res) {
         battery_level: req.body.battery_level,
         production: req.body.production,
         tick: req.body.tick,
-        total_net_consumption: req.body.total_net_consumption,
         power_plant_consumption: req.body.power_plant_consumption,
         nr_of_consumers: req.body.nr_of_consumers
         },

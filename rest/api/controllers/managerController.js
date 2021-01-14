@@ -28,6 +28,141 @@ exports.get_manager_setting = function(req, res) {
     });
 }
 
+exports.get_market_price = function(req, res) {
+    ManagerSettings.findOne({id: "Manager"}, 'market_price', function(err, market_price) {
+        if(err) {
+            res.send("roh row, shaggy");
+        } else {
+            if(market_price != null) {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(market_price);
+            } else {
+                res.statusCode = 404;
+                res.send("Could not find the market price.");
+            } 
+        }
+    });
+}
+
+exports.update_market_price = function(req,res) {
+    var valid = Util.validBody(req, BodyMaps.market_priceMap());
+    if(!valid) {
+        res.statusCode = 400;
+        res.send("Das is eine bad request jaah");
+    } else {
+        ManagerSettings.findOneAndUpdate({id: "Manager"},
+        {$set:{market_price: req.body.market_price}},
+        function(err, manager) {
+            if (err) {
+                res.statusCode = 418;
+                res.send("Couldn't update that battery thingy for u gurl.");
+            } else {
+                res.statusCode = 204;
+                res.send();
+            }
+        });
+    }   
+}
+
+
+exports.update_PP_status = function(req,res) {
+    var valid = Util.validBody(req, BodyMaps.PP_statusMap());
+    if(!valid) {
+        res.statusCode = 400;
+        res.send("Das is eine bad request jaah");
+    } else {
+        ManagerSettings.findOneAndUpdate({id: "Manager"},
+        {$set:{PP_status: req.body.PP_status}},
+        function(err, manager) {
+            if (err) {
+                res.statusCode = 418;
+                res.send("Couldn't update that battery thingy for u gurl.");
+            } else {
+                res.statusCode = 204;
+                res.send();
+            }
+        });
+    }   
+}
+
+
+exports.update_production = function(req,res) {
+    var valid = Util.validBody(req, BodyMaps.productionMap());
+    if(!valid) {
+        res.statusCode = 400;
+        res.send("Das is eine bad request jaah");
+    } else {
+        ManagerSettings.findOneAndUpdate({id: "Manager"},
+        {$set:{production: req.body.production}},
+        function(err, manager) {
+            if (err) {
+                res.statusCode = 418;
+                res.send("Couldn't update that battery thingy for u gurl.");
+            } else {
+                res.statusCode = 204;
+                res.send();
+            }
+        });
+    }   
+}
+
+exports.update_inc_status_change = function (req, res) {
+    var valid = Util.validBody(req, BodyMaps.inc_status_changeMap());
+    if (!valid) {
+      res.statusCode = 400;
+      res.send("You sent a bad request MOTHAFUCKA");
+    } else {
+      ManagerSettings.findOneAndUpdate(
+        { id: "Manager" },
+        {
+          $set: {
+            "inc_status_change.timer": req.body.inc_status_change.timer,
+            "inc_status_change.new_status": req.body.inc_status_change.new_status,
+          },
+        },
+        function (err, x) {
+          if (err) {
+            res.statusCode = 418;
+            res.send("sum ting wong when updating manager distribution");
+          } else {
+            res.statusCode = 204;
+            res.send();
+          }
+        }
+      );
+    }
+  };
+
+  exports.update_inc_prod_change = function (req, res) {
+      console.log(req.body);
+    var valid = Util.validBody(req, BodyMaps.inc_prod_changeMap());
+    if (!valid) {
+      res.statusCode = 400;
+      res.send("You sent a bad request MOTHAFUCKA");
+    } else {
+      ManagerSettings.findOneAndUpdate(
+        { id: "Manager" },
+        {
+          $set: {
+            "inc_prod_change.timer": req.body.inc_prod_change.timer,
+            "inc_prod_change.new_prod": req.body.inc_prod_change.new_prod,
+          },
+        },
+        function (err, x) {
+          if (err) {
+            res.statusCode = 418;
+            res.send("sum ting wong when updating manager distribution");
+          } else {
+            res.statusCode = 204;
+            res.send();
+          }
+        }
+      );
+    }
+  };
+
+
 
 // We don't really need to update via id so should just send update directly.
 exports.update_manager_setting_img_url = function(req, res) {
@@ -96,12 +231,13 @@ exports.update_manager_settings_battery_warning_threshold = function(req,res) {
 
 
 exports.update_manager_settings_distribution = function (req, res) {
+    console.log(req.body);
     var valid = Util.validBody(req, BodyMaps.distr_overMap());
     if (!valid) {
       res.statusCode = 400;
       res.send("You sent a bad request MOTHAFUCKA");
     } else {
-      ProsumerSettings.findOneAndUpdate(
+        ManagerSettings.findOneAndUpdate(
         { id: req.params.id },
         {
           $set: {

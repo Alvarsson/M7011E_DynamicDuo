@@ -30,9 +30,6 @@ var ManagerLogSchema = new Schema({
     tick: {
         type: Number
     },
-    total_net_consumption: {
-        type: Number
-    },
     power_plant_consumption: {
         type: Number
     },
