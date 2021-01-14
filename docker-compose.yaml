@@ -25,6 +25,11 @@ services:
     image: mongo
     ports:
       - 27017:27017
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 3s
+      timeout: 15s
+      retries: 5
     restart: always
     volumes:
       - mongodb_clientstore:/data/db
@@ -42,6 +47,11 @@ services:
       - ./rest:/app
     ports:
       - "${BACKEND_PORT_HOST}:${BACKEND_PORT_CONTAINER}"
+    healthcheck: 
+      test: echo '1'
+      interval: 3s 
+      timeout: 15s
+      retries: 5
 
     networks:
       - back-tier
@@ -52,6 +62,11 @@ services:
     # Tell docker what file to build the server from
     build: ./simulator
     command: nodemon simulator.js
+    depends_on: 
+      mongo-db:
+        condition: service_healthy
+      rest:
+        condition: service_healthy
     volumes:
       - ./simulator:/app
     networks:
