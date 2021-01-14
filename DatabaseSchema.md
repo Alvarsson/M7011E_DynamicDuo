@@ -2,7 +2,7 @@
 ```json
 {
     "id": "prosumer1",
-    "imgUrl": "ipaddr.se/img-url/wow/such/img",
+    "imgUrl": "ipaddr.se/img-url/wow/great/img",
     "distribution": {
         "sell": 0.2,
         "store": 0.8,
@@ -11,8 +11,9 @@
     },
     "batteryWarningThreshold": 200,
     "blocked": 0,
+    "broken": 0,
     "loginCredentials": {
-        "password": "hashatPassword",
+        "password": "hashedPW",
         "online": 1
     }
 }
