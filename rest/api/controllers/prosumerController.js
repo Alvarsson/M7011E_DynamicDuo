@@ -3,6 +3,8 @@
 var mongoose = require("mongoose"),
   Util = require("../util/api_utils"),
   BodyMaps = require("./bodyMaps"),
+  upload = require("../upload_pic"),
+  path = require('path'),
   ProsumerSettings = mongoose.model("ProsumerSettings");
 
 exports.get_all_prosumer_settings = function (req, res) {
@@ -42,25 +44,29 @@ exports.get_prosumer_setting = function (req, res) {
 };
 
 exports.update_prosumer_settings_img_url = function (req, res) {
-  var valid = Util.validBody(req, BodyMaps.img_urlMap());
+  /* var valid = Util.validBody(req, BodyMaps.img_urlMap());
   if (!valid) {
     res.statusCode = 400;
     res.send("You sent a bad request MOTHAFUCKA");
-  } else {
-    ProsumerSettings.findOneAndUpdate(
-      { id: req.params.id },
-      { $set: { img_url: req.body.img_url } },
-      function (err, prosumer) {
-        if (err) {
-          res.statusCode = 418;
-          res.send("sum ting wong when updating img url");
-        } else {
-          res.statusCode = 204;
-          res.send();
+  } else { */
+    //console.log(req.files);
+    const fileName = req.params.id + path.extname(req.files.image.name);
+    upload.uploadFile(fileName, req.files.image.data, (img_url) => {
+      ProsumerSettings.findOneAndUpdate(
+        { id: req.params.id },
+        { $set: { img_url: img_url } },
+        function (err, prosumer) {
+          if (err) {
+            res.statusCode = 418;
+            res.send("sum ting wong when updating img url");
+          } else {
+            res.statusCode = 204;
+            res.send();
+          }
         }
-      }
-    );
-  }
+      );
+    });
+  //}
 };
 
 exports.update_prosumer_settings_password = function (req, res) {

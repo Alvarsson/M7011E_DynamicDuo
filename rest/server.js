@@ -12,6 +12,7 @@ Blackout = require('./api/models/blackout_model'),
 ManagerLog = require('./api/models/manager_log_model'),
 User = require('./api/models/user_model'),
 manager = require('./api/controllers/authController');
+const fileUpload = require('express-fileupload');
 
 var cors = require('cors')
 
@@ -19,7 +20,9 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials : true
   }))
-
+app.use(fileUpload({
+  createParentPath: true
+}));
 //app.options(corsOptions,cors())
 
 

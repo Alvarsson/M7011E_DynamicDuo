@@ -27,7 +27,7 @@ module.exports = function(app) {
 	app.route('/api/prosumersettings/:id')
 		.get(/*auth*,*/prosumer.get_prosumer_setting);     //Get prosumer setting for id
 	app.route('/api/prosumersettings/:id/img_url')
-		.put(/*auth*,*/prosumer.update_prosumer_settings_img_url); // update img_url for id
+		.post(/*auth*,*/prosumer.update_prosumer_settings_img_url); // update img_url for id
 	app.route('/api/prosumersettings/:id/password')
 		.put(/*auth*,*/prosumer.update_prosumer_settings_password); // update password for id
 	app.route('/api/prosumersettings/:id/online')
@@ -70,7 +70,7 @@ module.exports = function(app) {
 	app.route('/api/managersettings/get') // get the manager settings
 		.get(/*auth*,*/ manager.get_manager_setting);	
 	app.route('/api/managersettings/img_url') // set the manager img_url
-		.put(/*auth*,*/ manager.update_manager_setting_img_url);
+		.post(/*auth*,*/ manager.update_manager_setting_img_url);
 	app.route('/api/managersettings/password') // set the manager password
 		.put(/*auth*,*/ manager.update_manager_setting_password);
 	app.route('/api/managersettings/online') // set the manager online number
