@@ -33,39 +33,45 @@ class Simulation {
     console.log("SETTING UP SIMULATOR");
     // generera wind, into DB
 
-    this.get_current_wind_speed(0).then( () => {// called to see if there is any windspeed
+
+    function wait_setup() {
+      //create prosumers, add to DB, register users
+      console.log("Creating Prosumers");
+      this.prosumer_list = new Array();
+      this.create_prosumers(int_pros);
+      console.log("Pushing prosumers to DB");
+      this.register_prosumers(this.prosumer_list);
+
+      console.log("Creating consumers");
+      this.nr_of_consumers = int_cons;
+      this.consumer = new Consumer(); // used to calc consumer data
+
+      // Create Manager, add to DB, register user
+      this.manager = new Manager(int_cons, int_pros);
+      this.push_manager_setting();
+      this.add_user("Manager");
+
+      this.update_temperature(); // get current temperature
+    }
+
+
+    this.get_current_wind_speed(0).then(() => {// called to see if there is any windspeed
+        wait_setup.bind(this)();
+    }).catch(() => {
       if (this.wind_speed == -1) { // means we have not generated windspeeds yet.
         console.log("Generating wind data");
         this.wm = new WindModule();
-        this.generate_wind_data(sim_time);
-        this.wind_speed = 5;
+        this.generate_wind_data(sim_time).then( () => {
+          wait_setup.bind(this)();
+          this.wind_speed = 5;
+        });
       }
-    }); 
-    
-    //create prosumers, add to DB, register users
-    console.log("Creating Prosumers");
-    this.prosumer_list = new Array();
-    this.create_prosumers(int_pros);
-    console.log("Pushing prosumers to DB");
-    this.register_prosumers(this.prosumer_list);
-
-    console.log("Creating consumers");
-    this.nr_of_consumers = int_cons;
-    this.consumer = new Consumer(); // used to calc consumer data
-
-    // Create Manager, add to DB, register user
-    this.manager = new Manager(int_cons, int_pros);
-    this.push_manager_setting();
-    this.add_user("Manager");
-
-    // REgga simulator som user?? req.headers.sim header, ska hämtas från simkey.json
-
-    this.update_temperature(); // get current temperature
+    });
   }
 
 
   generate_wind_data(days) {
-    SimController.fillWeatherDataOnce(this.wm.tick_variation(days)); // days
+    return SimController.fillWeatherDataOnce(this.wm.tick_variation(days)); // days
 
   }
   create_prosumers(num) {
@@ -142,7 +148,7 @@ class Simulation {
       for (var i = 0; i < prosumer_list.length; i++) {
         promise_list.push(this.push_prosumer_log(prosumer_list[i], tick));
       }
-      Promise.all(promise_list).then(resolve());
+      Promise.all(promise_list).then(()=>{resolve()});
     });
     return promise;
   }
@@ -186,7 +192,7 @@ class Simulation {
         power_plant_consumption: 0, // TODO, or ignore it?
         nr_of_consumers: this.nr_of_consumers
       }
-      axios.post(`http://rest:3001/api/managerlog/`,  payload).then(response => {
+      axios.post(`http://rest:3001/api/managerlog/`, payload).then(response => {
         console.log("pushed log for manager");
         resolve();
       })
@@ -199,7 +205,7 @@ class Simulation {
   }
 
   add_user(id) {
-    axios.post(`http://rest:3001/api/register/`,  {
+    axios.post(`http://rest:3001/api/register/`, {
       id: id,
       password: "supaSecret"
     }).then(response => {
@@ -223,7 +229,7 @@ class Simulation {
       for (var i = 0; i < prosumer_list.length; i++) {
         promise_list.push(this.update_block_timer(prosumer_list[i]));
       }
-      Promise.all(promise_list).then(resolve());
+      Promise.all(promise_list).then(()=>{resolve()});
     });
     return promise;
   }
@@ -234,7 +240,7 @@ class Simulation {
       for (var i = 0; i < prosumer_list.length; i++) {
         promise_list.push(this.update_break_timer(prosumer_list[i]));
       }
-      Promise.all(promise_list).then(resolve());
+      Promise.all(promise_list).then(()=>{resolve()});
     });
     return promise;
   }
@@ -245,13 +251,13 @@ class Simulation {
       for (var i = 0; i < prosumer_list.length; i++) {
         promise_list.push(this.update_blackout(prosumer_list[i]));
       }
-      Promise.all(promise_list).then(resolve());
+      Promise.all(promise_list).then(()=>{resolve()});
     });
     return promise;
   }
 
   update_blackout(prosumer) {
-    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/blackout`,  {
+    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/blackout`, {
       blackout: prosumer.get_blackout()
     }).then(response => {
     })
@@ -261,7 +267,7 @@ class Simulation {
   }
 
   update_block_timer(prosumer) {
-    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/block`,  {
+    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/block`, {
       blocked: prosumer.get_blocked()
     }).then(response => {
     })
@@ -271,7 +277,7 @@ class Simulation {
   }
 
   update_break_timer(prosumer) {
-    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/broken`,  {
+    axios.put(`http://rest:3001/api/prosumersettings/${prosumer.get_prosumer_id()}/broken`, {
       broken: prosumer.get_broken()
     }).then(response => {
     })
@@ -281,7 +287,7 @@ class Simulation {
   }
   update_inc_status_change(manager) {
     var promise = new Promise((resolve, reject) => {
-      axios.put(`http://rest:3001/api/managersettings/inc_status_change`,  {
+      axios.put(`http://rest:3001/api/managersettings/inc_status_change`, {
         inc_status_change: {
           timer: manager.get_inc_status_change_timer(),
           new_status: manager.get_inc_status_change()
@@ -299,7 +305,7 @@ class Simulation {
 
   update_manager_production(manager) {
     var promise = new Promise((resolve, reject) => {
-      axios.put(`http://rest:3001/api/managersettings/production`,  {
+      axios.put(`http://rest:3001/api/managersettings/production`, {
         production: manager.get_pwr_production()
       }).then(response => {
         resolve();
@@ -314,7 +320,7 @@ class Simulation {
 
   update_manager_pp_status(manager) {
     var promise = new Promise((resolve, reject) => {
-      axios.put(`http://rest:3001/api/managersettings/pp_status`,  {
+      axios.put(`http://rest:3001/api/managersettings/pp_status`, {
         PP_status: manager.get_plant_status()
       }).then(response => {
         resolve();
@@ -330,7 +336,7 @@ class Simulation {
 
   update_inc_prod_change(manager) {
     var promise = new Promise((resolve, reject) => {
-      axios.put(`http://rest:3001/api/managersettings/inc_prod_change`,  {
+      axios.put(`http://rest:3001/api/managersettings/inc_prod_change`, {
         inc_prod_change: {
           timer: manager.get_inc_prod_change_timer(),
           new_prod: manager.get_inc_prod_change()
@@ -354,7 +360,7 @@ class Simulation {
       for (var i = 0; i < prosumer_list.length; i++) {
         promise_list.push(this.update_prosumer_data(prosumer_list[i]));
       }
-      Promise.all(promise_list).then(resolve());
+      Promise.all(promise_list).then(() =>{resolve()});
     });
     return promise;
   }
@@ -528,7 +534,7 @@ class Simulation {
   }
 
   push_blackout_consumers(num) {
-    axios.post(`http://rest:3001/api/blackouts`,  {
+    axios.post(`http://rest:3001/api/blackouts`, {
       id: "consumer",
       tick: this.tick,
       amount: num
@@ -539,7 +545,7 @@ class Simulation {
       });
   }
   push_blackout_prosumer(id) {
-    axios.post(`http://rest:3001/api/blackouts`,  {
+    axios.post(`http://rest:3001/api/blackouts`, {
       id: id,
       tick: this.tick,
       amount: 1
@@ -622,8 +628,8 @@ class Simulation {
                           this.update_blackouts(this.prosumer_list).then(() => {
                             this.update_inc_prod_change(this.manager).then(() => {
                               this.update_inc_status_change(this.manager).then(() => {
-                                this.update_manager_production(this.manager).then( () => {
-                                  this.update_manager_pp_status(this.manager).then( () => {
+                                this.update_manager_production(this.manager).then(() => {
+                                  this.update_manager_pp_status(this.manager).then(() => {
                                     console.log("Finished update for tick", this.tick++);
                                   });
                                 });
