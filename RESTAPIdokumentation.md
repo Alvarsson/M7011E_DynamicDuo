@@ -1,5 +1,5 @@
 ## This document contains the documentation on how to use all of the REST API paths
-The base path for these calls will be: **http://SERVER_IP:3001**, alternatively **http://localhost:3001** if deployed locally.
+The base path for these calls will be: **http://SERVER_IP:3001/api**, alternatively **http://localhost:3001/api** if deployed locally.
 
 # Table Of Contents
 1. [Prosumer Settings](#pro_settings)
@@ -64,7 +64,7 @@ The base path for these calls will be: **http://SERVER_IP:3001**, alternatively 
 ### Prosumer Settings <a name="pro_settings"></a>
 
 #### Get all prosumer settings <a name="all_pro_settings"></a>
-**GET** to **/api/prosumersettings**
+**GET** to **/prosumersettings**
 
 You will recieve a response on the form:
 ```json
@@ -92,7 +92,7 @@ You will recieve a response on the form:
 
 
 #### Get a prosumer setting <a name="a_pro_settings"></a>
-**GET** to **/api/prosumersettings/*id***
+**GET** to **/prosumersettings/*id***
 
 Here, id is the id of the prosumerSetting you want to get.
 You will recieve a response on the form:
@@ -120,7 +120,7 @@ You will recieve a response on the form:
 ```
 
 #### Add a new prosumer setting <a name="new_pro_setting"></a>
-**POST** to **/api/prosumersettings**
+**POST** to **/prosumersettings**
 
 
 You need to input a body on the below format:
@@ -146,7 +146,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: img_url <a name="upd_pro_img"></a>
-**POST** to **/api/prosumersettings/*id*/img_url**
+**POST** to **/prosumersettings/*id*/img_url**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -157,7 +157,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: password <a name="upd_pro_pw"></a>
-**PUT** to **/api/prosumersettings/*id*/password**
+**PUT** to **/prosumersettings/*id*/password**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -170,7 +170,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: online <a name="upd_pro_online"></a>
-**PUT** to **/api/prosumersettings/*id*/online**
+**PUT** to **/prosumersettings/*id*/online**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -183,7 +183,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: distr_over <a name="upd_pro_dist_over"></a>
-**PUT** to **/api/prosumersettings/*id*/distr_over**
+**PUT** to **/prosumersettings/*id*/distr_over**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -197,7 +197,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: distr_under <a name="upd_pro_dist_under"></a>
-**PUT** to **/api/prosumersettings/*id*/distr_under**
+**PUT** to **/prosumersettings/*id*/distr_under**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -211,7 +211,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: battery_warning_threshold <a name="upd_pro_bat"></a>
-**PUT** to **/api/prosumersettings/*id*/battery_warning_threshold**
+**PUT** to **/prosumersettings/*id*/battery_warning_threshold**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -222,7 +222,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: blocked <a name="upd_pro_block"></a>
-**PUT** to **/api/prosumersettings/*id*/block**
+**PUT** to **/prosumersettings/*id*/block**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -233,7 +233,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: broken <a name="upd_pro_brok"></a>
-**PUT** to **/api/prosumersettings/*id*/broken**
+**PUT** to **/prosumersettings/*id*/broken**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -244,7 +244,7 @@ You need to input a body on the below format:
 ```
 
 #### Update prosumer setting: blackout <a name="upd_pro_blak"></a>
-**PUT** to **/api/prosumersettings/*id*/blackout**
+**PUT** to **/prosumersettings/*id*/blackout**
 
 Here, id is the id of the prosumerSetting you want to update.
 You need to input a body on the below format:
@@ -255,7 +255,7 @@ You need to input a body on the below format:
 ```
 
 #### Delete prosumer setting <a name="del_pro_set"></a>
-**DELETE** to **/api/prosumersettings/*id*/delete**
+**DELETE** to **/prosumersettings/*id*/delete**
 
 Here, id is the id of the prosumerSetting you want to update.
 You can expect a response as:
@@ -266,7 +266,7 @@ The prosumer settings are now deleted
 ### Prosumer Logs <a name="pro_log"></a>
 
 #### Add a prosumer log <a name="add_pro_log"></a>
-**POST** to **/api/prosumerlog**
+**POST** to **/prosumerlog**
 
 You will need to send a body with the form below:
 ```json
@@ -286,7 +286,7 @@ You will need to send a body with the form below:
 ```
 
 #### Get all logs from specific prosumer <a name="get_all_pro_log"></a>
-**GET** to **/api/prosumerlog/:id/getall**
+**GET** to **/prosumerlog/:id/getall**
 
 Here the id is the id of the prosumer you want to get logs from.
 You will get a response in the form of:
@@ -312,7 +312,7 @@ You will get a response in the form of:
 ```
 
 #### Get the latest log from specific prosumer <a name="get_lat_pro_log"></a>
-**GET** to **/api/prosumerlog/:id/getlatest**
+**GET** to **/prosumerlog/:id/getlatest**
 
 Here the id is the id of the prosumer you want to get the latest log from.
 You will get a response in the form of:
@@ -338,7 +338,7 @@ You will get a response in the form of:
 ```
 
 #### Delete all logs from a specific prosumer <a name="del_pro_log"></a>
-**DELETE** to **/api/prosumerlog/:id/delete**
+**DELETE** to **/prosumerlog/:id/delete**
 
 Here the id is the id of the prosumer you want to delete logs from.
 You will get a response in the form below:
@@ -350,7 +350,7 @@ The prosumer logs are deleted
 ### Manager Settings <a name="man_set"></a>
 
 #### Get all manager settings <a name="man_set_all"></a>
-**GET** to **/api/managersettings/get**
+**GET** to **/managersettings/get**
 
 You will recieve a response on the form:
 ```json
@@ -384,7 +384,7 @@ You will recieve a response on the form:
 ```
 
 #### Add a new manager setting <a name="man_set_add_new"></a>
-**POST** to **/api/managersettings**
+**POST** to **/managersettings**
 
 The manager has a set id "Manager" since there will only be one.
 You need to input a body on the below format:
@@ -416,7 +416,7 @@ You need to input a body on the below format:
 ```
 
 #### Get manager setting: market_price <a name="man_get_mprice"></a>
-**GET** to **/api/marketprice**
+**GET** to **/marketprice**
 
 The id is already set for the manager.
 You will recieve a response with the format below:
@@ -427,7 +427,7 @@ You will recieve a response with the format below:
 ```
 
 #### Update manager setting: market_price <a name="man_upd_mprice"></a>
-**PUT** to **/api/marketprice**
+**PUT** to **/marketprice**
 
 The id is already set for the manager.
 You must send a request with the format below:
@@ -438,7 +438,7 @@ You must send a request with the format below:
 ```
 
 #### Update manager setting: pp_status <a name="man_upd_pp"></a>
-**PUT** to **/api/managersettings/pp_status**
+**PUT** to **/managersettings/pp_status**
 
 The id is already set for the manager.
 You must send a request with the format below:
@@ -449,7 +449,7 @@ You must send a request with the format below:
 ```
 
 #### Update manager setting: production <a name="man_upd_prod"></a>
-**PUT** to **/api/managersettings/production**
+**PUT** to **/managersettings/production**
 
 The id is already set for the manager.
 You must send a request with the format below:
@@ -460,7 +460,7 @@ You must send a request with the format below:
 ```
 
 #### Update manager setting: inc_status_change <a name="man_upd_istat"></a>
-**PUT** to **/api/managersettings/inc_status_change**
+**PUT** to **/managersettings/inc_status_change**
 
 The id is already set for the manager.
 You must send a request with the format below:
@@ -474,7 +474,7 @@ You must send a request with the format below:
 ```
 
 #### Update manager setting: inc_prod_change <a name="man_upd_iprod"></a>
-**PUT** to **/api/managersettings/inc_prod_change**
+**PUT** to **/managersettings/inc_prod_change**
 
 The id is already set for the manager.
 You must send a request with the format below:
@@ -488,7 +488,7 @@ You must send a request with the format below:
 ```
 
 #### Update manager setting: img_url <a name="man_set_upd_img"></a>
-**POST** to **/api/managersettings/img_url**
+**POST** to **/managersettings/img_url**
 
 The id is already set for the manager.
 You only need to input a body with the format below:
@@ -499,7 +499,7 @@ You only need to input a body with the format below:
 ```
 
 #### Update manager setting: password <a name="man_set_upd_pw"></a>
-**PUT** to **/api/managersettings/password**
+**PUT** to **/managersettings/password**
 
 You need to input a body with the format below:
 ```json
@@ -511,7 +511,7 @@ You need to input a body with the format below:
 ```
 
 #### Update manager setting: online <a name="man_set_upd_onl"></a>
-**PUT** to **/api/managersettings/online**
+**PUT** to **/managersettings/online**
 
 You need to input a body on the below format:
 ```json
@@ -523,7 +523,7 @@ You need to input a body on the below format:
 ```
 
 #### Update manager setting: battery_warning_threshold <a name="man_set_upd_bat"></a>
-**PUT** to **/api/managersettings/battery_warning_threshold**
+**PUT** to **/managersettings/battery_warning_threshold**
 
 You need to input a body on the below format:
 ```json
@@ -533,7 +533,7 @@ You need to input a body on the below format:
 ```
 
 #### Delete manager setting <a name="man_set_del"></a>
-**DELETE** to **/api/managersettings/delete**
+**DELETE** to **/managersettings/delete**
 
 You can expect a response as:
 ```json
@@ -543,7 +543,7 @@ The manager settings are now deleted.
 ### Manager Logs <a name="man_log"></a>
 
 #### Add a manager log <a name="man_log_add"></a>
-**POST** to **/api/managerlog**
+**POST** to **/managerlog**
 
 You will need to send a body with the form below:
 ```json
@@ -561,7 +561,7 @@ You will need to send a body with the form below:
 ```
 
 #### Get all manager logs <a name="man_log_all"></a>
-**GET** to **/api/managerlog/getall**
+**GET** to **/managerlog/getall**
 
 You will get a response with the form:
 ```json
@@ -584,7 +584,7 @@ You will get a response with the form:
 ```
 
 #### Get latest manager log <a name="man_log_lat"></a>
-**GET** to **/api/managerlog/getlatest**
+**GET** to **/managerlog/getlatest**
 
 You will get a response with the form:
 ```json
@@ -607,7 +607,7 @@ You will get a response with the form:
 ```
 
 #### Delete all manager logs <a name="man_log_del"></a>
-**DELETE** to **/api/managerlog/delete**
+**DELETE** to **/managerlog/delete**
 
 You will get a response as:
 ```json
@@ -617,7 +617,7 @@ The manager logs are now deleted
 ### Wind Speed <a name="wind_speed"></a>
 
 #### Add wind speed log <a name="wind_speed_add"></a>
-**POST** to **/api/windspeed**
+**POST** to **/windspeed**
 
 You will need to send a body with the form below:
 ```json
@@ -628,7 +628,7 @@ You will need to send a body with the form below:
 ```
 
 #### Get wind speed log <a name="wind_speed_get"></a>
-**GET** to **/api/windspeed/:tick**
+**GET** to **/windspeed/:tick**
 
 The :tick is the tick-requested log. 
 You will receive a response with the form below:
@@ -640,7 +640,7 @@ You will receive a response with the form below:
 ```
 
 #### Add many wind speed log <a name="wind_speed_addm"></a>
-**POST** to **/api/windspeed/many**
+**POST** to **/windspeed/many**
 
 You will need to send a body with the form below:
 ```json
@@ -653,7 +653,7 @@ You will need to send a body with the form below:
 ### Blackouts <a name="black"></a>
 
 #### Add blackout log <a name="black_add"></a>
-**POST** to **/api/blackouts**
+**POST** to **/blackouts**
 
 Amount will logg for prosumer or consumers.
 You will need to send a body with the form below:
@@ -667,7 +667,7 @@ You will need to send a body with the form below:
 ```
 
 #### Get blackout log <a name="black_get"></a>
-**GET** to **/api/blackouts**
+**GET** to **/blackouts**
 
 Amount is logg for prosumer or consumers.
 You will receive a response with the form below:
@@ -683,7 +683,7 @@ You will receive a response with the form below:
 ### Authentication <a name="auth"></a>
 
 #### Register a user <a name="auth_reg"></a>
-**POST** to **/api/register**
+**POST** to **/register**
 
 You will need to send a body with the form below:
 ```json
@@ -696,7 +696,7 @@ You will need to send a body with the form below:
 ```
 
 #### Login a user <a name="auth_log"></a>
-**POST** to **/api/login**
+**POST** to **/login**
 
 You will need to send a body with the form below:
 ```json
@@ -709,7 +709,7 @@ You will need to send a body with the form below:
 ```
 
 #### Logout a user <a name="auth_logu"></a>
-**GET** to **/api/logout**
+**GET** to **/logout**
 
 You will receive a response with the form below:
 ```json
@@ -723,5 +723,5 @@ You will receive a response with the form below:
 ### Health check <a name="health"></a>
 
 #### Register a user <a name="healthC"></a>
-**GET** to **/api/health**
+**GET** to **/health**
 Route will return "OK" if rest api is online.
