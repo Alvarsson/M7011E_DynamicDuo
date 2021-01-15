@@ -42,7 +42,7 @@ var ProsumerSettingsSchema = new Schema({
     },
     img_url: {
       type: String,
-      default: 'http://www.placecage.com/500/600'
+      default: 'http://www.placecage.com/200/200'
     },
     distribution: {
       type: DistributionSchema,
