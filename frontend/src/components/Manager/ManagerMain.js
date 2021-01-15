@@ -29,11 +29,12 @@ function ManagerMain() {
       .all([
         axios.get(currentDataUrl),
         axios.get(prosumersUrl),
-        axios.get(managersettingsurl),
+        axios.get(managersettingsurl,{withCredentials:true}),
       ])
       .then(
         axios.spread((current, prosumerList, managerSettings) => {
-          console.log(current.data[0]);
+            console.log("settings")
+            console.log(managerSettings);
           updateData(current.data[0], prosumerList.data, managerSettings);
         })
       );

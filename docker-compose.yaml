@@ -51,7 +51,7 @@ services:
       test: echo '1'
       interval: 3s 
       timeout: 15s
-      retries: 5
+      retries: 10
 
     networks:
       - back-tier

@@ -16,7 +16,9 @@ module.exports = function(app) {
 // - prosumer setting should be created when registering a prosumer
 // - /*auth*/ protocol to get prosumer settings and rest
 
-
+	app.route('/api/health').get(function(req, res) {
+		res.end("OK")
+	})
 	// --------- PROSUMER ---------
 
 	// ---- settings ----

@@ -272,6 +272,7 @@ exports.update_manager_settings_online = function(req,res) {
 }
 
 exports.add_manager_setting = function (req, res) {
+    console.log("MANAGER SETTING CONTROLLER START");
     var valid = Util.validBody(req,BodyMaps.completeManagerMap());
     if(!valid) {
         res.statusCode = 400;
@@ -282,6 +283,7 @@ exports.add_manager_setting = function (req, res) {
                 res.statusCode = 400;
                 res.send("Bad request");
             } else {
+                console.log("WE REACH THE DATA CREATE");
                 // insert the manager
                 ManagerSettings.create({id: "Manager",
                 market_price: req.body.market_price,

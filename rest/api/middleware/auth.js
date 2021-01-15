@@ -17,7 +17,7 @@ const auth = (req, res, next) => {
   //console.log("REQ HEADERS", req.headers);
 
   let userName = req.params.id;
-  //console.log("USERNAME: ", userName);
+  console.log("USERNAME: ", userName);
 
   const verifyToken = fs.readFileSync("simkey.json");
   const parseToken = JSON.parse(verifyToken);
@@ -35,11 +35,12 @@ const auth = (req, res, next) => {
       next();
       return;
     } else if(!user) {
-      //console.log("AUTH USER DOES NOT EXIST"+ user);
+      console.log("AUTH USER DOES NOT EXIST"+ user);
       return res.json({ isAuth: false, error: true });
-    } else if(userName != user.id) {
-      //console.log("AUTH USERName IS NOT EQUAL TO EXPECTED ID", user.id);
-      //console.log("ID CHECK"+idCheck);
+    } else if(userName != user.id && 'Manager' != user.id) {
+      console.log(userName);
+      console.log("AUTH USERName IS NOT EQUAL TO EXPECTED ID", user.id);
+      console.log("ID CHECK"+idCheck);
       return res.json({ isAuth: false, error: true });
     }
     

@@ -57,10 +57,12 @@ export default function DashSimple(props) {
   };
 
   const setStates = (inData) => {
-    console.log(inData);
+    console.log("INDATA:",inData);
     setLabelsData({
+      
       battery_level: inData.battery_level,
       broken_turbine: inData.broken_turbine,
+
     });
 
     setImgUrl(inData.img_url);
@@ -184,6 +186,18 @@ export default function DashSimple(props) {
               <CardDeck>
                 <Card style={{ width: "30vw" }} bg="light">
                   <Card.Title>Current Data</Card.Title>
+                  <LabelCollection
+                    broken_turbine={
+                      labelsData.broken_turbine ? "Broken" : "Working"
+                    } //true means Broken, false means Working. TODO: CLean this.
+                    battery_level={labelsData.battery_level}
+                  />
+                  <LabelCollection
+                    broken_turbine={
+                      labelsData.broken_turbine ? "Broken" : "Working"
+                    } //true means Broken, false means Working. TODO: CLean this.
+                    battery_level={labelsData.battery_level}
+                  />
                   <LabelCollection
                     broken_turbine={
                       labelsData.broken_turbine ? "Broken" : "Working"

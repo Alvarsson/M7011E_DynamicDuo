@@ -36,14 +36,33 @@ function LoginForm(props) {
             ...prevState,
             successMessage: "Login successful. Redirecting to home page..",
           }));
-          console.log("success")
+          console.log(
+            API_BASE_URL + "/prosumersettings/" + state.id + "/online"
+          );
+
+          axios
+            .put(
+              API_BASE_URL + "/prosumersettings/" + state.id + "/online",
+              {
+                "login_credentials": {
+                  "online": 1,
+                },
+              },
+              { withCredentials: true }
+            )
+            .then(function (response) {
+              console.log("logged in user");
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
 
           localStorage.setItem(ACCESS_TOKEN_NAME, response.data.userData.token);
+          console.log("new token", response.data.userData.token);
           localStorage.setItem(CURRENTUSER, response.data.userData.id);
           if (response.data.userData.id == "Manager") {
             redirectToManager();
           } else {
-              
             redirectToHome();
           }
           props.showError(null);

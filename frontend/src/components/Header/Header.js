@@ -1,7 +1,11 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
-import { ACCESS_TOKEN_NAME,API_BASE_URL, CURRENTUSER } from "../../constants/apiConstants";
+import {
+  ACCESS_TOKEN_NAME,
+  API_BASE_URL,
+  CURRENTUSER,
+} from "../../constants/apiConstants";
 function Header(props) {
   const capitalize = (s) => {
     //capitalize the title in the blue header. Based on the url. /home -> Home. /manager -> Manager
@@ -60,8 +64,27 @@ function Header(props) {
         withCredentials: true,
       })
       .then(() => {
-        localStorage.removeItem(ACCESS_TOKEN_NAME);
-        localStorage.removeItem(CURRENTUSER);
+        axios
+          .put(
+            API_BASE_URL +
+              "/prosumersettings/" +
+              localStorage.getItem(CURRENTUSER) +
+              "/online",
+            {
+              login_credentials: {
+                online: -1,
+              },
+            },
+            { withCredentials: true }
+          )
+          .then(function (response) {
+            console.log("logout in user");
+            localStorage.removeItem(ACCESS_TOKEN_NAME);
+            localStorage.removeItem(CURRENTUSER);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
         console.log("logged out");
       });
 
