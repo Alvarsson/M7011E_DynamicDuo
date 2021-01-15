@@ -658,10 +658,14 @@ You will receive a response with the form below:
 
 You will need to send a body with the form below:
 ```json
-{[{
-    "tick": 0,
-    "wind_speed": 5.3,
-}]}
+{
+    "windspeeds":[
+        {
+            "tick": 0,
+            "wind_speed": 5.3,
+        }
+    ]
+}
 ```
 
 ### Blackouts <a name="black"></a>
@@ -676,7 +680,6 @@ You will need to send a body with the form below:
     "id": "userid",
     "tick": 74,
     "amount": 5,
-    
 }
 ```
 
@@ -690,7 +693,6 @@ You will receive a response with the form below:
     "id": "userid",
     "tick": 74,
     "amount": 5,
-    
 }
 ```
 
@@ -705,8 +707,6 @@ You will need to send a body with the form below:
     "id": "axel123",
     "password": "hejsan123"
 }
-    
-}
 ```
 
 #### Login a user <a name="auth_log"></a>
@@ -718,8 +718,6 @@ You will need to send a body with the form below:
     "id": "axel123",
     "password": "hejsan123"
 }
-    
-}
 ```
 
 #### Logout a user <a name="auth_logu"></a>
@@ -729,8 +727,6 @@ You will receive a response with the form below:
 ```json
 {
     'Successfully logged out.'
-}
-    
 }
 ```
 
