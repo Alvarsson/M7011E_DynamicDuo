@@ -464,7 +464,7 @@ The id is already set for the manager.
 You must send a request with the format below:
 ```json
 {
-    "inc_status_change": : {
+    "inc_status_change": {
         "timer": 3,
         "new_status": 1,
     }
@@ -478,7 +478,7 @@ The id is already set for the manager.
 You must send a request with the format below:
 ```json
 {
-    "inc_prod_change": : {
+    "inc_prod_change": {
         "timer": 3,
         "new_prod": 700,
     }
