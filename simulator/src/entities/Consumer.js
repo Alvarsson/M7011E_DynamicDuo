@@ -2,14 +2,19 @@ class Consumer {
     constructor() {
         this.base_consumption = 20;
         this.temp_consumption = 0;
-        this.total_consumption = this.set_consumer_demand();
+        this.total_consumption = 20;
         this.temperature = 20;
     }
+    recalc(){
+        this.set_temp_consumption();
+        this.set_consumer_demand();
+    }
+
     get_consumer_demand() {
         return this.total_consumption;
     }
     set_consumer_demand() {
-        return this.base_consumption + this.temp_consumption;
+        this.total_consumption = this.base_consumption + this.temp_consumption;
     }
     get_temp_consumption() {
         return this.temp_consumption;

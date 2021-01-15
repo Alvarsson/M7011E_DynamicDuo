@@ -12,10 +12,10 @@
   "dependencies": {
     "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
-    "mocha": "^8.2.1",
     "mongoose": "^5.10.15"
   },
   "devDependencies": {
+    "mocha": "^8.2.1",
     "nodemon": "^2.0.6"
   }
 }

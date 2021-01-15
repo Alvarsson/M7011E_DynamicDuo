@@ -158,33 +158,39 @@ class Prosumer {
     //------ BATTERY POWER -----
     /* This function will alter battery level and return how much it charged */
     update_battery_level(){
-        var over = this.total_consumption > this.pwr_production; // true for overprod
+        var over = this.total_consumption < this.pwr_production; // true for overprod
         if (this.blocked > 0 && over) {
-            pwr_to_charge = (this.total_consumption - this.pwr_production); // not multiplied with any distr, ALL excess goes to battery
-            this.battery_level = Math.min(this.battery_max, this.battery_level + pwr_to_charge); // Dis is NaN
+            pwr_to_charge = (this.pwr_production - this.total_consumption); // not multiplied with any distr, ALL excess goes to battery
+            this.battery_level = Math.min(this.battery_max, this.battery_level + pwr_to_charge);
             return pwr_to_charge;
         }
         if (over && this.store_percentage > 0) {
             var pwr_to_charge = (this.pwr_production - this.total_consumption)*this.store_percentage; // how much of overprod to charge with
-            if(pwr_to_charge+this.battery_level > this.battry_max) { // overcharge
+            if(pwr_to_charge+this.battery_level > this.battery_max) { // overcharge
+                var temp = this.battery_max - this.battery_level;
                 this.battery_level = this.battery_max;
-                return this.battery_max - (pwr_to_charge+this.battery_level);
+                return temp;
             } else {
+                this.battery_level += pwr_to_charge;
                 return pwr_to_charge;
             }
         } else if(!over && this.drain_percentage > 0){
             var pwr_to_drain = (this.total_consumption - this.pwr_production)*this.drain_percentage; // how much of underprod to drain
             if(this.battery_level - pwr_to_drain < 0){ // undercharge
-                var temp = this.battery_level;
+                var batlvl = this.battery_level;
                 this.battery_level = 0;
-                return temp;
+                return -batlvl;
             } else {
-                return pwr_to_drain;
+                this.battery_level -= pwr_to_drain;
+                return -pwr_to_drain;
             }
         }
 
     }
 
+    set_battery_level(battery_lvl){
+        this.battery_level = battery_lvl;
+    }
     get_battery_level() {
         return this.battery_level;
     }
