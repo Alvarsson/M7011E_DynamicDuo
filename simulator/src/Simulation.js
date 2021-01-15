@@ -634,31 +634,7 @@ class Simulation {
         });
       });
     });
-
-    //TODO: fix order, all recalc first, then push logs, settings.
-
-
-    // Update managers values from settings
-    //this.update_manager_data(this.manager);
-    // TODO: re-calculate values for manager.
-    //this.calculate_new_manager_state(this.manager);
-    // PUSH logs to manager
-    //this.push_manager_logs(this.manager); // TODO: update managersettings, then we do SMHI and test => DONE
-    // calculate & push to blackout
-    //this.blackout_check_push(this.nr_of_consumers, this.consumer, this.manager, this.prosumer_list);
-
-
-
-    // Collection of all functions that should
-    //SimController.create();
   }
-
-  // Steps of starting process.
-  // 1- Create the wind_model and push into DB. Maybe take the sim.time as argument in the constructor?
-  // ---- In what whay do we want the wind data?
-  // 2- Instanciate the entitie objects.
-  // 3- Set the tick rate.
-  // 4- Run the update(simulation frequency) function
 }
 
 module.exports = Simulation;
