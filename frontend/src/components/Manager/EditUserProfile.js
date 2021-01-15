@@ -12,14 +12,9 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/esm/Container";
 
 function EditUserProfile(props) {
-  const [showComponent, setToggle] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState("");
 
-  function editUser(e) {
-    console.log(e.target.id);
-    props.history.push("/edit/" + e.target.id);
-  }
 
   function handleDeleteUser (e) {
     const payload = {
@@ -69,6 +64,7 @@ function EditUserProfile(props) {
       .catch(function (error) {
         console.log(error);
       });
+
   };
 
   return (

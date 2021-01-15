@@ -39,13 +39,13 @@ export default function ManagerOutput(props) {
 
               <ListGroup.Item>
                 Recommended Market Price (RMP):{" "}
-                {props.data.recommended_market_price}
+                {Math.round((props.data.recommended_market_price + Number.EPSILON) * 100) / 100}
               </ListGroup.Item>
               <ListGroup.Item>
                 Market Price: {props.data.market_price}
               </ListGroup.Item>
               <ListGroup.Item>
-                Market Demand:{props.data.market_demand}
+                Market Demand:{Math.round((props.data.market_demand + Number.EPSILON) * 100) / 100}
               </ListGroup.Item>
               <ListGroup.Item>
                 Battery Level: {props.data.battery_level}

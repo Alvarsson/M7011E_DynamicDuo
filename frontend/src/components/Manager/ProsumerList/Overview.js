@@ -56,112 +56,111 @@ function Overview(props) {
   }, [props.id, props.tick, props.settings]); //actually update states when the tick has changed.
 
   return (
-    <Container >
-      <Row >
-        <CardDeck >
-          
-            <Card >
-              <Card.Body>
-                <Card.Title>{data.id}</Card.Title>
-                <Card.Text>
-                  <Row>
-                    <Col className="text-center">
-                      Prosumer Turbine Status
-                    </Col>
-                    <Col>
-                      <Alert
-                        variant={
-                            props.settings.broken == 0 ? "success" : "danger"
-                        }
-                      >
-                        {props.settings.broken == 0 ? "Working" : "Broken "}
-                      </Alert>
-                    </Col>
-                    
-                    <Col className="text-center">
-                      Prosumer Blocked Status
-                    </Col>
-                    <Col>
-                      <Alert
-                        variant={props.settings.blocked > 0 ? "danger" : "success"}
-                      >
-                        {props.settings.blocked > 0 ? "Blocked " : "Running"}
-                      </Alert>
-                    </Col>
+    <Container>
+      <Row>
+        <CardDeck>
+          <Card>
+            <Card.Body>
+              <Card.Title>{data.id}</Card.Title>
+              <Card.Text>
+                <Row>
+                  <Col className="text-center">Prosumer Turbine Status</Col>
+                  <Col>
+                    <Alert
+                      variant={
+                        props.settings.broken == 0 ? "success" : "danger"
+                      }
+                    >
+                      {props.settings.broken == 0 ? "Working" : "Broken "}
+                    </Alert>
+                  </Col>
 
-                    <Col className="text-center">
-                      Prosumer Blackout Status
-                    </Col>
-                    <Col>
-                      <Alert
-                        variant={props.settings.blackout == true ? "danger" : "success"}
-                      >
-                        {props.settings.blackout == true ? "Blackout" : "Power On"}
-                      </Alert>
-                    </Col>
-                  </Row>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-           
-            <Card >
+                  <Col className="text-center">Prosumer Blocked Status</Col>
+                  <Col>
+                    <Alert
+                      variant={
+                        props.settings.blocked > 0 ? "danger" : "success"
+                      }
+                    >
+                      {props.settings.blocked > 0 ? "Blocked " : "Running"}
+                    </Alert>
+                  </Col>
+
+                  <Col className="text-center">Prosumer Blackout Status</Col>
+                  <Col>
+                    <Alert
+                      variant={
+                        props.settings.blackout == true ? "danger" : "success"
+                      }
+                    >
+                      {props.settings.blackout == true
+                        ? "Blackout"
+                        : "Power On"}
+                    </Alert>
+                  </Col>
+                </Row>
+              </Card.Text>
+            </Card.Body>
+          </Card>
+
+          <Card>
+            <Card.Body>
+              <Card.Title>Distribution</Card.Title>
+              <Card.Text>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    Sell: {props.settings.distribution.sell}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Store: {props.settings.distribution.store}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Buy: {props.settings.distribution.buy}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    Drain: {props.settings.distribution.drain}
+                  </ListGroup.Item>
+
+                  <ListGroup.Item>
+                    Battery Warning threshold:{" "}
+                    {props.settings.battery_warning_threshold}
+                  </ListGroup.Item>
+                </ListGroup>
+              </Card.Text>
+            </Card.Body>
+          </Card>
+
+          {data.weather ? (
+            <Card>
               <Card.Body>
-                <Card.Title>Distribution</Card.Title>
+                <Card.Title>Variables</Card.Title>
                 <Card.Text>
                   <ListGroup variant="flush">
                     <ListGroup.Item>
-                      Sell: {props.settings.distribution.sell}
+                      Production: {Math.round((data.production + Number.EPSILON) * 100) / 100}
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      Buy: {props.settings.distribution.buy}
+                      Consumption: {data.consumption}
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      Drain: {props.settings.distribution.drain}
+                      Net production: {Math.round((data.net_production + Number.EPSILON) * 100) / 100}
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      Store: {props.settings.distribution.store}
+                      Wind speed: {data.weather.wind_speed}
                     </ListGroup.Item>
                     <ListGroup.Item>
-                      Battery Warning threshold:{" "}
-                      {props.settings.battery_warning_threshold}
+                      Temperature: {data.weather.temperature}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      Battery: {data.battery_level}
                     </ListGroup.Item>
                   </ListGroup>
                 </Card.Text>
               </Card.Body>
             </Card>
-          
-            {data.weather ? (
-              <Card >
-                <Card.Body>
-                  <Card.Title>Variables</Card.Title>
-                  <Card.Text>
-                    <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        Production: {data.production}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Consumption: {data.consumption}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Net production: {data.net_production}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Wind speed: {data.weather.wind_speed}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Temperature: {data.weather.temperature}
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        Battery: {data.battery_level}
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            ) : (
-              ""
-            )}
-          
+          ) : (
+            ""
+          )}
         </CardDeck>
       </Row>
     </Container>

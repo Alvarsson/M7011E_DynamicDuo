@@ -45,6 +45,9 @@ function UploadForm(props) {
       .catch(function (error) {
         console.log(error);
       });
+
+
+      props.history.push("/home");
   };
 
   return (
