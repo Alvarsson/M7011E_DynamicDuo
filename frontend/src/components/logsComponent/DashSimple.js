@@ -46,7 +46,7 @@ export default function DashSimple(props) {
       limit;
 
     return axios
-      .get(url)
+      .get(url,{withCredentials:true})
       .then(({ data }) => {
         console.log(data);
         return data;
