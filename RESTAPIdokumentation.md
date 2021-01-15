@@ -1,5 +1,5 @@
 ## This document contains the documentation on how to use all of the REST API paths
-The base path for these calls will be: **http://SERVER_IP:3001**
+The base path for these calls will be: **http://SERVER_IP:3001**, alternatively **http://localhost:3001** if deployed locally.
 
 # Table Of Contents
 1. [Prosumer Settings](#pro_settings)
