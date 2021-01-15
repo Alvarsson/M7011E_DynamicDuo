@@ -1,10 +1,11 @@
 "use strict";
 
 var mongoose = require("mongoose"),
+  User = mongoose.model("User"),
   Util = require("../util/api_utils"),
   BodyMaps = require("./bodyMaps"),
   upload = require("../upload_pic"),
-  path = require('path'),
+  path = require("path"),
   ProsumerSettings = mongoose.model("ProsumerSettings");
 
 exports.get_all_prosumer_settings = function (req, res) {
@@ -44,22 +45,22 @@ exports.get_prosumer_setting = function (req, res) {
 };
 
 exports.update_prosumer_settings_img_url = function (req, res) {
-    const fileName = req.params.id + path.extname(req.files.image.name);
-    upload.uploadFile(fileName, req.files.image.data, (img_url) => {
-      ProsumerSettings.findOneAndUpdate(
-        { id: req.params.id },
-        { $set: { img_url: img_url } },
-        function (err, prosumer) {
-          if (err) {
-            res.statusCode = 418;
-            res.send("Error when updating img url");
-          } else {
-            res.statusCode = 204;
-            res.send();
-          }
+  const fileName = req.params.id + path.extname(req.files.image.name);
+  upload.uploadFile(fileName, req.files.image.data, (img_url) => {
+    ProsumerSettings.findOneAndUpdate(
+      { id: req.params.id },
+      { $set: { img_url: img_url } },
+      function (err, prosumer) {
+        if (err) {
+          res.statusCode = 418;
+          res.send("Error when updating img url");
+        } else {
+          res.statusCode = 204;
+          res.send();
         }
-      );
-    });
+      }
+    );
+  });
 };
 
 exports.update_prosumer_settings_password = function (req, res) {
@@ -82,8 +83,17 @@ exports.update_prosumer_settings_password = function (req, res) {
           res.statusCode = 418;
           res.send("Error when updating password");
         } else {
-          res.statusCode = 204;
-          res.send();
+          User.findOne({ id: req.params.id }, function (err, user) {
+            user.password = req.body.login_credentials.password;
+            user.save((err, dock) => {
+              if (err) {
+                return res.status(422).json({ errors: err });
+              } else {
+                res.statusCode = 204;
+                res.send();
+              }
+            });
+          });
         }
       }
     );
@@ -307,7 +317,6 @@ exports.add_prosumer_setting = function (req, res) {
     });
   }
 };
-
 
 exports.delete_prosumer_settings = function (req, res) {
   ProsumerSettings.deleteOne({ id: req.params.id }, function (err, prosumer) {
