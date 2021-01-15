@@ -1,6 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { ACCESS_TOKEN_NAME } from "../../constants/apiConstants";
+import axios from "axios";
+import { ACCESS_TOKEN_NAME,API_BASE_URL, CURRENTUSER } from "../../constants/apiConstants";
 function Header(props) {
   const capitalize = (s) => {
     //capitalize the title in the blue header. Based on the url. /home -> Home. /manager -> Manager
@@ -18,9 +19,10 @@ function Header(props) {
     if (
       props.location.pathname === "/home" ||
       props.location.pathname === "/manager" ||
-      props.location.pathname === "/picture" 
+      props.location.pathname === "/picture"
     ) {
-      return ( // back to info kanske? istället för picture in pjcture?
+      return (
+        // back to info kanske? istället för picture in pjcture?
         <div className="ml-auto">
           <button
             className="btn btn-secondary"
@@ -53,7 +55,16 @@ function Header(props) {
     }
   }
   function handleLogout() {
-    localStorage.removeItem(ACCESS_TOKEN_NAME);
+    axios
+      .get(API_BASE_URL + "/logout", {
+        withCredentials: true,
+      })
+      .then(() => {
+        localStorage.removeItem(ACCESS_TOKEN_NAME);
+        localStorage.removeItem(CURRENTUSER);
+        console.log("logged out");
+      });
+
     props.history.push("/login");
   }
   return (

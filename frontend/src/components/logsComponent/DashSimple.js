@@ -44,9 +44,9 @@ export default function DashSimple(props) {
       localStorage.getItem(CURRENTUSER) +
       "/getlatest/" +
       limit;
-
+    console.log(url)
     return axios
-      .get(url)
+      .get(url,{withCredentials:true})
       .then(({ data }) => {
         console.log(data);
         return data;
@@ -99,7 +99,7 @@ export default function DashSimple(props) {
   };
 
   const initializeData = (latestLogs) => {
-    console.log("init data");
+    console.log(latestLogs);
 
     if (typeof latestLogs[0] === "undefined") {
       console.log("latest logs undefined");

@@ -15,8 +15,12 @@ const auth = (req, res, next) => {
   }
 
   //console.log("TOKEN IS:", cookieToken)
-  let usrid = req.originalUrl;
-  const idCheck = ezParser(usrid);
+  let userName = req.params.id;
+  console.log("USERNAME: ", userName);
+
+  //let usrid = req.originalUrl;
+  //console.log("YOOOOOOO"+usrid)
+  //const idCheck = ezParser(usrid);
 
   const verifyToken = fs.readFileSync("simkey.json");
   const parseToken = JSON.parse(verifyToken);
@@ -33,8 +37,11 @@ const auth = (req, res, next) => {
       next();
       return;
     } else if(!user) {
+      console.log("HÄR BLIR DET FEL"+ user);
       return res.json({ isAuth: false, error: true });
-    } else if(user.id != idCheck) {
+    } else if(userName != user.id) {
+      //console.log("USER ID"+user.id);
+      //console.log("ID CHECK"+idCheck);
       return res.json({ isAuth: false, error: true });
     }
     
@@ -44,10 +51,11 @@ const auth = (req, res, next) => {
     //console.log(user);
     next();
   });
-  function ezParser(st) {
+  /* function ezParser(st) {
     var splitList = st.split("/")
-    return splitList[2];
-  }
+    console.log("DALIST YOOOO"+splitList[3]);
+    return splitList[3];
+  } */
 };
 
 
