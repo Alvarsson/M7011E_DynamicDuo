@@ -5,7 +5,7 @@ const WeatherSpeedsModel = db.weatherSpeeds;
 const ProsumerSettings = db.prosumerSettings;
 
 exports.fillWeatherDataOnce = (data) => {
-  console.log("filling weather data?");
+  console.log("filling weather data");
   windspeeds = [];
   for (index in data) {
     //console.log("windspeed", windspeed)
