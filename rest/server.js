@@ -17,7 +17,11 @@ const fileUpload = require('express-fileupload');
 var cors = require('cors')
 
 app.use(cors({
+<<<<<<< HEAD
     origin: 'http://localhost:3000'/*'http://localhost:8080' */,
+=======
+    origin: 'http://localhost:3000',
+>>>>>>> fixed bug with missing data from frontend login
     credentials : true
   }))
 app.use(fileUpload({

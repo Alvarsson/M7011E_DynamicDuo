@@ -74,11 +74,6 @@ userSchema.methods.generateToken = function (callBack) {
 // validate token for authenticate middleware routes
 userSchema.statics.findByToken = function(token, callBack) {
     var user = this;
-    
-
-    // let str = JSON.stringify(user);
-    // str = JSON.stringify(user, null, 4); // (Optional) beautiful indented output.
-    // console.log("BOBJECT", str); // Logs output to dev tools console.
  
     const verifyToken = fs.readFileSync("simkey.json");
     const parseToken = JSON.parse(verifyToken);

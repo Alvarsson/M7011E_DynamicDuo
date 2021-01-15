@@ -8,19 +8,16 @@ const User = require("../models/user_model");
 const auth = (req, res, next) => {
   let token = req.headers.token;
   let simToken = req.headers.sim;
-  let cookieToken = req.cookies.authToken;
+  //let cookieToken = req.cookies.authToken;
+  let cookieToken = req.headers.authorization;
 
   if(simToken){
     cookieToken = simToken;
   }
+  //console.log("REQ HEADERS", req.headers);
 
-  //console.log("TOKEN IS:", cookieToken)
   let userName = req.params.id;
-  console.log("USERNAME: ", userName);
-
-  //let usrid = req.originalUrl;
-  //console.log("YOOOOOOO"+usrid)
-  //const idCheck = ezParser(usrid);
+  //console.log("USERNAME: ", userName);
 
   const verifyToken = fs.readFileSync("simkey.json");
   const parseToken = JSON.parse(verifyToken);
@@ -30,22 +27,24 @@ const auth = (req, res, next) => {
   User.findByToken(cookieToken, (err, user) => {
     
     if (err) throw err;
-
+    console.log("COOKIETOKEN", cookieToken);
+    console.log("AUTH THIS IS THE USER:", user);
     if(user == "simulator" && cookieToken == checkToken) {
       req.token = cookieToken;
       req.user = user;
       next();
       return;
     } else if(!user) {
-      console.log("HÄR BLIR DET FEL"+ user);
+      //console.log("AUTH USER DOES NOT EXIST"+ user);
       return res.json({ isAuth: false, error: true });
     } else if(userName != user.id) {
-      //console.log("USER ID"+user.id);
+      //console.log("AUTH USERName IS NOT EQUAL TO EXPECTED ID", user.id);
       //console.log("ID CHECK"+idCheck);
       return res.json({ isAuth: false, error: true });
     }
     
     //vad gör dessa? lägger till token på request?
+    //console.log("AUTH PASSED, USER:", user);
     req.token = token;
     req.user = user;
     //console.log(user);
