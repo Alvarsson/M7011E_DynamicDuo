@@ -66,7 +66,6 @@ exports.update_market_price = function(req,res) {
 
 
 exports.update_PP_status = function(req,res) {
-    console.log("pp:", req.body);
     var valid = Util.validBody(req, BodyMaps.PP_statusMap());
     if(!valid) {
         res.statusCode = 400;

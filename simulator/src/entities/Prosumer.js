@@ -17,10 +17,6 @@ class Prosumer {
         this.wind_speed = 5;
         this.temperature = 20;
 
-        //this.wind_pwr_to_house; // needed?
-
-        this.store_to_battery; // STORE amount/tick needed?
-        this.drain_from_battery; // DRAIN amount/tick needed?
         this.battery_level = 0;
         this.battery_max = 200;
 
@@ -93,6 +89,10 @@ class Prosumer {
         } else {
             this.pwr_production = 0;
         }
+    }
+
+    set_production(prod){
+        this.pwr_production = prod;
     }
 
     get_production(){

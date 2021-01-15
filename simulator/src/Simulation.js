@@ -9,7 +9,6 @@ const axios = require("axios");
 const readKey = fs.readFileSync("simkey.json");
 const parseKey = JSON.parse(readKey);
 const sim_key = parseKey.simKey;
-console.log(sim_key);
 axios.defaults.headers.common['sim'] = sim_key // for all requests
 
 const SimController = require("./Simulation_controller");
@@ -41,7 +40,6 @@ class Simulation {
     console.log("Creating Prosumers");
     this.prosumer_list = new Array();
     this.create_prosumers(int_pros);
-    //console.log("PROSUMERS ARE:", this.prosumer_list);
     console.log("Pushing prosumers to DB");
     this.register_prosumers(this.prosumer_list);
 
@@ -324,7 +322,6 @@ class Simulation {
 
 
   update_inc_prod_change(manager) {
-    console.log("updating prod change to: ", manager.get_inc_prod_change_timer(),manager.get_inc_prod_change());
     var promise = new Promise((resolve, reject) => {
       axios.put(`http://rest:3001/api/managersettings/inc_prod_change`,  {
         inc_prod_change: {
@@ -585,6 +582,7 @@ class Simulation {
           console.log("SMHI temp updated:", response.data.value[0].value);
           this.temperature = response.data.value[0].value;
           this.last_temp_update_tick = this.tick;
+          this.consumer.set_temperature(this.temperature);
         } catch (error) {
           console.log("SMHI value probably empty, retrying next tick");
         }

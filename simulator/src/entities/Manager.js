@@ -67,8 +67,12 @@ class Manager {
     set_nr_prosumers(num) {
         this.nr_of_prosumers = num;
     }
-
-// TODO: Question, should the amount of prosumers + consumers be sent into the get company price? Going for yes this time.
+    get_nr_prosumers(){
+        return this.nr_of_prosumers;
+    }
+    get_nr_consumers(){
+        return this.nr_of_consumers;
+    }
 // ----- DEMAND -------
 
     set_market_demand(demand) {
@@ -80,7 +84,6 @@ class Manager {
 
 // ----- PRODUCTION -----
     set_pwr_production(pwr) {
-        console.log("changing prod in sim to :", pwr);
         this.pwr_production = Math.max(pwr,0);
     }
     get_pwr_production() {
@@ -140,17 +143,7 @@ class Manager {
     set_plant_distribution(store, sell) { // producing over market demand
         this.store = store;
         this.sell = sell;
-        //production = this.get_pwr_production();
-        //this.set_pwr_to_market(production, sell);
-        //this.set_pwr_to_buffer(production, store);
     }
-    /*check_plant_stopped() { // check if plant is stopped then change dist. called each tick
-        var market_demand = this.get_market_demand();
-        if (this.get_plant_status() == 3) {
-            this.set_pwr_to_market(0, market_demand)
-            this.set_pwr_from_buffer(1, market_demand)
-        }
-    }*/
     calc_pwr_to_market() { // sets an amount of pwr to market for each tick i guess.
         this.pwr_to_market = this.pwr_production * this.sell;
     }
@@ -161,6 +154,9 @@ class Manager {
 //----- BUFFER ----
     get_buffer_level(){
         return this.buffer_level;
+    }
+    set_buffer_level(lvl){
+        this.buffer_level = lvl;
     }
     calc_pwr_to_buffer() {
         this.pwr_to_buffer = this.pwr_production * this.store;
@@ -187,7 +183,7 @@ class Manager {
 
 // ----- BLACKOUT-----
     get_pwr_missing() {
-        return this.pwr_missing;// flag this as event so that prosumer can make descision.
+        return this.pwr_missing; // flag this as event so that prosumer can make descision.
     }
 }
 module.exports = Manager;

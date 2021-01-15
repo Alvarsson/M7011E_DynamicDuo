@@ -92,7 +92,6 @@ exports.update_prosumer_settings_password = function (req, res) {
 };
 
 exports.update_prosumer_settings_distr_over = function (req, res) {
-  console.log(req.body);
   var valid = Util.validBody(req, BodyMaps.distr_overMap());
   if (!valid) {
     res.statusCode = 400;
@@ -198,7 +197,6 @@ exports.update_prosumer_settings_online = function (req, res) {
 };
 
 exports.update_prosumer_settings_blocked = function (req, res) {
-  console.log(req.body);
   var valid = Util.validBody(req, BodyMaps.blockedMap());
   if (!valid) {
     res.statusCode = 400;
@@ -221,7 +219,6 @@ exports.update_prosumer_settings_blocked = function (req, res) {
 };
 
 exports.update_prosumer_settings_broken = function (req, res) {
-  console.log(req.body);
   var valid = Util.validBody(req, BodyMaps.brokenMap());
   if (!valid) {
     res.statusCode = 400;
@@ -244,7 +241,6 @@ exports.update_prosumer_settings_broken = function (req, res) {
 };
 
 exports.update_prosumer_settings_blackout = function (req, res) {
-  console.log(req.body);
   var valid = Util.validBody(req, BodyMaps.blackoutMap());
   if (!valid) {
     res.statusCode = 400;
