@@ -15,7 +15,7 @@ function RegistrationForm(props) {
     const { id, value } = e.target;
     setState((prevState) => ({
       ...prevState,
-      id: value,
+      [id]: value,
     }));
   };
   const sendDetailsToServer = () => {
@@ -104,9 +104,9 @@ function RegistrationForm(props) {
           <input
             type="text"
             className="form-control"
-            id="userID"
+            id="id"
             placeholder="Enter id"
-            value={state.userID}
+            value={state.id}
             onChange={handleChange}
           />
         </div>
