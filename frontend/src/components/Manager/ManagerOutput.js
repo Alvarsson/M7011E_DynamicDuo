@@ -56,7 +56,8 @@ export default function ManagerOutput(props) {
       </Row>
       <Row>
         <Col>
-          {props.settings.data.distribution.store >= 0 ? (
+          {props.settings ? (
+              
             <ControlPanel dist={props.settings.data.distribution.store} />
           ) : (
             ""
