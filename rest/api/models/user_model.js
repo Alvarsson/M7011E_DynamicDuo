@@ -75,6 +75,10 @@ userSchema.methods.generateToken = function (callBack) {
 userSchema.statics.findByToken = function(token, callBack) {
     var user = this;
 
+    /* let str = JSON.stringify(user);
+    str = JSON.stringify(user, null, 4); // (Optional) beautiful indented output.
+    console.log("BOBJECT", str); // Logs output to dev tools console.
+ */
     const verifyToken = fs.readFileSync("simkey.json");
     const parseToken = JSON.parse(verifyToken);
     const checkToken = parseToken.simKey;
@@ -91,8 +95,6 @@ userSchema.statics.findByToken = function(token, callBack) {
             if (decode != undefined) {
                 console.log(decode._id);
             }
-            //console.log(decode)
-            //console.log("SENT USER", user);
             callBack(null, user);
         });
     });

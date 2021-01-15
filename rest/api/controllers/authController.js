@@ -60,6 +60,7 @@ exports.LoginUser = (req, res) => {
                 "the token we generated and added to the backend is:" +
                   user.token
               );
+              console.log("INSIDE LOGIN"+user.id);
               const data = {
                 userID: user._id,
                 id: user.id,
@@ -69,7 +70,7 @@ exports.LoginUser = (req, res) => {
               //res.setHeader('token', user.token)
               //res.setHeader('usrID', user.id)
               res.cookie("authToken", user.token);
-              res.cookie("userID", user.id);
+              res.cookie("ID", user.id);
               res.status(200).json({
                 success: true,
                 message: "Successfully Logged in!",
