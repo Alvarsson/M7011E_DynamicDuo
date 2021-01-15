@@ -3,7 +3,11 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 
 import Distribution from "./components/DistributionComponent/Distribution";
-import { ACCESS_TOKEN_NAME, API_BASE_URL, CURRENTUSER } from './constants/apiConstants';
+import {
+  ACCESS_TOKEN_NAME,
+  API_BASE_URL,
+  CURRENTUSER,
+} from "./constants/apiConstants";
 
 import axios from "axios";
 import DashSimple from "./components/logsComponent/DashSimple";
@@ -17,18 +21,28 @@ const ProsumerSettings: React.FC = () => {
   const [settings, setSettings] = useState({});
 
   useEffect(() => {
+    // maybe move to moveTimeout?
+
+    const interval = setInterval(() => {
+      fetchShit();
+    }, 3000);
+
+    return () => clearInterval(interval);
+
     // Run! Like go get some data from an API.
-    fetchShit();
   }, []);
 
   //TODO: nu vill jag bara fetcha data när vi öppnar sidan och sen spara de värdena som defaults
 
   const fetchShit = () => {
     //TODO: skaffa wrapper runt getlocalStorage
-    axios 
-      .get(API_BASE_URL + "/prosumersettings/" + localStorage.getItem(CURRENTUSER), {
-        withCredentials: true,
-      })
+    axios
+      .get(
+        API_BASE_URL + "/prosumersettings/" + localStorage.getItem(CURRENTUSER),
+        {
+          withCredentials: true,
+        }
+      )
       .then(({ data }) => {
         console.log(data);
         const valA = data.distribution.sell * 100;
@@ -36,7 +50,7 @@ const ProsumerSettings: React.FC = () => {
 
         setValA(100 - valA);
         setValB(100 - valB);
-        setImgUrl(data.img_url)
+        setImgUrl(data.img_url);
         setLoaded(true);
         setSettings(data);
       });

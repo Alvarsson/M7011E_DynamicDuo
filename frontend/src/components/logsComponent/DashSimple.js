@@ -44,7 +44,7 @@ export default function DashSimple(props) {
       localStorage.getItem(CURRENTUSER) +
       "/getlatest/" +
       limit;
-    console.log(url)
+    
     return axios
       .get(url,{withCredentials:true})
       .then(({ data }) => {
