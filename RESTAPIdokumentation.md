@@ -57,7 +57,9 @@ The base path for these calls will be: **http://SERVER_IP:3001**, alternatively 
     1. [Register](#auth_reg)
     2. [Login](#auth_log)
     3. [Logout](#auth_logu)
-
+    
+8. [Health check](#health)
+    1. [Health](#healthC)
 
 ### Prosumer Settings <a name="pro_settings"></a>
 
@@ -718,4 +720,8 @@ You will receive a response with the form below:
 }
 ```
 
+### Health check <a name="health"></a>
 
+#### Register a user <a name="healthC"></a>
+**GET** to **/api/health**
+Route will return "OK" if rest api is online.
