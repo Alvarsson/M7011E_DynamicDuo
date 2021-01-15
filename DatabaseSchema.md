@@ -58,7 +58,7 @@
     "distribution": {
         "sell": 0.6,
         "store": 0,4
-    }
+    },
     "loginCredentials": {
         "password": "hashatPassword",
         "online": 1
