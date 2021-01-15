@@ -61,7 +61,6 @@ function RegistrationForm(props) {
                   successMessage:
                     "Registration successful. Redirecting to home page..",
                 }));
-                localStorage.setItem(ACCESS_TOKEN_NAME, responseA.data.token);
                 redirectToLogin();
                 props.showError(null);
               } else {

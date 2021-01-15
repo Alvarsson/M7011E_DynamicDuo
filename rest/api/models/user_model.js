@@ -74,17 +74,20 @@ userSchema.methods.generateToken = function (callBack) {
 // validate token for authenticate middleware routes
 userSchema.statics.findByToken = function(token, callBack) {
     var user = this;
+    
 
-    /* let str = JSON.stringify(user);
-    str = JSON.stringify(user, null, 4); // (Optional) beautiful indented output.
-    console.log("BOBJECT", str); // Logs output to dev tools console.
- */
+    // let str = JSON.stringify(user);
+    // str = JSON.stringify(user, null, 4); // (Optional) beautiful indented output.
+    // console.log("BOBJECT", str); // Logs output to dev tools console.
+ 
     const verifyToken = fs.readFileSync("simkey.json");
     const parseToken = JSON.parse(verifyToken);
     const checkToken = parseToken.simKey;
     if (token == checkToken){
         return callBack(null, "simulator");
     }
+
+    console.log("token",token)
 
     jwt.verify(token, process.env.SECRET, function(err, decode) {
         // the decode must give user_id if token is valid.
@@ -95,6 +98,7 @@ userSchema.statics.findByToken = function(token, callBack) {
             if (decode != undefined) {
                 console.log(decode._id);
             }
+            console.log(user)
             callBack(null, user);
         });
     });
