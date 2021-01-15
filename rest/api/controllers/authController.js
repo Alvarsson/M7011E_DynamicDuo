@@ -91,6 +91,7 @@ exports.LogoutUser = (req, res) => {
         success: false,
         err,
       });
+    
     return res.status(200).send({
       success: true,
       message: "Successfully logged out.",
