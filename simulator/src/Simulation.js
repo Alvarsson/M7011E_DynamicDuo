@@ -36,7 +36,7 @@ class Simulation {
     this.wm = new WindModule();
     //this.generate_wind_data(sim_time); // uncomment this for deployment
 
-    // create prosumers, add to DB, register users
+    //create prosumers, add to DB, register users
     console.log("Creating Prosumers");
     this.prosumer_list = new Array();
     this.create_prosumers(int_pros);
@@ -70,6 +70,7 @@ class Simulation {
   }
 
   push_manager_setting() {
+    console.log("THIS IS RUNNING");
     axios.post(`http://rest:3001/api/managersettings/`, {
       id: "Manager",
       market_price: this.manager.get_pwr_price(),
