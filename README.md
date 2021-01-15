@@ -3,9 +3,11 @@
 
 
 # Deploy the system (Docker-compose)
- - Requirements: Download and install Docker. See links for Docker below.
+Requirements: Download and install Docker and NodeJS. See links for Docker below.
 
  - Clone this repository. 
+There are secret key files on the VPS named awskey.json and simkey.json. These need to be manually added in the same directories as on the VPS before deployment.
+
  - `cd` into root folder, you should be in the same directory as the docker-compose.yaml file.
  - Run `docker-compose up` to start the system.
  - Navigate to http://localhost:8080.
