@@ -26,16 +26,22 @@ class Simulation {
     int_cons: Amout of consumers in sim, ex 8 will gen 8 consumer objects.
     */
   constructor(sim_time, int_pros, int_cons) {
-    this.wind_speed = 5;
+    this.wind_speed = -1;
     this.temperature = 20;
     this.last_temp_update_tick = 0;
     this.tick = 0;
     console.log("SETTING UP SIMULATOR");
     // generera wind, into DB
-    console.log("Generating wind data");
-    this.wm = new WindModule();
-    //this.generate_wind_data(sim_time); // uncomment this for deployment
 
+    this.get_current_wind_speed(0).then( () => {// called to see if there is any windspeed
+      if (this.wind_speed == -1) { // means we have not generated windspeeds yet.
+        console.log("Generating wind data");
+        this.wm = new WindModule();
+        this.generate_wind_data(sim_time);
+        this.wind_speed = 5;
+      }
+    }); 
+    
     //create prosumers, add to DB, register users
     console.log("Creating Prosumers");
     this.prosumer_list = new Array();

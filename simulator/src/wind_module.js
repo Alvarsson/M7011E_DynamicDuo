@@ -7,7 +7,7 @@ class WindModule {
       let num = Math.sqrt( -2.0 * Math.log(u)) * Math.cos( 2.0 * Math.PI * v);
 
       num = num/ 10.0 + 0.5; // Translate 0->1
-      if (num > 1 || num < 0) num = randn_gd(min, max, skew); //resample
+      if (num > 1 || num < 0) num = this.randn_gd(min, max, skew); //resample
       num = Math.pow(num,skew); // skew it
       num *= max - min; // stretch
       num += min; // offset
