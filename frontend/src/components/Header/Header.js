@@ -6,6 +6,7 @@ import {
   API_BASE_URL,
   CURRENTUSER,
 } from "../../constants/apiConstants";
+
 function Header(props) {
   const capitalize = (s) => {
     //capitalize the title in the blue header. Based on the url. /home -> Home. /manager -> Manager
@@ -22,8 +23,7 @@ function Header(props) {
   function renderChangePicture() {
     if (
       props.location.pathname === "/home" ||
-      props.location.pathname === "/manager" ||
-      props.location.pathname === "/picture"
+      props.location.pathname === "/manager"
     ) {
       return (
         // back to info kanske? istället för picture in pjcture?
@@ -33,6 +33,18 @@ function Header(props) {
             onClick={() => handleChangePicture()}
           >
             Change Picture
+          </button>
+        </div>
+      );
+    } else if (props.location.pathname === "/picture") {
+      return (
+        // back to info kanske? istället för picture in pjcture?
+        <div className="ml-auto">
+          <button
+            className="btn btn-secondary"
+            onClick={() => props.history.push("/home")}
+          >
+            Back
           </button>
         </div>
       );

@@ -36,7 +36,7 @@ export default function DashComponent(props) {
         </ResponsiveContainer>
 
         <Card.Title>
-          {props.dataType}: {props.current}
+          {props.dataType}: {Math.round((props.current + Number.EPSILON) * 100) / 100}
         </Card.Title>
       </Card.Body>
     </Card>
