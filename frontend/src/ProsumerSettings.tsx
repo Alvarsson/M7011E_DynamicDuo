@@ -14,7 +14,7 @@ const ProsumerSettings: React.FC = () => {
   const [valB, setValB] = useState(1);
   const [isLoaded, setLoaded] = useState(false);
   const [img_url, setImgUrl] = useState("");
-
+  const [settings, setSettings] = useState({});
 
   useEffect(() => {
     // Run! Like go get some data from an API.
@@ -38,13 +38,14 @@ const ProsumerSettings: React.FC = () => {
         setValB(100 - valB);
         setImgUrl(data.img_url)
         setLoaded(true);
+        setSettings(data);
       });
   };
 
   return (
     <Container className="p-3">
       <Row>
-        <DashSimple img_url={img_url} />
+        <DashSimple img_url={img_url} settingsData={settings} />
       </Row>
 
       <Row>

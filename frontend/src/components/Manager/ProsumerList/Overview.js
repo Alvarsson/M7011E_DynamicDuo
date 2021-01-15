@@ -64,19 +64,42 @@ function Overview(props) {
               <Card.Body>
                 <Card.Title>{data.id}</Card.Title>
                 <Card.Text>
-                  <Alert
-                    variant={
-                        props.settings.broken == false ? "success" : "danger"
-                    }
-                  >
-                    {props.settings.broken == false ? "Working" : "Broken "}
-                  </Alert>
+                  <Row>
+                    <Col className="text-center">
+                      Prosumer Turbine Status
+                    </Col>
+                    <Col>
+                      <Alert
+                        variant={
+                            props.settings.broken == 0 ? "success" : "danger"
+                        }
+                      >
+                        {props.settings.broken == 0 ? "Working" : "Broken "}
+                      </Alert>
+                    </Col>
+                    
+                    <Col className="text-center">
+                      Prosumer Blocked Status
+                    </Col>
+                    <Col>
+                      <Alert
+                        variant={props.settings.blocked > 0 ? "danger" : "success"}
+                      >
+                        {props.settings.blocked > 0 ? "Blocked " : "Running"}
+                      </Alert>
+                    </Col>
 
-                  <Alert
-                    variant={props.settings.blocked > 0 ? "danger" : "success"}
-                  >
-                    {props.settings.blocked > 0 ? "Blocked " : "Running"}
-                  </Alert>
+                    <Col className="text-center">
+                      Prosumer Blackout Status
+                    </Col>
+                    <Col>
+                      <Alert
+                        variant={props.settings.blackout == true ? "danger" : "success"}
+                      >
+                        {props.settings.blackout == true ? "Blackout" : "Power On"}
+                      </Alert>
+                    </Col>
+                  </Row>
                 </Card.Text>
               </Card.Body>
             </Card>
