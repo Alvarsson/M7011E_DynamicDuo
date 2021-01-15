@@ -12,7 +12,7 @@ There are secret key files on the VPS named awskey.json and simkey.json. These n
  - Run `docker-compose up` to start the system.
  - Navigate to http://localhost:8080.
  
-Note: The system auto-creates a Manager account with the user-name "Manager" and password "supaSecret".
+Note: The system auto-creates a Manager account with the **user-name** "Manager" and **password** "supaSecret".
 
 # Downloading Docker and NodeJS
 
