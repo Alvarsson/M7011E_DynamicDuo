@@ -31,7 +31,7 @@ function ListItem(props) {
                 width="10px"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                {props.online ? (
+                {props.data.login_credentials.online ? (
                   <circle cx="4" cy="4" r="4" fill="green" />
                 ) : (
                   <circle cx="4" cy="4" r="4" fill="red" />
