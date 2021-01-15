@@ -19,7 +19,6 @@ const simulator = new Simulation(
   nrOfconsumers
 );
 
-console.log("är detta starten?");
 // START OF MAIN LOOP KAN JU INTE SE UT SÅHÄR GAHA
 // simulator.generate_wind_data();
 

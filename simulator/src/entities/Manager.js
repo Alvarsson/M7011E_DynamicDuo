@@ -53,7 +53,10 @@ class Manager {
             this.inc_status_change_timer = -1;
         }
         //countdown
-        if (this.inc_status_change_timer > 0) {
+        if (this.inc_status_change_timer > 0) { // if changing from stopped to running, this should be starting
+            if ((this.plant_status == 3 || this.plant_status == 2) && this.inc_status_change == 1){
+                this.plant_status = 2;
+            }
             this.inc_status_change_timer -= 1;
         }
         if (this.inc_prod_change_timer > 0) {
@@ -85,7 +88,7 @@ class Manager {
     }
 
 //-----POWER PLANT STATUS ------
-    set_plant_status(numb) { // 1 for running, 2 for stopped.
+    set_plant_status(numb) { // 1 for running, 2 for starting, 3 for stopped.
         if (numb < 4 && numb > 0) {
             this.plant_status = numb;
         }
