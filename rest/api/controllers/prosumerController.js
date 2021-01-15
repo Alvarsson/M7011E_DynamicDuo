@@ -32,6 +32,7 @@ exports.get_prosumer_setting = function (req, res) {
     } else {
       if (prosumer != null) {
         res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
         prosumer.login_credentials.password = "no you, mr hackerman"; // sophisticated password protection
         res.json(prosumer);
       } else {

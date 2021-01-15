@@ -25,23 +25,25 @@ function LoginForm(props) {
   const handleSubmitClick = (e) => {
     e.preventDefault();
     const payload = {
-      id: state.userID,
+      id: state.id,
       password: state.password,
     };
     axios
-      .post(API_BASE_URL + "/login", payload, { withCredentials: true })
+      .post(API_BASE_URL + "/login", payload)
       .then(function (response) {
         if (response.status === 200) {
           setState((prevState) => ({
             ...prevState,
             successMessage: "Login successful. Redirecting to home page..",
           }));
+          console.log("success")
 
           localStorage.setItem(ACCESS_TOKEN_NAME, response.data.userData.token);
           localStorage.setItem(CURRENTUSER, response.data.userData.id);
           if (response.data.userData.id == "Manager") {
             redirectToManager();
           } else {
+              
             redirectToHome();
           }
           props.showError(null);
@@ -50,6 +52,7 @@ function LoginForm(props) {
         } else {
           props.showError("Username does not exists");
         }
+        console.log(state);
       })
       .catch(function (error) {
         console.log(error);
@@ -75,9 +78,9 @@ function LoginForm(props) {
           <input
             type="text"
             className="form-control"
-            id="userID"
+            id="id"
             placeholder="Enter id"
-            value={state.userID}
+            value={state.id}
             onChange={handleChange}
           />
         </div>
