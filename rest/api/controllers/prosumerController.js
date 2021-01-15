@@ -181,7 +181,7 @@ exports.update_prosumer_settings_online = function (req, res) {
     ProsumerSettings.findOneAndUpdate(
       { id: req.params.id },
       {
-        $set: { "login_credentials.online": req.body.login_credentials.online },
+        $inc: { "login_credentials.online": req.body.login_credentials.online },
       },
       function (err, prosumer) {
         if (err) {
