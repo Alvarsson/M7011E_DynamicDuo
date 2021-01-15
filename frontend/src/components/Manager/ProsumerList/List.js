@@ -22,6 +22,7 @@ function List(props) {
             console.log(item)
           return (
             <ListItem
+                key={item.id}
               name={item.id}
               id={item.id}
               status={item.blocked}
