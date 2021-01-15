@@ -448,6 +448,20 @@ You must send a request with the format below:
 }
 ```
 
+#### Update manager setting: distribution <a name="man_upd_pp"></a>
+**PUT** to **/managersettings/distribution**
+
+The id is already set for the manager.
+You must send a request with the format below:
+```json
+{
+    "distribution": {
+        "sell": 0.5,
+        "store": 0.5
+    }
+}
+```
+
 #### Update manager setting: production <a name="man_upd_prod"></a>
 **PUT** to **/managersettings/production**
 
