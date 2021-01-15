@@ -13,18 +13,50 @@ import Container from "react-bootstrap/esm/Container";
 
 function EditUserProfile(props) {
   const [showComponent, setToggle] = useState("");
-  const [input, setInput] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState("");
 
   function editUser(e) {
     console.log(e.target.id);
     props.history.push("/edit/" + e.target.id);
   }
 
-  function handleSubmitClick (e) {
+  function handleDeleteUser (e) {
     const payload = {
-      blocked: input,
+      blocked: user,
     };
-    const request = API_BASE_URL + "/prosumersettings/"+ props.id +"/block"
+    const request = API_BASE_URL + "/prosumersettings/"+ props.match.params.id +"/delete"
+    console.log(request)
+
+    if(props.match.params.id == user){ //kanske bör rycka user.Fast nä, finns gammal data också
+        axios
+        .delete(request, payload)
+        .then(function (response) {
+          if (response.status === 200) {
+            console.log(response);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    else{
+        console.log(user) 
+
+       console.log("user!=id") 
+    }
+    
+  };
+
+  function handlePasswordChange (e) {
+    const payload = {
+        login_credentials :{
+          password: password
+        }
+    };
+
+    const request = API_BASE_URL + "/prosumersettings/"+ props.match.params.id +"/password"
+    console.log(payload)
     console.log(request)
 
     axios
@@ -49,14 +81,34 @@ function EditUserProfile(props) {
                 <Form.Control
                   type="text"
                   id="blocked"
-                  placeholder="ticks"
-                  value={input}
-                  onInput={(e) => setInput(e.target.value)}
+                  placeholder="Password"
+                  value={password}
+                  onInput={(e) => setPassword(e.target.value)}
                 />
               </Col>
               <Col>
-                <Button variant="danger" onClick={handleSubmitClick}>
-                  Block
+                <Button variant="primary" onClick={handlePasswordChange}>
+                  Set New Password
+                </Button>
+              </Col>
+            </Row>
+          </Form.Group>
+        </Form>
+        <Form>
+          <Form.Group>
+            <Row>
+              <Col>
+                <Form.Control
+                  type="text"
+                  id="blocked"
+                  placeholder="Insert User Name"
+                  value={user}
+                  onInput={(e) => setUser(e.target.value)}
+                />
+              </Col>
+              <Col>
+                <Button variant="danger" onClick={handleDeleteUser}>
+                  Delete User
                 </Button>
               </Col>
             </Row>
