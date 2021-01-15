@@ -43,7 +43,7 @@ class Manager {
     recalc_inc_changes() {
         // check if we need to change values
         if(this.inc_prod_change_timer == 0){ // at 0 we commit the change
-            this.pwr_production = this.inc_prod_change;
+            this.set_pwr_production(this.inc_prod_change);
             this.inc_prod_change = -1; // reset
             this.inc_prod_change_timer = -1;
         }
@@ -77,6 +77,7 @@ class Manager {
 
 // ----- PRODUCTION -----
     set_pwr_production(pwr) {
+        console.log("changing prod in sim to :", pwr);
         this.pwr_production = Math.max(pwr,0);
     }
     get_pwr_production() {

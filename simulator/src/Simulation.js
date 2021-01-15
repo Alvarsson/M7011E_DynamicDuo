@@ -292,7 +292,39 @@ class Simulation {
     return promise;
   }
 
+  update_manager_production(manager) {
+    var promise = new Promise((resolve, reject) => {
+      axios.put(`http://rest:3001/api/managersettings/production`,  {
+        production: manager.get_pwr_production()
+      }).then(response => {
+        resolve();
+      })
+        .catch(error => {
+          reject();
+          console.log(error);
+        });
+    });
+    return promise;
+  }
+
+  update_manager_pp_status(manager) {
+    var promise = new Promise((resolve, reject) => {
+      axios.put(`http://rest:3001/api/managersettings/pp_status`,  {
+        PP_status: manager.get_plant_status()
+      }).then(response => {
+        resolve();
+      })
+        .catch(error => {
+          reject();
+          console.log(error);
+        });
+    });
+    return promise;
+  }
+
+
   update_inc_prod_change(manager) {
+    console.log("updating prod change to: ", manager.get_inc_prod_change_timer(),manager.get_inc_prod_change());
     var promise = new Promise((resolve, reject) => {
       axios.put(`http://rest:3001/api/managersettings/inc_prod_change`,  {
         inc_prod_change: {
@@ -360,6 +392,7 @@ class Simulation {
           manager.set_pwr_production(response.data.production);
           manager.set_inc_status_change(response.data.inc_status_change.timer, response.data.inc_status_change.new_status);
           manager.set_inc_prod_change(response.data.inc_prod_change.timer, response.data.inc_prod_change.new_prod);
+          console.log("i got dis prod from rest:", response.data.production);
           resolve();
         })
         .catch(error => {
@@ -584,7 +617,11 @@ class Simulation {
                           this.update_blackouts(this.prosumer_list).then(() => {
                             this.update_inc_prod_change(this.manager).then(() => {
                               this.update_inc_status_change(this.manager).then(() => {
-                                console.log("Finished update for tick", this.tick++);
+                                this.update_manager_production(this.manager).then( () => {
+                                  this.update_manager_pp_status(this.manager).then( () => {
+                                    console.log("Finished update for tick", this.tick++);
+                                  });
+                                });
                               });
                             });
                           });
