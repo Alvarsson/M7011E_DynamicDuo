@@ -5,7 +5,7 @@ const db = require("./src/models");
 const Simulation = require("./src/Simulation");
 
 
-const days = 60;
+const days = 14;
 const nrOfProsumers = 1;
 const nrOfconsumers = 44;
 

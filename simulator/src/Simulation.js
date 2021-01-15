@@ -35,7 +35,7 @@ class Simulation {
     // generera wind, into DB
     console.log("Generating wind data");
     this.wm = new WindModule();
-    //this.generate_wind_data(); // uncomment this for deployment
+    //this.generate_wind_data(sim_time); // uncomment this for deployment
 
     // create prosumers, add to DB, register users
     console.log("Creating Prosumers");
@@ -60,8 +60,8 @@ class Simulation {
   }
 
 
-  generate_wind_data() {
-    SimController.fillWeatherDataOnce(this.wm.tick_variation(1)); // 2 days, change for longer sims.
+  generate_wind_data(days) {
+    SimController.fillWeatherDataOnce(this.wm.tick_variation(days)); // days
 
   }
   create_prosumers(num) {
@@ -435,7 +435,7 @@ class Simulation {
         prosumer_list[i].set_wind_speed(this.wind_speed);
         prosumer_list[i].set_temperature(this.temperature);
         prosumer_list[i].recalc();
-      }// TODO: borken TODO: decrease borken time here.
+      }
       resolve();
     });
     return promise;
