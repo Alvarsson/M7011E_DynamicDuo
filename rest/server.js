@@ -16,31 +16,28 @@ const fileUpload = require('express-fileupload');
 
 var cors = require('cors')
 
-app.use(cors({
-    origin: 'http://localhost:3000'/*'http://localhost:8080' */,
-    credentials : true
-  }))
+var corsOptions = {
+  origin: function (origin, callback) {
+    return callback(null, true);
+  },
+  credentials: true
+};
+app.use(cors(corsOptions));
+
 app.use(fileUpload({
   createParentPath: true
 }));
-//app.options(corsOptions,cors())
-
-
 
 cookieParser = require('cookie-parser'),
 bodyParser = require('body-parser');
 
-
 // mongoose.Promise = global.Promise;
 mongoose.connect(`mongodb://${process.env.MONGO_HOSTNAME}/${process.env.MONGO_DATABASE}`,{useNewUrlParser: true, useUnifiedTopology: true});
 
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
 // parse requests of content-type - application/json
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(cookieParser());
-
-
 
 var routes = require('./api/routes/routes');
 routes(app);
