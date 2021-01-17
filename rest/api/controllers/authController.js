@@ -107,13 +107,14 @@ exports.getUserDetails = (req, res) => {
 };
 
 exports.DeleteUser = (req, res) => {
-  console.log(req.body);
-  User.deleteOne({ id: req.body.id }, (err) => {
+  console.log("REQ PARAMS:", req.params.id);
+  User.deleteOne({ id: req.params.id }, (err) => {
     if (err)
       return res.json({
         success: false,
         err,
       });
+    console.log("THIS SHOULD DELETE SOME STUFF");
     return res.status(200).send({
       success: true,
       message: "Successfully deleted user.",
