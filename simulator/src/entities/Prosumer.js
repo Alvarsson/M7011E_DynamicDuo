@@ -85,7 +85,7 @@ class Prosumer {
 // ---- Production ----
     calc_production() {
         if(this.broken == 0){
-            this.pwr_production = this.wind_speed*4;
+            this.pwr_production = this.wind_speed*15;
         } else {
             this.pwr_production = 0;
         }

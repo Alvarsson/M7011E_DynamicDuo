@@ -43,11 +43,11 @@ describe('Prosumer', function() {
       prosumer.set_production(100);
       assert.strictEqual(prosumer.get_production(), 100);
     });
-    it('Calc production, with wind speed 4 it should be 16', function() {
+    it('Calc production, with wind speed 4 it should be 60', function() {
       const prosumer = new Prosumer(0);
       prosumer.set_wind_speed(4);
       prosumer.calc_production();
-      assert.strictEqual(prosumer.get_production(), 16);
+      assert.strictEqual(prosumer.get_production(), 60);
     });
     it('Calc production, with broken turbine it should be 0', function() {
       const prosumer = new Prosumer(0);
@@ -56,14 +56,14 @@ describe('Prosumer', function() {
       prosumer.calc_production();
       assert.strictEqual(prosumer.get_production(), 0);
     });
-    it('See net production, should return -4 in this case', function() {
+    it('See net production, should return 0 in this case', function() {
       const prosumer = new Prosumer(0);
       prosumer.set_wind_speed(4);
       prosumer.calc_production();
-      prosumer.set_temperature(20);
+      prosumer.set_temperature(-20);
       prosumer.calc_all_consumptions();
       prosumer.recalc();
-      assert.strictEqual(prosumer.get_net_production(), -4);
+      assert.strictEqual(prosumer.get_net_production(), 0);
     });
   });
 
