@@ -21,8 +21,7 @@ services:
     container_name: database
 
     image: mongo
-    ports:
-      - 27017:27017
+    
     healthcheck:
       test: echo 'db.runCommand("ping").ok'
       interval: 3s
