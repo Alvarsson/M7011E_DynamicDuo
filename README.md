@@ -1,9 +1,5 @@
 # M7011E_DynamicDuo
 
-# Test the rest-API once docker-compose is running
-Paste this into your terminal: `curl http://localhost:3000/tasks`. The response should be "Hej" or something.
-
-
 # Deploy the system (Docker-compose)
 Requirements: Download and install Docker and NodeJS. See links for Docker below.
 
@@ -11,7 +7,7 @@ Requirements: Download and install Docker and NodeJS. See links for Docker below
 There are secret key files on the VPS named awskey.json and simkey.json. These need to be manually added in the same directories as on the VPS before deployment.
 
  - `cd` into root folder, you should be in the same directory as the docker-compose.yaml file.
- - Run `docker-compose up` to start the system.
+ - Run `docker-compose -f production.yaml up` to start the system.
  - Navigate to http://localhost:8080.
  
 Note: The system auto-creates a Manager account with the **user-name** "Manager" and **password** "supaSecret".
