@@ -24,14 +24,9 @@ function EditUserProfile(props) {
         axios
         .delete(deleteSettings)
         .then(function (response) {
+
+            const request = API_BASE_URL + "/deleteUser/" + user;
             
-            console.log(user);
-
-            const request = API_BASE_URL + "/deleteUser";
-            const payload = {
-                id: user,
-              };
-
             axios
             .delete(request, payload)
             .then(function (response) {
