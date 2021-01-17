@@ -4,53 +4,26 @@
 Paste this into your terminal: `curl http://localhost:3000/tasks`. The response should be "Hej" or something.
 
 
-
 # Deploy the system (Docker-compose)
- - Requirements: Download and install Docker and Nodejs. See links for Docker below.
+Requirements: Download and install Docker and NodeJS. See links for Docker below.
 
  - Clone this repository. 
+There are secret key files on the VPS named awskey.json and simkey.json. These need to be manually added in the same directories as on the VPS before deployment.
+
  - `cd` into root folder, you should be in the same directory as the docker-compose.yaml file.
  - Run `docker-compose up` to start the system.
  - Navigate to http://localhost:8080.
+ 
+Note: The system auto-creates a Manager account with the **user-name** "Manager" and **password** "supaSecret".
 
+# Downloading Docker and NodeJS
 
-# Running the backend (locally)
- - Clone the Repo
- - navigate to the gateway folder and start it with the following.
- - `npm install` To get the required packages on your local machine.
- - run the program with `npm start` 
- - navigate to http://localhost:8080/graphql
+## NodeJS 
+https://nodejs.org/en/
 
-# Using and abusing the GraphQL API
-
-- Once you have the project up and running either with docker or just locally, you are ready start using the project.
-
-- If you have navigated to http://localhost:8080/graphql, you might see something similar to this.
-  
-  ![Picture](https://raw.githubusercontent.com/graphql/graphiql/main/packages/graphiql/resources/graphiql.jpg)
-
-- You can use the schema to the right and you can also click around to look at the different types. 
-- Or copy and paste this into the left-most window and query the API for some user defined data: 
-
-```
-# Set a value
-mutation {
-  set(key: "aStateInAmericas", value: "texas")
-}
-```
-
-```
-{
-#get that value
-  get(key: "aStateInAmericas")
-}
-```
-
-# Downloading Docker
-
-## For MacOS
+## Docker for MacOS
 https://docs.docker.com/docker-for-mac/install/
 We are using docker-compose to run multiple services with one command. Docker desktop for mac has this "feature" built in. So just download the Docker desktop.
 
-## For Linux
+## Docker for Linux
 https://docs.docker.com/compose/install/
