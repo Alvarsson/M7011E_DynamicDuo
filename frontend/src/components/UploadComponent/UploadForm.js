@@ -18,23 +18,24 @@ function UploadForm(props) {
   const handleSubmitClick = (e) => {
     e.preventDefault();
     //console.log(document.getElementById("exampleFormControlFile1").value);
-    var formData = new FormData(); 
-    var imagefile = document.querySelector('#exampleFormControlFile1');
+    var formData = new FormData();
+    var imagefile = document.querySelector("#exampleFormControlFile1");
 
     formData.append("image", imagefile.files[0]);
     console.log(imagefile.files[0]);
     let path = "";
     const usr = localStorage.getItem(CURRENTUSER);
     if (usr != "Manager") {
-      path = "/prosumersettings/"+usr+"/img_url";
+      path = "/prosumersettings/" + usr + "/img_url";
     } else {
       path = "/managersettings/img_url";
     }
+    console.log(path);
     axios
       .post(API_BASE_URL + path, formData, {
         withCredentials: true,
         headers: {
-          'Content-Type': 'multipart/form-data'
+          "Content-Type": "multipart/form-data",
         },
       })
       .then(function (response) {
@@ -46,13 +47,15 @@ function UploadForm(props) {
         console.log(error);
       });
 
-
+    if (usr == "Manager") {
+      props.history.push("/manager");
+    } else {
       props.history.push("/home");
+    }
   };
 
   return (
     <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
-      
       <Form>
         <Form.Group>
           <Form.File id="exampleFormControlFile1" label="Example file input" />

@@ -20,6 +20,10 @@ function Header(props) {
     title = "Welcome";
   }
 
+ 
+
+
+  
   function renderChangePicture() {
     if (
       props.location.pathname === "/home" ||
@@ -36,19 +40,7 @@ function Header(props) {
           </button>
         </div>
       );
-    } else if (props.location.pathname === "/picture") {
-      return (
-        // back to info kanske? istället för picture in pjcture?
-        <div className="ml-auto">
-          <button
-            className="btn btn-secondary"
-            onClick={() => props.history.push("/home")}
-          >
-            Back
-          </button>
-        </div>
-      );
-    }
+    } 
   }
   function handleChangePicture() {
     //localStorage.removeItem(ACCESS_TOKEN_NAME)

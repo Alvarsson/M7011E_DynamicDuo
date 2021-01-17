@@ -19,7 +19,6 @@ function List(props) {
     <div style={{margin: "20px 0px 20px 0px"}}>
       <ListGroup>
         {props.prosumers.map(function (item) {
-            console.log(item)
           return (
             <ListItem
                 key={item.id}

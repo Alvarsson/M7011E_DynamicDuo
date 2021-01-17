@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import DashSimple from "./components/logsComponent/DashSimple";
 import Row from "react-bootstrap/Row";
+import { request } from "http";
 
 const ProsumerSettings: React.FC = () => {
   const [valA, setValA] = useState(1);
@@ -36,13 +37,14 @@ const ProsumerSettings: React.FC = () => {
 
   const fetchShit = () => {
     //TODO: skaffa wrapper runt getlocalStorage
+    console.log("ber om priusmer settings + user");
+    const request =
+      API_BASE_URL + "/prosumersettings/" + localStorage.getItem(CURRENTUSER);
+    console.log(request);
     axios
-      .get(
-        API_BASE_URL + "/prosumersettings/" + localStorage.getItem(CURRENTUSER),
-        {
-          withCredentials: true,
-        }
-      )
+      .get(request, {
+        withCredentials: true,
+      })
       .then(({ data }) => {
         console.log(data);
         const valA = data.distribution.sell * 100;
