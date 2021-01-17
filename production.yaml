@@ -7,15 +7,13 @@ version: "3"
 
 services:
   frontend:
-    container_name: frontend
+    container_name: frontend-prod
     build:
       context: ./frontend
+      dockerfile: Dockerfile.production
     ports:
-      - "3000:3000"
-    stdin_open: true
-    volumes:
-       - ./frontend:/usr/src/app/frontend
-       - /usr/src/app/frontend/node_modules
+      - "80:80"
+       
     networks:
       - back-tier
 
@@ -32,7 +30,7 @@ services:
       retries: 5
     restart: always
     volumes:
-      - mongodb_clientstore:/data/db
+      - mongodb_clientstore_prod:/data/db
     networks:
       - back-tier
 
@@ -41,17 +39,13 @@ services:
     container_name: rest
 
     # Tell docker what file to build the server from
-    build: ./rest
-    command: nodemon server.js
-    volumes:
-      - ./rest:/app
+    
+    build:
+      context: ./rest
+      dockerfile: Dockerfile.production
+    
     ports:
       - "${BACKEND_PORT_HOST}:${BACKEND_PORT_CONTAINER}"
-    healthcheck: 
-      test: echo '1'
-      interval: 3s 
-      timeout: 15s
-      retries: 10
 
     networks:
       - back-tier
@@ -60,30 +54,20 @@ services:
     env_file: .env
     container_name: simulator
     # Tell docker what file to build the server from
-    build: ./simulator
-    command: nodemon simulator.js
+    build:
+      context: ./simulator
+      dockerfile: Dockerfile.production
+    
     depends_on: 
       mongo-db:
         condition: service_healthy
-      rest:
-        condition: service_healthy
-    volumes:
-      - ./simulator:/app
+  
     networks:
       - back-tier
-  dev-proxy:
-    env_file: .env
-    container_name: dev-proxy
-    build: ./dev-proxy
-    
-    ports:
-      - "${WEB_PORT_HOST}:${WEB_PORT_CONTAINER}"
-    networks:
-      - back-tier
+  
 networks:
   back-tier:
   
 
 volumes:
-  node_modules:
-  mongodb_clientstore:
+  mongodb_clientstore_prod:

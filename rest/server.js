@@ -1,6 +1,6 @@
 var express = require('express'),
 app = express(),
-port = process.env.BACKEND_PORT_HOST || 100000,
+port = process.env.BACKEND_PORT_HOST || 3001,
 mongoose = require('mongoose'),
 util = require('./api/util/api_utils'),
 Prosumer = require('./api/models/prosumer_settings_model'),
@@ -46,6 +46,10 @@ app.use(function(req, res) {
     res.status(404).send({url: req.originalUrl + ' not found. Make a valid request pls.'})
 });
 
-app.listen(port);
+// app.listen(port);
 
-console.log('REST API server started on: ' + port)
+// console.log('REST API server started on: ' + port)
+
+var server = app.listen(port, function() {
+    console.log('Express server listening on port ' + port);
+  });
