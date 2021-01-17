@@ -164,7 +164,7 @@ class Prosumer {
             this.battery_level = Math.min(this.battery_max, this.battery_level + pwr_to_charge);
             return pwr_to_charge;
         }
-        if (over && this.store_percentage > 0) {
+        if (over) {
             var pwr_to_charge = (this.pwr_production - this.total_consumption)*this.store_percentage; // how much of overprod to charge with
             if(pwr_to_charge+this.battery_level > this.battery_max) { // overcharge
                 var temp = this.battery_max - this.battery_level;
@@ -174,7 +174,7 @@ class Prosumer {
                 this.battery_level += pwr_to_charge;
                 return pwr_to_charge;
             }
-        } else if(!over && this.drain_percentage > 0){
+        } else {
             var pwr_to_drain = (this.total_consumption - this.pwr_production)*this.drain_percentage; // how much of underprod to drain
             if(this.battery_level - pwr_to_drain < 0){ // undercharge
                 var batlvl = this.battery_level;

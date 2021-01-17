@@ -596,6 +596,7 @@ class Simulation {
           this.temperature = response.data.value[0].value;
           this.last_temp_update_tick = this.tick;
           this.consumer.set_temperature(this.temperature);
+          this.consumer.recalc();
         } catch (error) {
           console.log("SMHI value probably empty, retrying next tick");
         }
