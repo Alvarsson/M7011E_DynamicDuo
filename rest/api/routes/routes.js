@@ -7,7 +7,7 @@ module.exports = function(app) {
 	var manager_log = require('../controllers/managerLogController');
 	var wind_speed = require('../controllers/windSpeedController');
 	var blackout = require('../controllers/blackoutController');
-	const { RegisterUser, LoginUser, LogoutUser, getUserDetails } = require('../controllers/authController');
+	const { RegisterUser, LoginUser, LogoutUser, getUserDetails, DeleteUser } = require('../controllers/authController');
 	const { auth } = require('../middleware/auth');
 	
 	//  If we want to use several files with just the route variable name, we could create the index file and export from there.
@@ -134,7 +134,7 @@ module.exports = function(app) {
 	app.route('/api/details')
 		.get(auth, getUserDetails);
 	app.route('/api/deleteUser')
-		.post(DeleteUser);
+		.delete(auth, DeleteUser);
 };
 
 

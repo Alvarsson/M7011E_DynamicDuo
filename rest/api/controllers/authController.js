@@ -22,7 +22,6 @@ exports.RegisterUser = function (req, res) {
             const userData = {
               id: dock.id,
             };
-            
 
             return res.status(200).json({
               success: true,
@@ -60,7 +59,7 @@ exports.LoginUser = (req, res) => {
                 "the token we generated and added to the backend is:" +
                   user.token
               );
-              console.log("INSIDE LOGIN"+user.id);
+              console.log("INSIDE LOGIN" + user.id);
               const data = {
                 userID: user._id,
                 id: user.id,
@@ -91,7 +90,7 @@ exports.LogoutUser = (req, res) => {
         success: false,
         err,
       });
-    
+
     return res.status(200).send({
       success: true,
       message: "Successfully logged out.",
@@ -108,7 +107,8 @@ exports.getUserDetails = (req, res) => {
 };
 
 exports.DeleteUser = (req, res) => {
-  User.deleteOne({ id: req.user.id}, (err) => {
+  console.log(req.body);
+  User.deleteOne({ id: req.body.id }, (err) => {
     if (err)
       return res.json({
         success: false,

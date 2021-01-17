@@ -17,19 +17,35 @@ function EditUserProfile(props) {
 
 
   function handleDeleteUser (e) {
-    const payload = {
-      blocked: user,
-    };
-    const request = API_BASE_URL + "/prosumersettings/"+ props.match.params.id +"/delete"
-    console.log(request)
+    
+    const deleteSettings = API_BASE_URL + "/prosumersettings/"+ props.match.params.id +"/delete"
 
     if(props.match.params.id == user){ //kanske bör rycka user.Fast nä, finns gammal data också
         axios
-        .delete(request, payload)
+        .delete(deleteSettings)
         .then(function (response) {
-          if (response.status === 200) {
-            console.log(response);
-          }
+            
+            console.log(user);
+
+            const request = API_BASE_URL + "/deleteUser";
+            const payload = {
+                id: user,
+              };
+
+            axios
+            .delete(request, payload)
+            .then(function (response) {
+    
+                console.log(response)
+                
+              if (response.status === 200) {
+                console.log(response);
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
         })
         .catch(function (error) {
           console.log(error);
