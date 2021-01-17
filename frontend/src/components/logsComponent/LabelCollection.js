@@ -54,7 +54,7 @@ export default function LabelCollection(props) {
         Battery Level
         </Col>
         <Col>
-        {props.battery_level}
+        {Math.round((props.battery_level + Number.EPSILON) * 100) / 100}
         </Col>
         </Row>
 
