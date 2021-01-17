@@ -9,6 +9,7 @@
         "buy": 0.3,
         "drain": 0.7
     },
+    "blocked": 0,
     "batteryWarningThreshold": 200,
     "loginCredentials": {
         "password": "hashatPassword",

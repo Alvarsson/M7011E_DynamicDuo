@@ -1,14 +1,17 @@
 # M7011E_DynamicDuo
 
+# Test the rest-API once docker-compose is running
+Paste this into your terminal: `curl http://localhost:3000/tasks`. The response should be "Hej" or something.
 
 
 
+# Deploy the system (Docker-compose)
+ - Requirements: Download and install Docker and Nodejs. See links for Docker below.
 
-# Running the backend (Docker-compose)
- - Clone the Repo and `cd` into it. Make sure you are in the same folder as the docker-compose.yaml 
- - `docker-compose up --build` to build the containers defined in the docker-compose.yaml file.
- - `docker-compose up` works if you arent changing any of the Dockerfiles
- - navigate to http://localhost:8080/graphql
+ - Clone this repository. 
+ - `cd` into root folder, you should be in the same directory as the docker-compose.yaml file.
+ - Run `docker-compose up` to start the system.
+ - Navigate to http://localhost:8080.
 
 
 # Running the backend (locally)

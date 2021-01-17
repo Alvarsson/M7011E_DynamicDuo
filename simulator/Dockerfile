@@ -18,6 +18,7 @@ RUN npm ci \
  && npm cache clean --force \
  && mv /app/node_modules /node_modules
 
+#copy all code from my local to this container.
 COPY . .
 
 # we dont need to expose any port

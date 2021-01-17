@@ -1,0 +1,170 @@
+::::: Add a prosumer setting ::::::
+Use POST
+{
+    "id": "theMan",
+    "img_url": "hej.com",
+    "distribution": {
+        "sell": 0.5,
+        "store": 0.5,
+        "buy": 0.5,
+        "drain": 0.5
+    },
+    "battery_warning_threshold": "30",
+    "login_credentials": {
+        "password": "hej123",
+        "online": 1
+    }
+
+::::: Get a prosumer setting :::::
+Use GET
+
+http://localhost:3001/test/"ID"
+
+::::: Set a prosumer img_url :::::
+
+Use PUT
+
+http://localhost:3001/test/theMan/img_url
+
+{
+    "img_url": "tjosan.com"
+}
+
+::::: Set a prosumer password :::::
+
+Use PUT
+
+http://localhost:3001/test/theMan/password
+
+{
+    "login_credentials": {
+        "password": "tjo123"
+    }
+}
+
+::::: Set a prosumer online count :::::
+
+Use PUT
+
+http://localhost:3001/test/theMan/online
+
+{
+    "login_credentials": {
+        "online": "2"
+    }
+}
+
+
+
+::::: Set a prosumer distribution over :::::
+
+Use PUT
+
+http://localhost:3001/test/theMan/distr_over
+
+{
+    "distribution": {
+        "sell": "0.7",
+        "store": "0.3"
+    }
+}
+
+
+::::: Set a prosumer distribution under :::::
+
+Use PUT
+
+http://localhost:3001/test/theMan/distr_under
+
+{
+    "distribution": {
+        "buy": "0.7",
+        "drain": "0.3"
+    }
+}
+
+::::: Set a prosumer battery warning threshold :::::
+
+Use PUT
+
+http://localhost:3001/test/theMan/battery_warning_threshold
+
+{
+    "battery_warning_threshold": "35"
+}
+
+
+---------------------------------------------------------------
+
+::::: Add a manager :::::
+
+Use POST
+
+http://localhost:3001/man
+
+{
+    "img_url": "manager.web",
+    "battery_warning_threshold": "200",
+    "login_credentials": {
+        "password": "theman",
+        "online": 1
+    }
+}
+
+::::: Get the manager :::::
+
+Use GET
+
+http://localhost:3001/getman
+
+::::: Update the manager img_url  :::::
+
+Use PUT
+
+http://localhost:3001/man/img_url
+
+{
+    "img_url": "theman.web"
+}
+
+::::: Update the manager password :::::
+
+Use PUT
+
+http://localhost:3001/man/password
+
+{
+    "login_credentials": {
+        "password": "turtle123"
+    } 
+}
+
+::::: Update the manager online count :::::
+
+Use PUT
+
+http://localhost:3001/man/online
+
+{
+    "login_credentials": {
+        "online": "3"
+    } 
+}
+
+::::: Update the manager battery warning threshold :::::
+
+Use PUT
+
+http://localhost:3001/man/battery_warning_threshold
+
+{
+    "battery_warning_threshold": "205"
+}
+
+
+
+
+
+
+
+

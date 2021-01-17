@@ -10,6 +10,8 @@
 #All typedefs are merged and will be updated and saved into this file
 joined.graphqls
 
+awskey.json
+simkey.json
 
 ### Node ###
 # Logs
@@ -83,7 +85,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+
 .env.test
 .env*.local
 

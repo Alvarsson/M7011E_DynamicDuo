@@ -4,28 +4,20 @@ version: "3"
 ##### verisonen av alla images. Och använda multi stage build.
 
 ####################### DEV version 1
-services:
-  gateway:
-    container_name: gateway
 
-    # Tell docker what file to build the server from
-    build: ./gateway
-    command: nodemon server.js
-    volumes:
-      - ./gateway:/app
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
     ports:
-      - "8080:8080"
+      - "3000:3000"
+    stdin_open: true
+    volumes:
+       - ./frontend:/usr/src/app/frontend
+       - /usr/src/app/frontend/node_modules
     networks:
       - back-tier
-
-    # env_file: secrets/local.secrets
-    environment:
-      NODE_ENV: ${NODE_ENV}
-      MONGO_HOSTNAME: ${MONGO_HOSTNAME}
-      MONGO_DATABASE: ${MONGO_DATABASE}
-
-    # Restart action
-    restart: always
 
   mongo-db:
     container_name: database
@@ -33,39 +25,64 @@ services:
     image: mongo
     ports:
       - 27017:27017
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 3s
+      timeout: 15s
+      retries: 5
     restart: always
     volumes:
       - mongodb_clientstore:/data/db
     networks:
       - back-tier
 
-  redis:
-    image: redis:alpine
-    container_name: redis
+  rest:
+    env_file: .env
+    container_name: rest
+
+    # Tell docker what file to build the server from
+    build: ./rest
+    command: nodemon server.js
+    volumes:
+      - ./rest:/app
     ports:
-      - 6379:6379
+      - "${BACKEND_PORT_HOST}:${BACKEND_PORT_CONTAINER}"
+    healthcheck: 
+      test: echo '1'
+      interval: 3s 
+      timeout: 15s
+      retries: 10
+
     networks:
       - back-tier
 
   simulator:
+    env_file: .env
     container_name: simulator
-
     # Tell docker what file to build the server from
     build: ./simulator
     command: nodemon simulator.js
+    depends_on: 
+      mongo-db:
+        condition: service_healthy
+      rest:
+        condition: service_healthy
     volumes:
       - ./simulator:/app
-
     networks:
       - back-tier
-
-    environment:
-      NODE_ENV: ${NODE_ENV}
-      MONGO_HOSTNAME: ${MONGO_HOSTNAME}
-      MONGO_DATABASE: ${MONGO_DATABASE}
-
+  web:
+    env_file: .env
+    container_name: web
+    build: ./web
+    
+    ports:
+      - "${WEB_PORT_HOST}:${WEB_PORT_CONTAINER}"
+    networks:
+      - back-tier
 networks:
   back-tier:
+  
 
 volumes:
   node_modules:

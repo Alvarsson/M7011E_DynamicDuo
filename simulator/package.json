@@ -4,15 +4,18 @@
   "description": "",
   "main": "simulator.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha 'src/test/*.test.js'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.0",
+    "bcrypt": "^5.0.0",
     "mongoose": "^5.10.15"
   },
   "devDependencies": {
+    "mocha": "^8.2.1",
     "nodemon": "^2.0.6"
   }
 }
