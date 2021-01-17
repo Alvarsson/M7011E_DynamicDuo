@@ -24,7 +24,7 @@ exports.uploadFile = (fileName, data, callback) => {
     // Setting up S3 upload parameters
     const params = {
         Bucket: BUCKET_NAME,
-        Key: fileName, // File name you want to save as in S3
+        Key: Date.now() +"_" + fileName,  // File name you want to save as in S3
         Body: data
     };
 
