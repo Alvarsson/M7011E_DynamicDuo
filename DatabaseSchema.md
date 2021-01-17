@@ -2,7 +2,7 @@
 ```json
 {
     "id": "prosumer1",
-    "imgUrl": "ipaddr.se/img-url/wow/such/img",
+    "imgUrl": formDataFileUpload,
     "distribution": {
         "sell": 0.2,
         "store": 0.8,
@@ -11,8 +11,11 @@
     },
     "blocked": 0,
     "batteryWarningThreshold": 200,
+    "blocked": 0,
+    "broken": 0,
+    "blackout": false,
     "loginCredentials": {
-        "password": "hashatPassword",
+        "password": "hashedPW",
         "online": 1
     }
 }
@@ -25,8 +28,9 @@
     "id": "prosumer1",
     "consumption": 50,
     "production": 30,
+    "net_production": 5,
     "tick": 45,
-    "batteryLevel": 200,
+    "battery_level": 200,
     "broken": false,
     "weather": {
         "windSpeed": 3,
@@ -39,8 +43,23 @@
 ```json
 {
     "id": "manager1",
-    "imgUrl": "ipaddr.se/img-url/wow/such/img",
+    "market_price": 5,
+    "production": 800,
+    "pp_status": 1,
+    "inc_status_change": {
+        "timer": 3,
+        "new_status": 1
+    },
+    "inc_prod_change": {
+        "timer": 3,
+        "new_prod": 900 
+    },
+    "imgUrl": formDataFileUpload,
     "batteryWarningThreshold": 200,
+    "distribution": {
+        "sell": 0.6,
+        "store": 0,4
+    },
     "loginCredentials": {
         "password": "hashatPassword",
         "online": 1
@@ -48,29 +67,32 @@
 }
 ```
 
-### Collection: Manager
+### Collection: ManagerLogs
 ```json
 {
     "id": "manager1",
-    "marketprice": 13,
-    "batteryLevel": 3000,
+    "pp_status": 1,
+    "recommended_market_price": 6.3,
+    "market_demand": 2600,
+    "market_price": 13,
+    "battery_level": 3000,
     "production": 800,
-    "totalNetConsumption": 900,
+    "tick": 46,
     "PowerPlantConsumption": 150,
     "nrOfConsumers": 10
 }
 ```
 
-### Collection: PreCalcWindSpeed
+### Collection: WindSpeed Schema
 ```json
 {
-    "tick": 15.2,
-    "windSpeed: 13
+    "tick": 15,
+    "windSpeed: 13.2
 }
 ```
 
 
-### Collection: Blackouts (I fallet av prosumer)
+### Collection: Blackouts (Prosumer case)
 ```json
 {
     "id": "prosumer1",
@@ -80,7 +102,7 @@
 ```
 
 
-### Collection: Blackouts (I fallet av consumers)
+### Collection: Blackouts (Consumer case)
 ```json
 {
     "id": "consumer",
@@ -88,3 +110,15 @@
     "amount": 7
 }
 ```
+
+### Collection: User Schema
+```json 
+{
+    "id": "prosumer123",
+    "password": "superSecretPW666",
+    "token": JWT
+}
+
+
+
+
