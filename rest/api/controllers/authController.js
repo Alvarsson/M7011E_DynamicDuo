@@ -106,3 +106,17 @@ exports.getUserDetails = (req, res) => {
     id: req.user.id,
   });
 };
+
+exports.DeleteUser = (req, res) => {
+  User.deleteOne({ id: req.user.id}, (err) => {
+    if (err)
+      return res.json({
+        success: false,
+        err,
+      });
+    return res.status(200).send({
+      success: true,
+      message: "Successfully deleted user.",
+    });
+  });
+};

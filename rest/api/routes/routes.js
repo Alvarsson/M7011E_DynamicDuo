@@ -133,7 +133,8 @@ module.exports = function(app) {
 		.post(RegisterUser);
 	app.route('/api/details')
 		.get(auth, getUserDetails);
-
+	app.route('/api/deleteUser')
+		.post(DeleteUser);
 };
 
 
