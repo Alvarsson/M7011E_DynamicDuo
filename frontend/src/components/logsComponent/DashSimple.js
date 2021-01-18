@@ -34,6 +34,8 @@ export default function DashSimple(props) {
   const [img_url, setImgUrl] = useState("");
   const [consumptionArray, setConsumptionArray] = useState([{}]);
   const [windArray, setWindArray] = useState(initialStateArray);
+  const [price, setPrice] = useState(0);
+
 
   const dataLimit = 9;
 
@@ -44,11 +46,24 @@ export default function DashSimple(props) {
       localStorage.getItem(CURRENTUSER) +
       "/getlatest/" +
       limit;
-    
+
+    const marketRequest = API_BASE_URL + "/marketprice";
+
     return axios
-      .get(url,{withCredentials:true})
+      .get(url, { withCredentials: true })
       .then(({ data }) => {
-        console.log(data);
+
+        axios
+          .get(marketRequest)
+          .then(({ data }) => {
+            console.log(data);
+            setPrice(data.market_price);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+
+        
         return data;
       })
       .catch((err) => {
@@ -59,10 +74,8 @@ export default function DashSimple(props) {
   const setStates = (inData) => {
     //console.log("INDATA:",inData);
     setLabelsData({
-      
       battery_level: inData.battery_level,
       broken_turbine: inData.broken_turbine,
-
     });
 
     setImgUrl(inData.img_url);
@@ -186,20 +199,17 @@ export default function DashSimple(props) {
               <CardDeck>
                 <Card style={{ width: "30vw" }} bg="light">
                   <Card.Title>Current Data</Card.Title>
-                  {props.settingsData ? <LabelCollection
-                    broken={
-                      props.settingsData.broken
-                    } //true means Broken, false means Working. TODO: CLean this.
-                    battery_level={labelsData.battery_level}
-                    blocked={
-                      props.settingsData.blocked
-                    } //true means Broken, false means Working. TODO: CLean this.
-                    blackout={
-                      props.settingsData.blackout
-                    } //true means Broken, false means Working. TODO: CLean this.
-                  /> : "Waiting for data"} 
-                  
-                  
+                  {props.settingsData ? (
+                    <LabelCollection
+                      broken={props.settingsData.broken} //true means Broken, false means Working. TODO: CLean this.
+                      battery_level={labelsData.battery_level}
+                      blocked={props.settingsData.blocked} //true means Broken, false means Working. TODO: CLean this.
+                      blackout={props.settingsData.blackout} //true means Broken, false means Working. TODO: CLean this.
+                      price={price}
+                    />
+                  ) : (
+                    "Waiting for data"
+                  )}
                 </Card>
               </CardDeck>
             </Col>
