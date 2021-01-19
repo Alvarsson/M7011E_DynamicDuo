@@ -5,6 +5,8 @@ import {
   ACCESS_TOKEN_NAME,
   CURRENTUSER,
 } from "../../constants/apiConstants";
+import Button from "react-bootstrap/Button";
+
 import { withRouter } from "react-router-dom";
 
 function LoginForm(props) {
@@ -132,9 +134,10 @@ function LoginForm(props) {
       </div>
       <div className="registerMessage">
         <span>Dont have an account? </span>
-        <span className="loginText" onClick={() => redirectToRegister()}>
+        
+        <Button className="loginText" onClick={() => redirectToRegister()}>
           Register
-        </span>
+        </Button>
       </div>
     </div>
   );

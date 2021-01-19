@@ -14,7 +14,7 @@ import Card from "react-bootstrap/Card";
 
 export default function DashComponent(props) {
   return (
-    <Card style={{ width: "30vw" }} bg="light">
+    <Card bg="light">
       <Card.Body>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart

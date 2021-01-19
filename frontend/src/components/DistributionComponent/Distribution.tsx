@@ -70,7 +70,7 @@ const Distribution: React.FC<Props> = ({ initialValueA, initialValueB }) => {
 
   return (
     <Container className="p-3">
-      <Card style={{ width: "50vw" }} bg="light">
+      <Card  bg="light">
         <Card.Body>
           <Card.Title>{"For over-production:"}</Card.Title>
 

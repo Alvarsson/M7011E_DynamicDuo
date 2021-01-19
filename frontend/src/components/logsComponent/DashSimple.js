@@ -197,7 +197,7 @@ export default function DashSimple(props) {
           <Row>
             <Col>
               <CardDeck>
-                <Card style={{ width: "30vw" }} bg="light">
+                <Card bg="light">
                   <Card.Title>Current Data</Card.Title>
                   {props.settingsData ? (
                     <LabelCollection
